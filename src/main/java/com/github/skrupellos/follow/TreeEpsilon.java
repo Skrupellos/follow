@@ -1,0 +1,2 @@
+class TreeEpsilon extends TreeExtNode {
+}
