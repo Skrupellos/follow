@@ -1,0 +1,18 @@
+{
+    "package": {
+        "name": "follow",
+        "repo": "generic",
+        "subject": "skrupellos"
+    },
+
+    "version": {
+        "name": "nightly",
+        "desc": "The latest dev build"
+    },
+
+    "files": [
+        {"includePattern": "build/libs/(.*\\.jar)", "uploadPattern": "$1"}
+    ],
+    
+    "publish": true
+}

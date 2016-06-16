@@ -1,0 +1,29 @@
+language: java
+
+
+deploy:
+  - provider: surge
+    project: ./build/reports/
+    domain: follow.surge.sh
+    skip_cleanup: true
+    on:
+      all_branches: true
+  - provider: bintray
+    file: "config/bintray.json"
+    user: "skrupellos"
+    key:
+      secure: "F2S+DgkpkyeJJSL3t+y5Qkbj6NpsBCjBpjvzb5pr9hWCjnYvnKCbcgugvLtez2cLWALHxRmGOIWTIiXujSGkwJfTJOzRliXaW2R94/NLcH29frjwuYxs4udZXo1+GK/wVW7z9gpLbJecRLpW03obzBzI5a7bO9i/iqgdx+/a3CjlB11K1rPGrqprTzpiCK6AZrz1qdu2kemApE/o/s74Q/fJPOBughmTS+saednX5/4bktbfiVKWsBfQZurNTUs5YHKd5WphUz6Qd74w8qodXk6Ut3lrFT2BOxUfJsOBVZn93gRDKDUbjRUq3p0gO3rzpd6xAg9Qq2lcgTC4b+0RJ20GVn4l3AdrtE7us/wUGkfbIEQuIrwJd/Wd37vrm4IKlPXfouP9M8kGmLZdUmhm1hF8R7rNDU9B2LDH8tTmdiUDt6Wt9VvdxQezUdaQ73U2jom3YV1EQ89HuIy77tiNR6hK9Vz+78LZ9Q55/idftF4YYa6nv+9Gwbkudtui+/k9wlgMHCwJaFia/0AdUR86VWbUKcAR2Ag8uXc8GFPsLhN3fNPy2WAgt3nzcZP6bP/szz6lvFCmfD0eZw4hNCJgkgT3Sf8Fq3p8x4jKuPsqDm+kA3Tkv7Iy2D7hxINojkmxD+CKDZV1iZc03LTg0dGc9hvxI9FGBRzgiRd0NhYM+m4="
+    skip_cleanup: true
+    on:
+      all_branches: true
+
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
