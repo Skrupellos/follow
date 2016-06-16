@@ -11,9 +11,8 @@
     },
 
     "files": [
-        {"includePattern": "build/libs/(.*\\.jar)", "uploadPattern": "$1", "list_in_downloads": true}
+        {"includePattern": "build/libs/(.*\\.jar)", "uploadPattern": "$1", "list_in_downloads": true, "matrixParams": {"override": 1 }}
     ],
     
-    "publish": true,
-    "override": true
+    "publish": true
 }
