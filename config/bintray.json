@@ -14,5 +14,6 @@
         {"includePattern": "build/libs/(.*\\.jar)", "uploadPattern": "$1", "list_in_downloads": true}
     ],
     
-    "publish": true
+    "publish": true,
+    "override": true
 }
