@@ -1,6 +1,6 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.regex.abstraction.RegexExtNode;
+import com.github.skrupellos.follow.tree.TreeExtNode;
 
-public class RegexEpsilon extends RegexExtNode {
+public class RegexEpsilon extends TreeExtNode {
 }

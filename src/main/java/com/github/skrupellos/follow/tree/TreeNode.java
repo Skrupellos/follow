@@ -1,17 +1,17 @@
-package com.github.skrupellos.follow.regex.abstraction;
+package com.github.skrupellos.follow.tree;
 
 import java.util.List;
 
-public abstract class RegexNode {
-	private RegexNode parent;
+public abstract class TreeNode {
+	private TreeNode parent;
 	
-	public abstract List<RegexNode> getChildren();
+	public abstract List<TreeNode> getChildren();
 	
-	public RegexNode getParent() {
+	public TreeNode getParent() {
 		return parent;
 	}
 	
-	public RegexNode setParent(RegexIntNode parent) {
+	public TreeNode setParent(TreeIntNode parent) {
 		if(parent != null) {
 			parent._removeChild(this);
 		}
@@ -22,12 +22,12 @@ public abstract class RegexNode {
 	}
 	
 	// @TODO Direct access to package private parent attribute?
-	/*package*/ void _setParent(RegexNode parent) {
+	/*package*/ void _setParent(TreeNode parent) {
 		this.parent = parent;
 	}
 	
-	public RegexNode getRoot() {
-		RegexNode parent = getParent();
+	public TreeNode getRoot() {
+		TreeNode parent = getParent();
 		
 		if(parent == null) {
 			return this;

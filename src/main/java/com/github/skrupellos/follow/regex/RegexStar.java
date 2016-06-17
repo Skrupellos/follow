@@ -1,20 +1,20 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.regex.abstraction.RegexIntNode;
-import com.github.skrupellos.follow.regex.abstraction.RegexNode;
+import com.github.skrupellos.follow.tree.TreeIntNode;
+import com.github.skrupellos.follow.tree.TreeNode;
 
-public class RegexStar extends RegexIntNode {
-	private RegexNode sub;
+public class RegexStar extends TreeIntNode {
+	private TreeNode sub;
 	
-	public RegexStar(RegexNode sub) throws IllegalArgumentException {
+	public RegexStar(TreeNode sub) throws IllegalArgumentException {
 		setSub(sub);
 	}
 	
-	public RegexNode getSub() {
+	public TreeNode getSub() {
 		return sub;
 	}
 	
-	public RegexStar setSub(RegexNode sub) throws IllegalArgumentException {
+	public RegexStar setSub(TreeNode sub) throws IllegalArgumentException {
 		if(sub == null) {
 			throw new IllegalArgumentException("Subtree can't be null");
 		}

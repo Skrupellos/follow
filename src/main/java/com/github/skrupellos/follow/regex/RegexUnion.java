@@ -1,26 +1,26 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.regex.abstraction.RegexIntNode;
-import com.github.skrupellos.follow.regex.abstraction.RegexNode;
+import com.github.skrupellos.follow.tree.TreeIntNode;
+import com.github.skrupellos.follow.tree.TreeNode;
 
-public class RegexUnion extends RegexIntNode {
-	private RegexNode subA;
-	private RegexNode subB;
+public class RegexUnion extends TreeIntNode {
+	private TreeNode subA;
+	private TreeNode subB;
 	
-	public RegexUnion(RegexNode subA, RegexNode subB) throws IllegalArgumentException {
+	public RegexUnion(TreeNode subA, TreeNode subB) throws IllegalArgumentException {
 		setSubA(subA);
 		setSubB(subB);
 	}
 	
-	public RegexNode getSubA() {
+	public TreeNode getSubA() {
 		return subA;
 	}
 	
-	public RegexNode getSubB() {
+	public TreeNode getSubB() {
 		return subB;
 	}
 	
-	public RegexUnion setSubA(RegexNode subA) throws IllegalArgumentException {
+	public RegexUnion setSubA(TreeNode subA) throws IllegalArgumentException {
 		if(subA == null) {
 			throw new IllegalArgumentException("Subtree can't be null");
 		}
@@ -30,7 +30,7 @@ public class RegexUnion extends RegexIntNode {
 		return this;
 	}
 	
-	public RegexUnion setSubB(RegexNode subB) throws IllegalArgumentException {
+	public RegexUnion setSubB(TreeNode subB) throws IllegalArgumentException {
 		if(subB == null) {
 			throw new IllegalArgumentException("Subtree can't be null");
 		}
