@@ -9,7 +9,6 @@ public abstract class TreeIntNode extends TreeNode {
 		return children;
 	}
 	
-	@Override
 	public TreeNode setChildren(TreeNode[] children) {
 		if(children.length == 2) {
 			this.children = children;

@@ -25,6 +25,4 @@ public abstract class TreeNode {
 	}
 	
 	public abstract TreeNode[] getChildren();
-	
-	public abstract TreeNode setChildren(TreeNode[] children);
 }
