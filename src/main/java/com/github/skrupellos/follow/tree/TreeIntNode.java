@@ -11,12 +11,12 @@ public abstract class TreeIntNode extends TreeNode {
 
 	@Override
 	public TreeNode[] getChildren() {
-		return children;
+		return children.clone();
 	}
 	
 	public TreeNode setChildren(TreeNode[] children) {
 		if(children.length == 2) {
-			this.children = children;
+			this.children = children.clone();
 			return this;
 		}
 		throw new IllegalArgumentException("\t[EE] Children array of TreeNode has to have length 1 or 2");
