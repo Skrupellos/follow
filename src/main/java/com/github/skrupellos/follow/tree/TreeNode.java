@@ -1,7 +1,7 @@
 package com.github.skrupellos.follow.tree;
 
 public abstract class TreeNode {
-	private final static String DELIMITER = "--";
+	private final static String DELIMITER = "- ";
 	private final static String NEWLINE = "\n";
 	
 	private TreeIntNode parent;
@@ -19,10 +19,10 @@ public abstract class TreeNode {
 			if(this.parent != null) {
 				this.parent.removeChild(this);
 			}
+			this.parent = parent;
 			if(parent != null) {
 				parent.addChild(this);
 			}
-			this.parent = parent;
 		}
 		return this;
 	}

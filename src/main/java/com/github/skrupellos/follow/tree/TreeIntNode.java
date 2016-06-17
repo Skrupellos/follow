@@ -2,10 +2,11 @@ package com.github.skrupellos.follow.tree;
 
 public abstract class TreeIntNode extends TreeNode {
 
-	private TreeNode[] children = new TreeNode[2];
+	protected TreeNode[] children;
 	
 	public TreeIntNode(TreeIntNode parent) {
 		super(parent);
+		children = new TreeNode[2];
 	}
 
 	@Override
@@ -18,7 +19,7 @@ public abstract class TreeIntNode extends TreeNode {
 			this.children = children;
 			return this;
 		}
-		throw new IllegalArgumentException("\t[EE] Children array of TreeNode have to have length 2");
+		throw new IllegalArgumentException("\t[EE] Children array of TreeNode has to have length 1 or 2");
 	}
 	
 	public TreeNode addChild(TreeNode child) {
