@@ -47,6 +47,6 @@ public class FullTreeTest {
 	@Test
 	public void testTreePrinting() {
 		System.out.println();
-		System.out.println(testTree.TreeString());
+		System.out.println(testTree.treeString());
 	}
 }
