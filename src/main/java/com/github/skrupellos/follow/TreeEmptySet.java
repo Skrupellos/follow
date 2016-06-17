@@ -1,2 +1,0 @@
-class TreeEmptySet extends TreeExtNode {
-}

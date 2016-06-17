@@ -1,2 +1,0 @@
-class TreeEpsilon extends TreeExtNode {
-}

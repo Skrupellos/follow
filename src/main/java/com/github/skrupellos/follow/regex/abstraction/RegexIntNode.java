@@ -1,11 +1,13 @@
+package com.github.skrupellos.follow.regex.abstraction;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
 
-abstract class TreeIntNode extends TreeNode {
-	private List<TreeNode> children = new LinkedList<TreeNode>();
+public abstract class RegexIntNode extends RegexNode {
+	private List<RegexNode> children = new LinkedList<RegexNode>();
 	
-	public TreeNode addChild(TreeNode child) throws Exception {
+	public RegexNode addChild(RegexNode child) throws Exception {
 		if(children.contains(child)) {
 			throw new Exception("Was already child");
 		}
@@ -16,7 +18,7 @@ abstract class TreeIntNode extends TreeNode {
 		return this;
 	}
 	
-	public TreeNode removeChild(TreeNode child) throws Exception {
+	public RegexNode removeChild(RegexNode child) throws Exception {
 		if(children.remove(child)) {
 			child._setParent(null);
 			return this;
@@ -27,16 +29,16 @@ abstract class TreeIntNode extends TreeNode {
 	}
 	
 	/// @TODO Direct access to package private children attribute?
-	/*package*/ void _addChild(TreeNode child) {
+	/*package*/ void _addChild(RegexNode child) {
 		children.add(child);
 	}
 	
 	/// @TODO Direct access to package private children attribute?
-	/*package*/ void _removeChild(TreeNode child) {
+	/*package*/ void _removeChild(RegexNode child) {
 		children.remove(child);
 	}
 	
-	public List<TreeNode> getChildren() {
-		return new ArrayList<TreeNode>(children);
+	public List<RegexNode> getChildren() {
+		return new ArrayList<RegexNode>(children);
 	}
 }
