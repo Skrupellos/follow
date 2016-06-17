@@ -40,7 +40,7 @@ public abstract class TreeNode {
 		return this.getClass().getName();
 	}
 	
-	public String TreeString() {
+	public String treeString() {
 		StringBuilder builder = new StringBuilder();
 		appendSubTreeString(builder, 0);
 		return builder.toString();
