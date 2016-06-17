@@ -1,6 +1,6 @@
 apply plugin: 'java'
 //apply plugin: 'checkstyle'
-//apply plugin: 'findbugs'
+apply plugin: 'findbugs'
 
 repositories {
 	jcenter()
@@ -28,5 +28,13 @@ tasks.withType(Checkstyle) {
 		// Travis seems to not like html reports
 		//html.enabled true
 		//html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
+	}
+}
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled false
+		html.enabled true
+		html.stylesheet resources.text.fromFile('config/xsl/findbugs-custom.xsl')
 	}
 }
