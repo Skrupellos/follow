@@ -22,7 +22,7 @@ public class RegexStar extends RegexIntNode {
 	@Override
 	public TreeNode setChildren(TreeNode[] children) {
 		if(children.length == 1) {
-			this.children = children;
+			this.children = children.clone();
 			return this;
 		}
 		throw new IllegalArgumentException("\t[EE] Children array of TreeNode have to have length 2");
