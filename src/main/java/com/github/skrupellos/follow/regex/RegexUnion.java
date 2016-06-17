@@ -14,6 +14,6 @@ public class RegexUnion extends RegexIntNode {
 
 	@Override
 	public String toString() {
-		return "\"+\"";
+		return "+";
 	}
 }
