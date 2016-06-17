@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'jacoco'
 //apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 
@@ -38,3 +39,12 @@ tasks.withType(FindBugs) {
 		html.stylesheet resources.text.fromFile('config/xsl/findbugs-custom.xsl')
 	}
 }
+
+
+jacocoTestReport {
+	reports {
+		html.destination "${buildDir}/reports/coverage"
+	}
+}
+
+check.dependsOn jacocoTestReport
