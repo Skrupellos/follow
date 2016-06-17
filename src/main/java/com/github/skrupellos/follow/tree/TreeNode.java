@@ -1,39 +1,30 @@
 package com.github.skrupellos.follow.tree;
 
-import java.util.List;
-
 public abstract class TreeNode {
 	private TreeNode parent;
+
+	public TreeNode() {
+		this(null);
+	}
 	
-	public abstract List<TreeNode> getChildren();
+	public TreeNode(TreeNode parent) {
+		setParent(parent);
+	}
+	
+	public TreeNode setParent(TreeNode parent) {
+		this.parent = parent;
+		return this;
+	}
 	
 	public TreeNode getParent() {
 		return parent;
 	}
 	
-	public TreeNode setParent(TreeIntNode parent) {
-		if(parent != null) {
-			parent._removeChild(this);
-		}
-		parent._addChild(this);
-		
-		this.parent = parent;
-		return this;
-	}
-	
-	// @TODO Direct access to package private parent attribute?
-	/*package*/ void _setParent(TreeNode parent) {
-		this.parent = parent;
-	}
-	
 	public TreeNode getRoot() {
-		TreeNode parent = getParent();
-		
-		if(parent == null) {
-			return this;
-		}
-		else {
-			return parent.getRoot();
-		}
+		return parent == null ? this : parent.getRoot();
 	}
+	
+	public abstract TreeNode[] getChildren();
+	
+	public abstract TreeNode setChildren(TreeNode[] children);
 }
