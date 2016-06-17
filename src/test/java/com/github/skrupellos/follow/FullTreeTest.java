@@ -3,6 +3,7 @@ package com.github.skrupellos.follow;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.skrupellos.follow.exceptions.AlterJungeException;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexStar;
 import com.github.skrupellos.follow.regex.RegexSymbol;
@@ -48,5 +49,12 @@ public class FullTreeTest {
 	public void testTreePrinting() {
 		System.out.println();
 		System.out.println(testTree.treeString());
+	}
+	
+	@Test(expected = AlterJungeException.class)
+	public void testFailingTree_0() {
+		TreeIntNode failingTest = new RegexCatenation();
+		failingTest.addChild(new RegexSymbol<Integer>(23));
+		failingTest.addChild(new RegexSymbol<String>("23"));
 	}
 }
