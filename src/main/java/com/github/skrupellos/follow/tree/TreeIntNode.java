@@ -4,6 +4,10 @@ public abstract class TreeIntNode extends TreeNode {
 
 	private TreeNode[] children = new TreeNode[2];
 	
+	public TreeIntNode(TreeIntNode parent) {
+		super(parent);
+	}
+
 	@Override
 	public TreeNode[] getChildren() {
 		return children;
