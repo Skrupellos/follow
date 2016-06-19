@@ -42,6 +42,8 @@ tasks.withType(FindBugs) {
 
 jacocoTestReport {
 	reports {
+		xml.enabled = true
+		xml.destination "${buildDir}/jacoco/report.xml"
 		html.destination "${buildDir}/reports/coverage"
 	}
 }
