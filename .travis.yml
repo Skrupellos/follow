@@ -18,6 +18,10 @@ script:
   - ./gradlew build
 
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+
 before_deploy:
   - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
 
