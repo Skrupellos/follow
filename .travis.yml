@@ -14,6 +14,8 @@ deploy:
     project: ./build/reports/
     domain: follow.surge.sh
     skip_cleanup: true
+    on:
+      - branch: enable-doxygen
   - provider: bintray
     file: "config/bintray.json"
     user: "skrupellos"
