@@ -1,5 +1,8 @@
 package com.github.skrupellos.follow.tree;
 
+import java.util.List;
+import java.util.Collections;
+
 public abstract class TreeExtNode extends TreeNode {
 	
 	public TreeExtNode() {
@@ -11,7 +14,7 @@ public abstract class TreeExtNode extends TreeNode {
 	}
 
 	@Override
-	public TreeNode[] getChildren() {
-		return new TreeNode[0];
+	public List<TreeNode> getChildren() {
+		return Collections.<TreeNode>emptyList();
 	}
 }
