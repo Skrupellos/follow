@@ -1,8 +1,16 @@
 language: java
 
-install:
-  - id
-  - sudo apt-get install --yes doxygen graphviz
+sudo: false
+addons:
+  apt:
+    packages:
+      - doxygen
+      - graphviz
+
+
+#install:
+  #- id
+  #- sudo apt-get install --yes doxygen graphviz
 
 
 script:
