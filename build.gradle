@@ -53,3 +53,4 @@ doxygen {
 }
 
 check.dependsOn jacocoTestReport
+build.dependsOn doxygen
