@@ -1,6 +1,8 @@
 language: java
-
+jdk: oraclejdk8
 sudo: false
+
+
 addons:
   apt:
     packages:
@@ -8,17 +10,12 @@ addons:
       - graphviz
 
 
-#install:
-  #- id
-  #- sudo apt-get install --yes doxygen graphviz
+install:
+  - true
 
 
 script:
   - ./gradlew build
-
-
-jdk:
-  - oraclejdk8
 
 
 before_deploy:
@@ -30,8 +27,6 @@ deploy:
     project: ./build/reports/
     domain: follow.surge.sh
     skip_cleanup: true
-    on:
-      branch: enable-doxygen
   - provider: bintray
     file: "config/bintray.json"
     user: "skrupellos"
