@@ -1,17 +1,22 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeIntNode;
 import com.github.skrupellos.follow.tree.TreeNode;
+import java.util.List;
+import java.util.LinkedList;
 
 public class RegexStar extends RegexIntNode {
-	
-	public RegexStar() {
-		this(null);
+	private static List<TreeNode> cnstHeler(TreeNode sub) {
+		List<TreeNode> subs = new LinkedList<TreeNode>();
+		subs.add(sub);
+		return subs;
 	}
 	
-	public RegexStar(TreeIntNode parent) {
-		super(parent);
-		setChildren(new TreeNode[1]);
+	public RegexStar(TreeNode sub) {
+		this(sub, null);
+	}
+	
+	public RegexStar(TreeNode sub, RegexIntNode parent) {
+		super(parent, cnstHeler(sub));
 	}
 	
 	@Override
@@ -19,36 +24,14 @@ public class RegexStar extends RegexIntNode {
 		return "*";
 	}
 	
-	@Override
-	public TreeNode setChildren(TreeNode[] children) {
-		if(children.length == 1) {
-			this.children = children.clone();
-			return this;
-		}
-		throw new IllegalArgumentException("\t[EE] Children array of TreeNode have to have length 2");
+	public TreeNode replaceSub(TreeNode sub) {
+		return replaceChild(0, sub);
 	}
 	
 	@Override
-	public TreeNode addChild(TreeNode child) {
-		if(child.getParent() != this) {
-			child.setParent(this);
-		} else {
-			if(children[0] == null) {
-				children[0] = child;
-			} else {
-				throw new IllegalStateException("\t[EE] Can't add child to already full node.");
-			}
+	protected void invariant(List<TreeNode> newChildren) {
+		if(newChildren.size() != 1) {
+			throw new IllegalArgumentException("RegexStar must have exactly 1 child");
 		}
-		return this;
-	}
-	
-	@Override
-	public TreeNode removeChild(TreeNode child) {
-		if(children[0] == child) {
-			children[0] = null;
-		} else {
-			throw new IllegalStateException("\t[EE] Can't remove an object that is not a child of this node.");
-		}
-		return this;
 	}
 }

@@ -1,32 +1,57 @@
 package com.github.skrupellos.follow.tree;
 
+import java.util.List;
+
 public abstract class TreeNode {
 	private final static String DELIMITER = "- ";
 	private final static String NEWLINE = "\n";
 	
 	private TreeIntNode parent;
-
-	public TreeNode() {
-		this(null);
-	}
 	
 	public TreeNode(TreeIntNode parent) {
 		setParent(parent);
 	}
 	
-	public TreeNode setParent(TreeIntNode parent) {
-		if(this.parent != parent) {
-			if(this.parent != null) {
-				this.parent.removeChild(this);
-			}
-			this.parent = parent;
-			if(parent != null) {
-				if(parent.isAncestor(this)) {
-					throw new IllegalStateException("\t[EE] You tried to construct a cycle in a tree. Parent: " + parent + ", Child: " + this);
-				}
-				parent.addChild(this);
+	public TreeNode setParent(TreeIntNode newParent) {
+		return setParent(newParent, true, true);
+	}
+	
+	
+	/**
+	 * This is a variant of setParent(), which can't fail. It's sole purpose is
+	 * to make setChildren() happy. clearParent() is only called from
+	 * setChildren() by our parent, after the invariant has been checked.
+	 * Therefore we don't have to go the offical way and ask our parent to
+	 * orphan (remove) us.
+	 */
+	/*package*/ TreeNode setParent(TreeIntNode newParent, boolean remove, boolean append) {
+		// Prevent loops
+		/// @TODO This is to restrictive
+		for(TreeNode ancestor = newParent; ancestor != null; ancestor = ancestor.getParent()) {
+			if(ancestor == this) {
+				throw new IllegalArgumentException("Sorry, no circles allowed here");
 			}
 		}
+		
+		// Prevent multiple appearances
+		if(parent != newParent) {
+			// If this was a subtree (not a root node), then unsubscribe from
+			// the old parent as a child.
+			// /!\ This CAN fail.
+			if(parent != null && remove) {
+				parent.removeChild(this);
+			}
+			parent = null;
+			
+			// If this will become a subtree (not a root node), then subscrie
+			// to the new parent as a child.
+			// /!\ This CAN fail.
+			if(newParent != null && append) {
+				newParent.appendChild(this);
+			}
+			parent = newParent;
+		}
+		
 		return this;
 	}
 	
@@ -38,13 +63,8 @@ public abstract class TreeNode {
 		return parent == null ? this : parent.getRoot();
 	}
 	
-	public boolean isAncestor(TreeNode node) {
-		boolean ancestor = parent == node;
-		
-		if(!(parent == null || parent == node)) {
-			ancestor = parent.isAncestor(node);
-		} 
-		return ancestor;
+	public int getLevel() {
+		return parent == null ? 0 : parent.getLevel() + 1;
 	}
 	
 	@Override
@@ -71,5 +91,5 @@ public abstract class TreeNode {
 		}
 	}
 	
-	public abstract TreeNode[] getChildren();
+	public abstract List<TreeNode> getChildren();
 }
