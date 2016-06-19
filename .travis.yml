@@ -5,6 +5,10 @@ jdk:
   - oraclejdk8
 
 
+before_deploy:
+  - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
+
+
 deploy:
   - provider: surge
     project: ./build/reports/
