@@ -21,6 +21,9 @@ public abstract class TreeNode {
 			}
 			this.parent = parent;
 			if(parent != null) {
+				if(parent.isAncestor(this)) {
+					throw new IllegalStateException("\t[EE] You tried to construct a cycle in a tree. Parent: " + parent + ", Child: " + this);
+				}
 				parent.addChild(this);
 			}
 		}
@@ -33,6 +36,15 @@ public abstract class TreeNode {
 	
 	public TreeNode getRoot() {
 		return parent == null ? this : parent.getRoot();
+	}
+	
+	public boolean isAncestor(TreeNode node) {
+		boolean ancestor = parent == node;
+		
+		if(!(parent == null || parent == node)) {
+			ancestor = parent.isAncestor(node);
+		} 
+		return ancestor;
 	}
 	
 	@Override

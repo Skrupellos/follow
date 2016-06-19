@@ -8,6 +8,7 @@ import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexStar;
 import com.github.skrupellos.follow.regex.RegexSymbol;
 import com.github.skrupellos.follow.regex.RegexUnion;
+import com.github.skrupellos.follow.tree.TreeExtNode;
 import com.github.skrupellos.follow.tree.TreeIntNode;
 
 public class FullTreeTest {
@@ -56,5 +57,16 @@ public class FullTreeTest {
 		TreeIntNode failingTest = new RegexCatenation();
 		failingTest.addChild(new RegexSymbol<Integer>(23));
 		failingTest.addChild(new RegexSymbol<String>("23"));
+	}
+	
+	@Test
+	public void testNoCycleTree() {
+		TreeIntNode tree = new RegexCatenation();
+		TreeIntNode subtree = new RegexCatenation();
+		TreeExtNode symbol = new RegexSymbol<String>("a");
+		tree.addChild(symbol);
+		tree.addChild(subtree.addChild(new RegexSymbol<String>("b")));
+		subtree.addChild(new RegexCatenation().addChild(new RegexSymbol<String>("a")));
+		((TreeIntNode) subtree.getChildren()[1]).addChild(tree);
 	}
 }
