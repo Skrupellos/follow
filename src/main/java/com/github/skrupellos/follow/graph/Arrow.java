@@ -2,27 +2,27 @@ package com.github.skrupellos.follow.graph;
 
 
 
-public class Arrow {
-	INode tail;
-	INode head;
+public class Arrow<NODE extends INode<Arrow<NODE>>> {
+	NODE tail;
+	NODE head;
 	
 	
-	Arrow(INode tail, INode head) {
+	Arrow(NODE tail, NODE head) {
 		connectToNodes(tail, head);
 	}
 	
 	
-	Arrow(INode node) {
+	Arrow(NODE node) {
 		loopOnNode(node);
 	}
 	
 	
-	public INode tail() {
+	public NODE tail() {
 		return tail;
 	}
 	
 	
-	public Arrow connectTailTo(INode node) {
+	public Arrow<NODE> connectTailTo(NODE node) {
 		if(node == null) {
 			throw new IllegalArgumentException("null");
 		}
@@ -37,12 +37,12 @@ public class Arrow {
 	}
 	
 	
-	public INode head() {
+	public NODE head() {
 		return head;
 	}
 	
 	
-	public Arrow connectHeadTo(INode node) {
+	public Arrow<NODE> connectHeadTo(NODE node) {
 		if(node == null) {
 			throw new IllegalArgumentException("null");
 		}
@@ -57,12 +57,12 @@ public class Arrow {
 	}
 	
 	
-	public Arrow loopOnNode(INode node) {
+	public Arrow<NODE> loopOnNode(NODE node) {
 		return connectToNodes(node, node);
 	}
 	
 	
-	public Arrow connectToNodes(INode tail, INode head) {
+	public Arrow<NODE> connectToNodes(NODE tail, NODE head) {
 		connectTailTo(tail);
 		connectHeadTo(head);
 		return this;
@@ -74,7 +74,8 @@ public class Arrow {
 	 * done by removing both ends from the current Nodes and placing them in a
 	 * newly created one.
 	 */
+	@SuppressWarnings("unchecked")
 	public void delete() {
-		loopOnNode(new Node());
+		loopOnNode((NODE) new Node<Arrow<NODE>>());
 	}
 }

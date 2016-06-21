@@ -1,6 +1,5 @@
 package com.github.skrupellos.follow.graph;
 
-import java.util.Set;
 import java.lang.Iterable;
 
 
