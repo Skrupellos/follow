@@ -38,4 +38,15 @@ public class RegexStar extends RegexIntNode {
 			throw new IllegalArgumentException("RegexStar must have exactly 1 child");
 		}
 	}
+	
+	public void accept(RegexVisitor visitor) {
+		visitor.pre(this);
+		for(RegexNode child : this) {
+			if(child != getChild(0)) {
+				visitor.inter(this);
+			}
+			child.accept(visitor);
+		}
+		visitor.post(this);
+	}
 }

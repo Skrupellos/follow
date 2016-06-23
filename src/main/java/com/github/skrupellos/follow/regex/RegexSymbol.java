@@ -39,4 +39,15 @@ public class RegexSymbol<T> extends RegexExtNode {
 	public String toString() {
 		return symbol.toString();
 	}
+	
+	public void accept(RegexVisitor visitor) {
+		visitor.pre(this);
+		for(RegexNode child : this) {
+			if(child != getChild(0)) {
+				visitor.inter(this);
+			}
+			child.accept(visitor);
+		}
+		visitor.post(this);
+	}
 }

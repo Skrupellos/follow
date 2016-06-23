@@ -3,6 +3,7 @@ package com.github.skrupellos.follow.regex;
 import java.util.List;
 import java.util.LinkedList;
 
+
 public class RegexUnion extends RegexIntNode {
 	private static List<RegexNode> cnstHeler(RegexNode left, RegexNode right) {
 		List<RegexNode> subs = new LinkedList<RegexNode>();
@@ -53,5 +54,16 @@ public class RegexUnion extends RegexIntNode {
 		if(newChildren.size() != 2) {
 			throw new IllegalArgumentException("RegexUnion must have exactly 2 children");
 		}
+	}
+	
+	public void accept(RegexVisitor visitor) {
+		visitor.pre(this);
+		for(RegexNode child : this) {
+			if(child != getChild(0)) {
+				visitor.inter(this);
+			}
+			child.accept(visitor);
+		}
+		visitor.post(this);
 	}
 }
