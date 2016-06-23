@@ -3,135 +3,130 @@ package com.github.skrupellos.follow;
 import org.junit.Test;
 
 import com.github.skrupellos.follow.exceptions.AlterJungeException;
-import com.github.skrupellos.follow.regex.RegexCatenation;
-import com.github.skrupellos.follow.regex.RegexStar;
-import com.github.skrupellos.follow.regex.RegexSymbol;
-import com.github.skrupellos.follow.regex.RegexUnion;
 import com.github.skrupellos.follow.tree.TreeNode;
-import com.github.skrupellos.follow.tree.TreeIntNode;
-import com.github.skrupellos.follow.tree.TreeExtNode;
+import com.github.skrupellos.follow.tree.SimpleTree;
 
 import static org.junit.Assert.assertEquals;
 
 public class FullTreeTest {
-	private TreeIntNode getTeta() {
-		return new RegexCatenation(
-			new RegexUnion(
-				new RegexSymbol<String>("a"),
-				new RegexSymbol<String>("b")
+	private SimpleTree getTeta() {
+		return new SimpleTree(null,
+			new SimpleTree(null,
+				new SimpleTree(),
+				new SimpleTree()
 			),
-			new RegexStar(
-				new RegexUnion(
-					new RegexUnion(
-						new RegexStar(
-							new RegexSymbol<String>("a")
+			new SimpleTree(null,
+				new SimpleTree(null,
+					new SimpleTree(null,
+						new SimpleTree(null,
+							new SimpleTree()
 						),
-						new RegexCatenation(
-							new RegexSymbol<String>("b"),
-							new RegexStar(
-								new RegexSymbol<String>("a")
+						new SimpleTree(null,
+							new SimpleTree(),
+							new SimpleTree(null,
+								new SimpleTree()
 							)
 						)
 					),
-					new RegexStar(
-						new RegexSymbol<String>("b")
+					new SimpleTree(null,
+						new SimpleTree()
 					)
 				)
 			)
 		);
 	}
 	
-	private void createCircle(TreeIntNode[] nodes) {
+	private void createCircle(SimpleTree[] nodes) {
 		int i = 1;
-		for(TreeIntNode node : nodes) {
+		for(SimpleTree node : nodes) {
 			node.setParent(nodes[i++ % nodes.length]);
 		}
 	}
 	
 	@Test
 	public void testTreePrinting() {
-		String expected = "meow\n"
-		                + "- +\n"
-		                + "- - a\n"
-		                + "- - b\n"
-		                + "- *\n"
-		                + "- - +\n"
-		                + "- - - +\n"
-		                + "- - - - *\n"
-		                + "- - - - - a\n"
-		                + "- - - - meow\n"
-		                + "- - - - - b\n"
-		                + "- - - - - *\n"
-		                + "- - - - - - a\n"
-		                + "- - - *\n"
-		                + "- - - - b\n";
-		assertEquals("treeString()", getTeta().treeString(), expected);
+		String expected = "SimpleTree\n"
+		                + "- SimpleTree\n"
+		                + "- - SimpleTree\n"
+		                + "- - SimpleTree\n"
+		                + "- SimpleTree\n"
+		                + "- - SimpleTree\n"
+		                + "- - - SimpleTree\n"
+		                + "- - - - SimpleTree\n"
+		                + "- - - - - SimpleTree\n"
+		                + "- - - - SimpleTree\n"
+		                + "- - - - - SimpleTree\n"
+		                + "- - - - - SimpleTree\n"
+		                + "- - - - - - SimpleTree\n"
+		                + "- - - SimpleTree\n"
+		                + "- - - - SimpleTree\n";
+		assertEquals("treeString()", expected, getTeta().treeString());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void setParentCircle1() {
-		createCircle(new TreeIntNode[]{
-			new TreeIntNode(){}
+		createCircle(new SimpleTree[]{
+			new SimpleTree()
 		});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void setParentCircle2() {
-		createCircle(new TreeIntNode[]{
-			new TreeIntNode(){},
-			new TreeIntNode(){}
+		createCircle(new SimpleTree[]{
+			new SimpleTree(),
+			new SimpleTree()
 		});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void setParentCircle3() {
-		createCircle(new TreeIntNode[]{
-			new TreeIntNode(){},
-			new TreeIntNode(){},
-			new TreeIntNode(){}
+		createCircle(new SimpleTree[]{
+			new SimpleTree(),
+			new SimpleTree(),
+			new SimpleTree()
 		});
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void setParentCircle4() {
-		createCircle(new TreeIntNode[]{
-			new TreeIntNode(){},
-			new TreeIntNode(){},
-			new TreeIntNode(){},
-			new TreeIntNode(){}
+		createCircle(new SimpleTree[]{
+			new SimpleTree(),
+			new SimpleTree(),
+			new SimpleTree(),
+			new SimpleTree()
 		});
 	}
 	
 	@Test
 	public void getLevelRoot() {
-		TreeIntNode n1, n2, n3;
-		TreeExtNode n4;
+		SimpleTree n1, n2, n3;
+		SimpleTree n4;
 		
 		// Test some constructors
 		TreeNode[] nodes = {
-			n1 = new TreeIntNode(){},   // Test TreeIntNode()
-			n2 = new TreeIntNode(n1){}, // Test TreeIntNode(parent)
-			n3 = new TreeIntNode(){},   // Test TreeIntNode.setParent(parent)
-			n4 = new TreeExtNode(n3){}  // Test TreeExtNode(parent)
+			n1 = new SimpleTree(),   // Test SimpleTree()
+			n2 = new SimpleTree(n1), // Test SimpleTree(parent)
+			n3 = new SimpleTree(),   // Test SimpleTree.setParent(parent)
+			n4 = new SimpleTree(n3)  // Test SimpleTree(parent)
 		};
 		n3.setParent(n2);
 		
 		// Test getLevel()
 		for(int i = 0; i < nodes.length; i++) {
-			assertEquals("getLevel "+i, nodes[i].getLevel(), i);
+			assertEquals("getLevel "+i, i, nodes[i].level());
 		}
 		
 		// Test getRoot()
 		for(int i = 0; i < nodes.length; i++) {
-			assertEquals("getRoot "+i, nodes[i].getRoot(), nodes[0]);
+			assertEquals("getRoot "+i, nodes[0], nodes[i].root());
 		}
 	}
 	
-	@Test(expected = AlterJungeException.class)
-	public void testFailingTree() {
-		new RegexCatenation(
-			new RegexSymbol<Integer>(23),
-			new RegexSymbol<String>("23")
-		);
-	}
+// 	@Test(expected = AlterJungeException.class)
+// 	public void testFailingTree() {
+// 		new RegexCatenation(
+// 			new SimpleTree<Integer>(23),
+// 			new SimpleTree<String>("23")
+// 		);
+// 	}
 }
