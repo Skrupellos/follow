@@ -8,7 +8,7 @@ import java.util.Collections;
 
 
 public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
-	private final List<SELF> children = new LinkedList<SELF>();
+	private List<SELF> children = new LinkedList<SELF>();
 	private SELF parent;
 	
 	private final static String DELIMITER = "- ";
@@ -51,7 +51,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 	}
 	
 	
-	private SELF self() {
+	private final SELF self() {
 		return (SELF)this;
 	}
 	
@@ -131,7 +131,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 	
 	
 	public SELF setChildren(List<SELF> newChildren) {
-		List<SELF> adopted = new LinkedList<SELF>();
+		List<SELF> adopted   = new LinkedList<SELF>();
 		
 		// #### Checks, which don't modify the data structure.
 		// Argument must not be null.
@@ -174,19 +174,17 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 		for(SELF child : children) {
 			if(newChildren.contains(child) == false) {
 				child.setParent(null, false, true);
-				children.remove(child);
 			}
 		}
+		
+		// Replace tge whole list to keep the order
+		children = new LinkedList<SELF>(newChildren);
 		
 		return self();
 	}
 	
 	
 	public SELF appendChild(SELF child) {
-		if(child == null) {
-			throw new IllegalArgumentException("\"child\" must not be null");
-		}
-		
 		List<SELF> children = children();
 		children.add(child);
 		setChildren(children);
