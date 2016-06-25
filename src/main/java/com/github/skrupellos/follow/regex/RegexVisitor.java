@@ -13,13 +13,8 @@ public interface RegexVisitor {
 	default void preAll(RegexNode regex)      {                  }
 	
 	default void inter(RegexCatenation regex) { interInt(regex); }
-	default void inter(RegexStar regex)       { interInt(regex); }
 	default void inter(RegexUnion regex)      { interInt(regex); }
-	default void inter(RegexEmptySet regex)   { interExt(regex); }
-	default void inter(RegexEpsilon regex)    { interExt(regex); }
-	default void inter(RegexSymbol regex)     { interExt(regex); }
 	default void interInt(RegexIntNode regex) { interAll(regex); }
-	default void interExt(RegexExtNode regex) { interAll(regex); }
 	default void interAll(RegexNode regex)    {                  }
 	
 	default void post(RegexCatenation regex)  { postInt(regex);  }

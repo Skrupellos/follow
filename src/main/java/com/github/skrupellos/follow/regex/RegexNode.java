@@ -25,5 +25,5 @@ public abstract class RegexNode extends TreeNode<RegexNode> {
 	}
 	
 	
-	public abstract void accept(RegexVisitor visitor);
+	public abstract RegexNode accept(RegexVisitor visitor);
 }

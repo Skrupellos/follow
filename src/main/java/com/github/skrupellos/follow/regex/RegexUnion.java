@@ -56,14 +56,12 @@ public class RegexUnion extends RegexIntNode {
 		}
 	}
 	
-	public void accept(RegexVisitor visitor) {
+	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
-		for(RegexNode child : this) {
-			if(child != getChild(0)) {
-				visitor.inter(this);
-			}
-			child.accept(visitor);
-		}
+		getLeft().accept(visitor);
+		visitor.inter(this);
+		getRight().accept(visitor);
 		visitor.post(this);
+		return this;
 	}
 }

@@ -39,14 +39,10 @@ public class RegexStar extends RegexIntNode {
 		}
 	}
 	
-	public void accept(RegexVisitor visitor) {
+	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
-		for(RegexNode child : this) {
-			if(child != getChild(0)) {
-				visitor.inter(this);
-			}
-			child.accept(visitor);
-		}
+		getChild(0).accept(visitor);
 		visitor.post(this);
+		return this;
 	}
 }
