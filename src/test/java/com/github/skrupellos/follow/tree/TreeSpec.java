@@ -1,4 +1,4 @@
-package com.github.skrupellos.follow;
+package com.github.skrupellos.follow.tree;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.LinkedList;
 import static org.junit.Assert.assertEquals;
 
-public class FullTreeTest {
+public class TreeSpec {
 	private SimpleTree getTeta() {
 		return new SimpleTree(null,
 			new SimpleTree(null,

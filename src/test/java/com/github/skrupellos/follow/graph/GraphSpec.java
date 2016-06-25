@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
 import java.util.Arrays;
 
-public class Graph {
+public class GraphSpec {
 	@Test
 	public void nodeConstructorSimple() {
 		Node n = new Node();

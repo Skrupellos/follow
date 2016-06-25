@@ -64,7 +64,7 @@ class VisitorC implements RegexVisitor {
 }
 
 
-public class Regex {
+public class RegexSpec {
 	private RegexIntNode getTeta() {
 		return new RegexCatenation(
 			new RegexUnion(
