@@ -29,6 +29,11 @@ public class RegexStar extends RegexIntNode {
 	}
 	
 	
+	public RegexNode sub() {
+		return getChild(0);
+	}
+	
+	
 	public RegexNode replaceSub(RegexNode sub) {
 		return replaceChild(0, sub);
 	}

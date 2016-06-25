@@ -28,11 +28,11 @@ public class RegexUnion extends RegexIntNode {
 		return "+";
 	}
 	
-	public RegexNode getLeft() {
+	public RegexNode left() {
 		return getChild(0);
 	}
 	
-	public RegexNode getRight() {
+	public RegexNode right() {
 		return getChild(1);
 	}
 	
@@ -53,9 +53,9 @@ public class RegexUnion extends RegexIntNode {
 	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
-		getLeft().accept(visitor);
+		left().accept(visitor);
 		visitor.inter(this);
-		getRight().accept(visitor);
+		right().accept(visitor);
 		visitor.post(this);
 		return this;
 	}
