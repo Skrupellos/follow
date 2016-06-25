@@ -34,19 +34,19 @@ public class RegexUnion extends RegexIntNode {
 	}
 	
 	public RegexNode getLeft() {
-		return (RegexNode) getChild(0);
+		return getChild(0);
 	}
 	
 	public RegexNode getRight() {
-		return (RegexNode) getChild(1);
+		return getChild(1);
 	}
 	
 	public RegexNode replaceLeft(RegexNode sub) {
-		return (RegexNode) replaceChild(0, sub);
+		return replaceChild(0, sub);
 	}
 	
 	public RegexNode replaceRight(RegexNode sub) {
-		return (RegexNode) replaceChild(1, sub);
+		return replaceChild(1, sub);
 	}
 	
 	@Override

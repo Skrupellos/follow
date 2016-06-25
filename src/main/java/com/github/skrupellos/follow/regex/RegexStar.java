@@ -28,7 +28,7 @@ public class RegexStar extends RegexIntNode {
 	
 	
 	public RegexNode replaceSub(RegexNode sub) {
-		return (RegexNode) replaceChild(0, sub);
+		return replaceChild(0, sub);
 	}
 	
 	
@@ -38,6 +38,7 @@ public class RegexStar extends RegexIntNode {
 			throw new IllegalArgumentException("RegexStar must have exactly 1 child");
 		}
 	}
+	
 	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);

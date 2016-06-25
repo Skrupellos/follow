@@ -17,6 +17,7 @@ public class RegexEmptySet extends RegexExtNode {
 		return "Ø";
 	}
 	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		visitor.post(this);

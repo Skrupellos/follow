@@ -17,6 +17,7 @@ public class RegexEpsilon extends RegexExtNode {
 		return "ε";
 	}
 	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		visitor.post(this);

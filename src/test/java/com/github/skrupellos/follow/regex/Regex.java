@@ -17,25 +17,25 @@ class VisitorA implements RegexVisitor {
 	public final StringBuilder builder = new StringBuilder();
 	
 	public void pre(RegexCatenation regex)   { builder.append("pre(RegexCatenation): "+regex+NEWLINE);   }
-	public void pre(RegexStar regex)         { builder.append("pre(RegexStar): "+regex+NEWLINE);   }
-	public void pre(RegexUnion regex)        { builder.append("pre(RegexUnion): "+regex+NEWLINE);   }
-	public void pre(RegexEmptySet regex)     { builder.append("pre(RegexEmptySet): "+regex+NEWLINE);   }
-	public void pre(RegexEpsilon regex)      { builder.append("pre(RegexEpsilon): "+regex+NEWLINE);   }
-	public void pre(RegexSymbol regex)       { builder.append("pre(RegexSymbol): "+regex+NEWLINE);   }
+	public void pre(RegexStar regex)         { builder.append("pre(RegexStar): "+regex+NEWLINE);         }
+	public void pre(RegexUnion regex)        { builder.append("pre(RegexUnion): "+regex+NEWLINE);        }
+	public void pre(RegexEmptySet regex)     { builder.append("pre(RegexEmptySet): "+regex+NEWLINE);     }
+	public void pre(RegexEpsilon regex)      { builder.append("pre(RegexEpsilon): "+regex+NEWLINE);      }
+	public void pre(RegexSymbol regex)       { builder.append("pre(RegexSymbol): "+regex+NEWLINE);       }
 	
 	public void inter(RegexCatenation regex) { builder.append("inter(RegexCatenation): "+regex+NEWLINE); }
-	public void inter(RegexStar regex)       { builder.append("inter(RegexStar): "+regex+NEWLINE); }
-	public void inter(RegexUnion regex)      { builder.append("inter(RegexUnion): "+regex+NEWLINE); }
-	public void inter(RegexEmptySet regex)   { builder.append("inter(RegexEmptySet): "+regex+NEWLINE); }
-	public void inter(RegexEpsilon regex)    { builder.append("inter(RegexEpsilon): "+regex+NEWLINE); }
-	public void inter(RegexSymbol regex)     { builder.append("inter(RegexSymbol): "+regex+NEWLINE); }
+	public void inter(RegexStar regex)       { builder.append("inter(RegexStar): "+regex+NEWLINE);       }
+	public void inter(RegexUnion regex)      { builder.append("inter(RegexUnion): "+regex+NEWLINE);      }
+	public void inter(RegexEmptySet regex)   { builder.append("inter(RegexEmptySet): "+regex+NEWLINE);   }
+	public void inter(RegexEpsilon regex)    { builder.append("inter(RegexEpsilon): "+regex+NEWLINE);    }
+	public void inter(RegexSymbol regex)     { builder.append("inter(RegexSymbol): "+regex+NEWLINE);     }
 	
 	public void post(RegexCatenation regex)  { builder.append("post(RegexCatenation): "+regex+NEWLINE);  }
-	public void post(RegexStar regex)        { builder.append("post(RegexStar): "+regex+NEWLINE);   }
-	public void post(RegexUnion regex)       { builder.append("post(RegexUnion): "+regex+NEWLINE);   }
-	public void post(RegexEmptySet regex)    { builder.append("post(RegexEmptySet): "+regex+NEWLINE);   }
-	public void post(RegexEpsilon regex)     { builder.append("post(RegexEpsilon): "+regex+NEWLINE);  }
-	public void post(RegexSymbol regex)      { builder.append("post(RegexSymbol): "+regex+NEWLINE);   }
+	public void post(RegexStar regex)        { builder.append("post(RegexStar): "+regex+NEWLINE);        }
+	public void post(RegexUnion regex)       { builder.append("post(RegexUnion): "+regex+NEWLINE);       }
+	public void post(RegexEmptySet regex)    { builder.append("post(RegexEmptySet): "+regex+NEWLINE);    }
+	public void post(RegexEpsilon regex)     { builder.append("post(RegexEpsilon): "+regex+NEWLINE);     }
+	public void post(RegexSymbol regex)      { builder.append("post(RegexSymbol): "+regex+NEWLINE);      }
 }
 
 
