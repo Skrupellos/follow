@@ -422,6 +422,19 @@ public class FullTreeTest {
 	}
 	
 	
+	@Test
+	public void iterator() {
+		SimpleTree[] children = {new SimpleTree(), new SimpleTree(), new SimpleTree()};
+		SimpleTree node = new SimpleTree(null, children);
+		
+		int i = 0;
+		for(SimpleTree child : node) {
+			assertEquals("Child "+i, children[i], child);
+			i++;
+		}
+	}
+	
+	
 // 	@Test(expected = AlterJungeException.class)
 // 	public void testFailingTree() {
 // 		new RegexCatenation(
