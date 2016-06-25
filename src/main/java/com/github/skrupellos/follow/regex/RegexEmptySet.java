@@ -1,19 +1,25 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeIntNode;
 
 public class RegexEmptySet extends RegexExtNode {
-	
 	public RegexEmptySet() {
-		this(null);
+		super();
 	}
 	
-	public RegexEmptySet(TreeIntNode parent) {
+	
+	public RegexEmptySet(RegexIntNode parent) {
 		super(parent);
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		return "Ø";
+	}
+	
+	public RegexNode accept(RegexVisitor visitor) {
+		visitor.pre(this);
+		visitor.post(this);
+		return this;
 	}
 }

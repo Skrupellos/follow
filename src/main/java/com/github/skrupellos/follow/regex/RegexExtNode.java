@@ -1,15 +1,23 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeExtNode;
-import com.github.skrupellos.follow.tree.TreeIntNode;
+import java.util.List;
 
-public class RegexExtNode extends TreeExtNode implements RegexNode {
 
+public abstract class RegexExtNode extends RegexNode {
 	public RegexExtNode() {
-		this(null);
+		super();
 	}
 	
-	public RegexExtNode(TreeIntNode parent) {
+	
+	public RegexExtNode(RegexIntNode parent) {
 		super(parent);
+	}
+	
+	
+	@Override
+	protected final void invariant(List<RegexNode> newChildren) {
+		if(newChildren.size() != 0) {
+			throw new IllegalArgumentException("RegexExtNodes can't have any children");
+		}
 	}
 }

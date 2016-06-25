@@ -1,19 +1,25 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeIntNode;
 
 public class RegexEpsilon extends RegexExtNode {
-	
 	public RegexEpsilon() {
-		this(null);
+		super();
 	}
 	
-	public RegexEpsilon(TreeIntNode parent) {
+	
+	public RegexEpsilon(RegexIntNode parent) {
 		super(parent);
 	}
+	
 	
 	@Override
 	public String toString() {
 		return "ε";
+	}
+	
+	public RegexNode accept(RegexVisitor visitor) {
+		visitor.pre(this);
+		visitor.post(this);
+		return this;
 	}
 }
