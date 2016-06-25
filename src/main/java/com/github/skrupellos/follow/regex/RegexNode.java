@@ -5,22 +5,31 @@ import java.util.List;
 
 
 public abstract class RegexNode extends TreeNode<RegexNode> {
+	// Nothing
 	public RegexNode() {
 		super();
 	}
 	
 	
-	public RegexNode(RegexNode parent) {
+	// Only parent
+	public RegexNode(RegexIntNode parent) {
 		super(parent);
 	}
 	
 	
+	// Only children
 	public RegexNode(List<RegexNode> children) {
 		super(children);
 	}
 	
 	
-	public RegexNode(RegexNode parent, List<RegexNode> children) {
+	// Parent & children
+	public RegexNode(RegexIntNode parent, RegexNode... children) {
+		super(parent, children);
+	}
+	
+	
+	public RegexNode(RegexIntNode parent, List<RegexNode> children) {
 		super(parent, children);
 	}
 	

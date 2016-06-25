@@ -2,11 +2,13 @@ package com.github.skrupellos.follow.regex;
 
 
 public class RegexEmptySet extends RegexExtNode {
+	// Nothing
 	public RegexEmptySet() {
 		super();
 	}
 	
 	
+	// Only parent
 	public RegexEmptySet(RegexIntNode parent) {
 		super(parent);
 	}

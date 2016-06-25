@@ -4,23 +4,18 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class RegexCatenation extends RegexIntNode {
-	private static List<RegexNode> cnstHeler(RegexNode left, RegexNode right) {
-		List<RegexNode> subs = new LinkedList<RegexNode>();
-		subs.add(left);
-		subs.add(right);
-		return subs;
-	}
-	
+	// Only children
 	public RegexCatenation(RegexNode left, RegexNode right) {
-		this(cnstHeler(left, right), null);
+		super(null, left, right);
 	}
 	
 	public RegexCatenation(List<RegexNode> subs) {
-		this(subs, null);
+		super(subs);
 	}
 	
+	// Parent & children
 	public RegexCatenation(RegexNode left, RegexNode right, RegexIntNode parent) {
-		this(cnstHeler(left, right), parent);
+		super(parent, left, right);
 	}
 	
 	public RegexCatenation(List<RegexNode> subs, RegexIntNode parent) {

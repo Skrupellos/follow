@@ -2,11 +2,13 @@ package com.github.skrupellos.follow.regex;
 
 
 public class RegexEpsilon extends RegexExtNode {
+	// Nothing
 	public RegexEpsilon() {
 		super();
 	}
 	
 	
+	// Only parent
 	public RegexEpsilon(RegexIntNode parent) {
 		super(parent);
 	}

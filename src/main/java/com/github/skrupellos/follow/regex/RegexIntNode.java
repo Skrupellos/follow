@@ -4,17 +4,17 @@ import java.util.List;
 
 
 public abstract class RegexIntNode extends RegexNode {
-	public RegexIntNode() {
-		super();
-	}
-	
-	public RegexIntNode(RegexIntNode parent) {
-		super(parent);
-	}
-	
+	// Only children
 	public RegexIntNode(List<RegexNode> children) {
 		super(children);
 	}
+	
+	
+	// Parent & children
+	public RegexIntNode(RegexIntNode parent, RegexNode... children) {
+		super(parent, children);
+	}
+	
 	
 	public RegexIntNode(RegexIntNode parent, List<RegexNode> children) {
 		super(parent, children);

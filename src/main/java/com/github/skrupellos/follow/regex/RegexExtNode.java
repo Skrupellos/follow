@@ -4,11 +4,13 @@ import java.util.List;
 
 
 public abstract class RegexExtNode extends RegexNode {
+	// Nothing
 	public RegexExtNode() {
 		super();
 	}
 	
 	
+	// Only parent
 	public RegexExtNode(RegexIntNode parent) {
 		super(parent);
 	}

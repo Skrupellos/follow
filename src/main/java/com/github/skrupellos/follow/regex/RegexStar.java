@@ -4,20 +4,22 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class RegexStar extends RegexIntNode {
-	private static List<RegexNode> cnstHeler(RegexNode sub) {
-		List<RegexNode> subs = new LinkedList<RegexNode>();
-		subs.add(sub);
-		return subs;
-	}
-	
-	
+	// Only children
 	public RegexStar(RegexNode sub) {
-		super(cnstHeler(sub));
+		super(null, sub);
 	}
 	
+	public RegexStar(List<RegexNode> subs) {
+		super(subs);
+	}
 	
+	// Parent & children
 	public RegexStar(RegexNode sub, RegexIntNode parent) {
-		super(parent, cnstHeler(sub));
+		super(parent, sub);
+	}
+	
+	public RegexStar(List<RegexNode> subs, RegexIntNode parent) {
+		super(parent, subs);
 	}
 	
 	

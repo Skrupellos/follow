@@ -6,11 +6,13 @@ import com.github.skrupellos.follow.exceptions.AlterJungeException;
 public class RegexSymbol<T> extends RegexExtNode {
 	private T symbol;
 	
+	// Nothing
 	public RegexSymbol(T symbol) {
-		this(null, symbol);
+		this(symbol, null);
 	}
 	
-	public RegexSymbol(RegexIntNode parent, T symbol) {
+	// Only parent
+	public RegexSymbol(T symbol, RegexIntNode parent) {
 		super(parent);
 		checkInputValidity(symbol);
 		this.symbol = symbol;
