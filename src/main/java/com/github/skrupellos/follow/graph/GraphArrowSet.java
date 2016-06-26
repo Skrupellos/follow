@@ -6,15 +6,15 @@ import java.util.Iterator;
 import java.lang.Iterable;
 
 
-/*package*/ abstract class ArrowSet<
-	NODE  extends Node<? extends Node, ? extends Arrow>,
-	ARROW extends Arrow<? extends Node, ? extends Arrow>
+/*package*/ abstract class GraphArrowSet<
+	NODE  extends GraphNode<NODE, ARROW>,
+	ARROW extends GraphArrow<NODE, ARROW>
 > implements Iterable<ARROW> {
 	private final NODE node;
 	private final Set<ARROW> arrows;
 	
 	
-	/*package*/ ArrowSet(NODE node) {
+	/*package*/ GraphArrowSet(NODE node) {
 		if(node == null) {
 			throw new IllegalArgumentException("null");
 		}
@@ -47,12 +47,13 @@ import java.lang.Iterable;
 	
 	/**
 	 * @{
-	 * Take over one end of one or multiple Arrow%s from an other (or the same)
-	 * ArrowSet. This involes \ref remove() "removing" the Arrow%s end from its
-	 * previous ArrowSet and \ref add() "adding" it to this one. How and which
-	 * end of the Arrow is connected to the ArrowSet (or more precisely to the
-	 * owning Node of the ArrowSet) is defined by connect(). Since ArrowSet
-	 * itself is an Iterable, you can pass it to takeover().
+	 * Take over one end of one or multiple GraphArrow%s from an other (or the
+	 * same) GraphArrowSet. This involes \ref remove() "removing" the
+	 * GraphArrow%s end from its previous GraphArrowSet and \ref add() "adding"
+	 * it to this one. How and which end of the GraphArrow is connected to the
+	 * GraphArrowSet (or more precisely to the owning GraphNode of the
+	 * GraphArrowSet) is defined by connect(). Since GraphArrowSet itself is an
+	 * Iterable, you can pass it to takeover().
 	 */
 	public void takeover(ARROW arrow) {
 		connect(arrow, node);
@@ -72,11 +73,11 @@ import java.lang.Iterable;
 	
 	/**
 	 * @{
-	 * Adds/Removes a link to an Arrow, but not the other way round. Therefore,
-	 * this is to be solely called by Arrow.connectTailTo() and
-	 * Arrow.connectHeadTo(). Thowse Arrow methods add/remove the link from the
-	 * other direction. It is asserted that the Arros is / is not part of the
-	 * set.
+	 * Adds/Removes a link to an GraphArrow, but not the other way round.
+	 * Therefore, this is to be solely called by GraphArrow.connectTailTo() and
+	 * GraphArrow.connectHeadTo(). Thowse GraphArrow methods add/remove the
+	 * link from the other direction. It is asserted that the GraphArrow
+	 * is / is not part of the set.
 	 */
 	/*package*/ final void remove(ARROW arrow) {
 		assert(arrows.contains(arrow) == true);

@@ -4,27 +4,27 @@ import java.lang.Iterable;
 
 
 
-public abstract class Node<
-	NODE  extends Node<NODE, ARROW>,
-	ARROW extends Arrow<NODE, ARROW>
+public abstract class GraphNode<
+	NODE  extends GraphNode<NODE, ARROW>,
+	ARROW extends GraphArrow<NODE, ARROW>
 > {
-	private final ArrowSet<NODE, ARROW> tails = new ArrowSet<NODE, ARROW>(self()) {
+	private final GraphArrowSet<NODE, ARROW> tails = new GraphArrowSet<NODE, ARROW>(self()) {
 		public void connect(ARROW arrow, NODE node) {
 			arrow.connectTailTo(node);
 		}
 	};
 	
-	private final ArrowSet<NODE, ARROW> heads = new ArrowSet<NODE, ARROW>(self()) {
+	private final GraphArrowSet<NODE, ARROW> heads = new GraphArrowSet<NODE, ARROW>(self()) {
 		public void connect(ARROW arrow, NODE node) {
 			arrow.connectHeadTo(node);
 		}
 	};
 	
 	
-	public Node() { }
+	public GraphNode() { }
 	
 	
-	public Node(Iterable<ARROW> tails, Iterable<ARROW> heads) {
+	public GraphNode(Iterable<ARROW> tails, Iterable<ARROW> heads) {
 		this();
 		this.tails.takeover(tails);
 		this.heads.takeover(heads);
@@ -36,12 +36,12 @@ public abstract class Node<
 	}
 	
 	
-	public final ArrowSet<NODE, ARROW> tails() {
+	public final GraphArrowSet<NODE, ARROW> tails() {
 		return tails;
 	}
 	
 	
-	public final ArrowSet<NODE, ARROW> heads() {
+	public final GraphArrowSet<NODE, ARROW> heads() {
 		return heads;
 	}
 	

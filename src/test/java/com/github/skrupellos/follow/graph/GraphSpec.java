@@ -56,7 +56,7 @@ public class GraphSpec {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void arrowSetWithNullNode() {
-		new ArrowSet<SimpleNode, SimpleArrow>(null) {
+		new GraphArrowSet<SimpleNode, SimpleArrow>(null) {
 			public void connect(SimpleArrow arrow, SimpleNode node) {
 				arrow.connectHeadTo(node);
 			}

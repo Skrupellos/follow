@@ -1,7 +1,7 @@
 package com.github.skrupellos.follow.graph;
 
 
-class SimpleNode extends Node<SimpleNode, SimpleArrow> {
+class SimpleNode extends GraphNode<SimpleNode, SimpleArrow> {
 	public SimpleNode() {
 		super();
 	}

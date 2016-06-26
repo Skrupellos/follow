@@ -2,20 +2,20 @@ package com.github.skrupellos.follow.graph;
 
 
 
-public abstract class Arrow<
-	NODE  extends Node<NODE, ARROW>,
-	ARROW extends Arrow<NODE, ARROW>
+public abstract class GraphArrow<
+	NODE  extends GraphNode<NODE, ARROW>,
+	ARROW extends GraphArrow<NODE, ARROW>
 > {
 	NODE tail;
 	NODE head;
 	
 	
-	public Arrow(NODE tail, NODE head) {
+	public GraphArrow(NODE tail, NODE head) {
 		connectToNodes(tail, head);
 	}
 	
 	
-	public Arrow(NODE node) {
+	public GraphArrow(NODE node) {
 		loopOnNode(node);
 	}
 	
@@ -81,9 +81,9 @@ public abstract class Arrow<
 	
 	
 	/**
-	 * Remove this Arrow from any Node it is currently connected to. This is
-	 * done by removing both ends from the current Nodes and placing them in a
-	 * newly created one.
+	 * Remove this GraphArrow from any GraphNode it is currently connected to.
+	 * This is done by removing both ends from the current Nodes and placing
+	 * them in a newly created one.
 	 */
 	@SuppressWarnings("unchecked")
 	public void delete() {
