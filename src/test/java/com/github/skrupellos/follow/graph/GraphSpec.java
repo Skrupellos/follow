@@ -9,15 +9,15 @@ import java.util.Arrays;
 public class GraphSpec {
 	@Test
 	public void nodeConstructorSimple() {
-		Node n = new Node();
+		SimpleNode n = new SimpleNode();
 		assertNotNull("tails exists", n.tails());
 		assertNotNull("heads exists", n.heads());
 	}
 	
 	@Test
 	public void simpleArrow() {
-		Node nodes[] = {new Node(), new Node()};
-		Arrow arrow = new Arrow(nodes[0], nodes[1]);
+		SimpleNode nodes[] = {new SimpleNode(), new SimpleNode()};
+		SimpleArrow arrow = new SimpleArrow(nodes[0], nodes[1]);
 		
 		assertEquals("Tail link: Arrow -> Node", nodes[0], arrow.tail());
 		assertEquals("Head link: Arrow -> Node", nodes[1], arrow.head());
@@ -30,8 +30,8 @@ public class GraphSpec {
 	
 	@Test
 	public void delete() {
-		Node nodes[] = {new Node(), new Node()};
-		Arrow arrow = new Arrow(nodes[0], nodes[1]);
+		SimpleNode nodes[] = {new SimpleNode(), new SimpleNode()};
+		SimpleArrow arrow = new SimpleArrow(nodes[0], nodes[1]);
 		
 		arrow.delete();
 		
@@ -44,20 +44,20 @@ public class GraphSpec {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void connectTailToNull() {
-		new Arrow(null, new Node());
+		new SimpleArrow(null, new SimpleNode());
 	}
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void connectHeadToNull() {
-		new Arrow(new Node(), null);
+		new SimpleArrow(new SimpleNode(), null);
 	}
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void arrowSetWithNullNode() {
-		new ArrowSet<Arrow>(null) {
-			public void connect(Arrow arrow, Node<Arrow> node) {
+		new ArrowSet<SimpleNode, SimpleArrow>(null) {
+			public void connect(SimpleArrow arrow, SimpleNode node) {
 				arrow.connectHeadTo(node);
 			}
 		};
@@ -66,8 +66,8 @@ public class GraphSpec {
 	
 	@Test
 	public void loopArrow() {
-		Node node = new Node();
-		Arrow arrow = new Arrow(node);
+		SimpleNode node = new SimpleNode();
+		SimpleArrow arrow = new SimpleArrow(node);
 		
 		assertEquals("Tail link: Arrow -> Node", node, arrow.tail());
 		assertEquals("Head link: Arrow -> Node", node, arrow.head());
@@ -78,9 +78,9 @@ public class GraphSpec {
 	
 	@Test
 	public void nodeConstructorTakeover() {
-		Node oldNodes[] = {new Node(), new Node(), new Node()};
-		Arrow arrows[] = {new Arrow(oldNodes[0], oldNodes[1]), new Arrow(oldNodes[1], oldNodes[2])};
-		Node n = new Node(Arrays.asList(arrows[1]), Arrays.asList(arrows[0]));
+		SimpleNode oldNodes[] = {new SimpleNode(), new SimpleNode(), new SimpleNode()};
+		SimpleArrow arrows[] = {new SimpleArrow(oldNodes[0], oldNodes[1]), new SimpleArrow(oldNodes[1], oldNodes[2])};
+		SimpleNode n = new SimpleNode(Arrays.asList(arrows[1]), Arrays.asList(arrows[0]));
 		
 		assertNotNull("tails exists", n.tails());
 		assertNotNull("heads exists", n.heads());

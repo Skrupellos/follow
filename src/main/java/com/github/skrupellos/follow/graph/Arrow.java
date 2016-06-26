@@ -2,19 +2,30 @@ package com.github.skrupellos.follow.graph;
 
 
 
-public class Arrow<NODE extends INode<Arrow<NODE>>> {
+public abstract class Arrow<
+	NODE  extends Node<NODE, ARROW>,
+	ARROW extends Arrow<NODE, ARROW>
+> {
 	NODE tail;
 	NODE head;
 	
 	
-	Arrow(NODE tail, NODE head) {
+	public Arrow(NODE tail, NODE head) {
 		connectToNodes(tail, head);
 	}
 	
 	
-	Arrow(NODE node) {
+	public Arrow(NODE node) {
 		loopOnNode(node);
 	}
+	
+	
+	private ARROW self() {
+		return (ARROW) this;
+	}
+	
+	
+	protected abstract NODE createNode();
 	
 	
 	public NODE tail() {
@@ -22,18 +33,18 @@ public class Arrow<NODE extends INode<Arrow<NODE>>> {
 	}
 	
 	
-	public Arrow<NODE> connectTailTo(NODE node) {
+	public ARROW connectTailTo(NODE node) {
 		if(node == null) {
 			throw new IllegalArgumentException("null");
 		}
 		
 		if(tail != null) {
-			tail.tails().remove(this);
+			tail.tails().remove(self());
 		}
 		tail = node;
-		tail.tails().add(this);
+		tail.tails().add(self());
 		
-		return this;
+		return self();
 	}
 	
 	
@@ -42,30 +53,30 @@ public class Arrow<NODE extends INode<Arrow<NODE>>> {
 	}
 	
 	
-	public Arrow<NODE> connectHeadTo(NODE node) {
+	public ARROW connectHeadTo(NODE node) {
 		if(node == null) {
 			throw new IllegalArgumentException("null");
 		}
 		
 		if(head != null) {
-			head.heads().remove(this);
+			head.heads().remove(self());
 		}
 		head = node;
-		head.heads().add(this);
+		head.heads().add(self());
 		
-		return this;
+		return self();
 	}
 	
 	
-	public Arrow<NODE> loopOnNode(NODE node) {
+	public ARROW loopOnNode(NODE node) {
 		return connectToNodes(node, node);
 	}
 	
 	
-	public Arrow<NODE> connectToNodes(NODE tail, NODE head) {
+	public ARROW connectToNodes(NODE tail, NODE head) {
 		connectTailTo(tail);
 		connectHeadTo(head);
-		return this;
+		return self();
 	}
 	
 	
@@ -76,6 +87,6 @@ public class Arrow<NODE extends INode<Arrow<NODE>>> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void delete() {
-		loopOnNode((NODE) new Node<Arrow<NODE>>());
+		loopOnNode(createNode());
 	}
 }

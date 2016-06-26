@@ -3,15 +3,19 @@ package com.github.skrupellos.follow.graph;
 import java.lang.Iterable;
 
 
-public class Node<ARROW extends Arrow> implements INode<ARROW> {
-	private final ArrowSet<ARROW> tails = new ArrowSet<ARROW>(this) {
-		public void connect(ARROW arrow, Node<ARROW> node) {
+
+public abstract class Node<
+	NODE  extends Node<NODE, ARROW>,
+	ARROW extends Arrow<NODE, ARROW>
+> {
+	private final ArrowSet<NODE, ARROW> tails = new ArrowSet<NODE, ARROW>(self()) {
+		public void connect(ARROW arrow, NODE node) {
 			arrow.connectTailTo(node);
 		}
 	};
 	
-	private final ArrowSet<ARROW> heads = new ArrowSet<ARROW>(this) {
-		public void connect(ARROW arrow, Node<ARROW> node) {
+	private final ArrowSet<NODE, ARROW> heads = new ArrowSet<NODE, ARROW>(self()) {
+		public void connect(ARROW arrow, NODE node) {
 			arrow.connectHeadTo(node);
 		}
 	};
@@ -27,25 +31,30 @@ public class Node<ARROW extends Arrow> implements INode<ARROW> {
 	}
 	
 	
-	public final ArrowSet<ARROW> tails() {
+	private NODE self() {
+		return (NODE) this;
+	}
+	
+	
+	public final ArrowSet<NODE, ARROW> tails() {
 		return tails;
 	}
 	
 	
-	public final ArrowSet<ARROW> heads() {
+	public final ArrowSet<NODE, ARROW> heads() {
 		return heads;
 	}
 	
 	
-	public Node<ARROW> replaceBy(Node<ARROW> replacement) {
-		return replacement.takeover(this);
+	public NODE replaceBy(NODE replacement) {
+		return replacement.takeover(self());
 	}
 	
 	
-	public Node<ARROW> takeover(Node<ARROW> node) {
+	public NODE takeover(NODE node) {
 		tails.takeover(node.tails());
 		heads.takeover(node.heads());
 		
-		return this;
+		return self();
 	}
 }

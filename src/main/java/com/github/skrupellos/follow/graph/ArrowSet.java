@@ -6,12 +6,15 @@ import java.util.Iterator;
 import java.lang.Iterable;
 
 
-/*package*/ abstract class ArrowSet<ARROW extends Arrow> implements Iterable<ARROW> {
-	private final Node<ARROW> node;
+/*package*/ abstract class ArrowSet<
+	NODE  extends Node<? extends Node, ? extends Arrow>,
+	ARROW extends Arrow<? extends Node, ? extends Arrow>
+> implements Iterable<ARROW> {
+	private final NODE node;
 	private final Set<ARROW> arrows;
 	
 	
-	/*package*/ ArrowSet(Node<ARROW> node) {
+	/*package*/ ArrowSet(NODE node) {
 		if(node == null) {
 			throw new IllegalArgumentException("null");
 		}
@@ -64,7 +67,7 @@ import java.lang.Iterable;
 	/** @} */
 	
 	
-	protected abstract void connect(ARROW arrow, Node<ARROW> node);
+	protected abstract void connect(ARROW arrow, NODE node);
 	
 	
 	/**
