@@ -65,7 +65,6 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	 */
 	/*package*/ SELF setParent(SELF newParent, boolean remove, boolean append) {
 		// Prevent loops
-		/// @TODO This is to restrictive
 		for(SELF ancestor = newParent; ancestor != null; ancestor = ancestor.parent()) {
 			if(ancestor == this) {
 				throw new IllegalArgumentException("Sorry, no circles allowed here");
