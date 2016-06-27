@@ -2,12 +2,12 @@ package com.github.skrupellos.follow.graph;
 
 
 class SimpleArrow extends GraphArrow<SimpleNode, SimpleArrow> {
-	SimpleArrow(SimpleNode tail, SimpleNode head) {
+	public SimpleArrow(SimpleNode tail, SimpleNode head) {
 		super(tail, head);
 	}
 	
 	
-	SimpleArrow(SimpleNode node) {
+	public SimpleArrow(SimpleNode node) {
 		super(node);
 	}
 	

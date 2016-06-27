@@ -6,9 +6,9 @@ public abstract class GraphArrow<
 	NODE  extends GraphNode<NODE, ARROW>,
 	ARROW extends GraphArrow<NODE, ARROW>
 > {
-	NODE tail;
-	NODE head;
 	private final ARROW self = checkedSelf();
+	private NODE tail;
+	private NODE head;
 	
 	
 	public GraphArrow(NODE tail, NODE head) {

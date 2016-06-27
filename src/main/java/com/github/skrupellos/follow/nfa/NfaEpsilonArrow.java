@@ -1,13 +1,13 @@
 package com.github.skrupellos.follow.nfa;
 
 
-class NfaEpsilonArrow extends NfaArrow {
-	NfaEpsilonArrow(NfaNode tail, NfaNode head) {
+public class NfaEpsilonArrow extends NfaArrow {
+	public NfaEpsilonArrow(NfaNode tail, NfaNode head) {
 		super(tail, head);
 	}
 	
 	
-	NfaEpsilonArrow(NfaNode node) {
+	public NfaEpsilonArrow(NfaNode node) {
 		super(node);
 	}
 	

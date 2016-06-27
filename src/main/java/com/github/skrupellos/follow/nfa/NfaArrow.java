@@ -3,13 +3,13 @@ package com.github.skrupellos.follow.nfa;
 import com.github.skrupellos.follow.graph.GraphArrow;
 
 
-class NfaArrow extends GraphArrow<NfaNode, NfaArrow> {
-	NfaArrow(NfaNode tail, NfaNode head) {
+public class NfaArrow extends GraphArrow<NfaNode, NfaArrow> {
+	public NfaArrow(NfaNode tail, NfaNode head) {
 		super(tail, head);
 	}
 	
 	
-	NfaArrow(NfaNode node) {
+	public NfaArrow(NfaNode node) {
 		super(node);
 	}
 	
