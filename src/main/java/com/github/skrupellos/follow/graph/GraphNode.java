@@ -8,13 +8,15 @@ public abstract class GraphNode<
 	NODE  extends GraphNode<NODE, ARROW>,
 	ARROW extends GraphArrow<NODE, ARROW>
 > {
-	private final GraphArrowSet<NODE, ARROW> tails = new GraphArrowSet<NODE, ARROW>(self()) {
+	private final NODE self = checkedSelf();
+	
+	private final GraphArrowSet<NODE, ARROW> tails = new GraphArrowSet<NODE, ARROW>(self) {
 		public void connect(ARROW arrow, NODE node) {
 			arrow.connectTailTo(node);
 		}
 	};
 	
-	private final GraphArrowSet<NODE, ARROW> heads = new GraphArrowSet<NODE, ARROW>(self()) {
+	private final GraphArrowSet<NODE, ARROW> heads = new GraphArrowSet<NODE, ARROW>(self) {
 		public void connect(ARROW arrow, NODE node) {
 			arrow.connectHeadTo(node);
 		}
@@ -31,8 +33,13 @@ public abstract class GraphNode<
 	}
 	
 	
-	private NODE self() {
-		return (NODE) this;
+	protected abstract NODE uncheckedSelf();
+	
+	
+	private NODE checkedSelf() {
+		NODE self = uncheckedSelf();
+		assert(self == this);
+		return self;
 	}
 	
 	
@@ -47,7 +54,7 @@ public abstract class GraphNode<
 	
 	
 	public NODE replaceBy(NODE replacement) {
-		return replacement.takeover(self());
+		return replacement.takeover(self);
 	}
 	
 	
@@ -55,6 +62,6 @@ public abstract class GraphNode<
 		tails.takeover(node.tails());
 		heads.takeover(node.heads());
 		
-		return self();
+		return self;
 	}
 }

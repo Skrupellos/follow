@@ -17,4 +17,9 @@ class NfaArrow extends GraphArrow<NfaNode, NfaArrow> {
 	protected NfaNode createNode() {
 		return new NfaNode();
 	}
+	
+	
+	protected NfaArrow uncheckedSelf() {
+		return this;
+	}
 }

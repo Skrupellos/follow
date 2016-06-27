@@ -7,9 +7,10 @@ import java.lang.Iterable;
 import java.util.Collections;
 
 
-public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
+public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 	private List<SELF> children = new LinkedList<SELF>();
 	private SELF parent;
+	private final SELF self = checkedSelf();
 	
 	private final static String DELIMITER = "- ";
 	private final static String NEWLINE = "\n";
@@ -46,13 +47,18 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 	}
 	
 	
-	public SELF setParent(SELF newParent) {
-		return setParent(newParent, true, true);
+	protected abstract SELF uncheckedSelf();
+	
+	
+	private SELF checkedSelf() {
+		SELF self = uncheckedSelf();
+		assert(self == this);
+		return self;
 	}
 	
 	
-	private final SELF self() {
-		return (SELF)this;
+	public SELF setParent(SELF newParent) {
+		return setParent(newParent, true, true);
 	}
 	
 	
@@ -78,7 +84,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 			// the old parent as a child.
 			// /!\ This CAN fail.
 			if(parent != null && remove) {
-				parent.removeChild(self());
+				parent.removeChild(self);
 			}
 			parent = null;
 			
@@ -86,12 +92,12 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 			// to the new parent as a child.
 			// /!\ This CAN fail.
 			if(newParent != null && append) {
-				newParent.appendChild(self());
+				newParent.appendChild(self);
 			}
 			parent = newParent;
 		}
 		
-		return self();
+		return self;
 	}
 	
 	
@@ -122,7 +128,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 	
 	
 	public SELF setChildren(SELF... newChildren) {
-		List<SELF> list = new LinkedList();
+		List<SELF> list = new LinkedList<SELF>();
 		for(SELF child : newChildren) {
 			list.add(child);
 		}
@@ -164,7 +170,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 		// knows parent).
 		// /!\ This CAN fail.
 		for(SELF child : adopted) {
-			child.setParent(self(), true, false);
+			child.setParent(self, true, false);
 			children.add(child);
 		}
 		
@@ -180,7 +186,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 		// Replace tge whole list to keep the order
 		children = new LinkedList<SELF>(newChildren);
 		
-		return self();
+		return self;
 	}
 	
 	
@@ -189,7 +195,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 		children.add(child);
 		setChildren(children);
 		
-		return self();
+		return self;
 	}
 	
 	
@@ -204,7 +210,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 		}
 		setChildren(children);
 		
-		return self();
+		return self;
 	}
 	
 	
@@ -227,7 +233,7 @@ public class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
 	
 	
 	public SELF root() {
-		SELF root = self();
+		SELF root = self;
 		
 		for(SELF ancestor = root; ancestor != null; ancestor = ancestor.parent()) {
 			root = ancestor;

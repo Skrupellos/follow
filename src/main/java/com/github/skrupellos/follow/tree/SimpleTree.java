@@ -33,4 +33,9 @@ public class SimpleTree extends TreeNode<SimpleTree> {
 	public SimpleTree(SimpleTree parent, List<SimpleTree> children) {
 		super(parent, children);
 	}
+	
+	
+	protected SimpleTree uncheckedSelf() {
+		return this;
+	}
 }

@@ -8,6 +8,7 @@ public abstract class GraphArrow<
 > {
 	NODE tail;
 	NODE head;
+	private final ARROW self = checkedSelf();
 	
 	
 	public GraphArrow(NODE tail, NODE head) {
@@ -20,8 +21,13 @@ public abstract class GraphArrow<
 	}
 	
 	
-	private ARROW self() {
-		return (ARROW) this;
+	protected abstract ARROW uncheckedSelf();
+	
+	
+	private ARROW checkedSelf() {
+		ARROW self = uncheckedSelf();
+		assert(self == this);
+		return self;
 	}
 	
 	
@@ -39,12 +45,12 @@ public abstract class GraphArrow<
 		}
 		
 		if(tail != null) {
-			tail.tails().remove(self());
+			tail.tails().remove(self);
 		}
 		tail = node;
-		tail.tails().add(self());
+		tail.tails().add(self);
 		
-		return self();
+		return self;
 	}
 	
 	
@@ -59,12 +65,12 @@ public abstract class GraphArrow<
 		}
 		
 		if(head != null) {
-			head.heads().remove(self());
+			head.heads().remove(self);
 		}
 		head = node;
-		head.heads().add(self());
+		head.heads().add(self);
 		
-		return self();
+		return self;
 	}
 	
 	
@@ -76,7 +82,7 @@ public abstract class GraphArrow<
 	public ARROW connectToNodes(NODE tail, NODE head) {
 		connectTailTo(tail);
 		connectHeadTo(head);
-		return self();
+		return self;
 	}
 	
 	
@@ -85,7 +91,6 @@ public abstract class GraphArrow<
 	 * This is done by removing both ends from the current Nodes and placing
 	 * them in a newly created one.
 	 */
-	@SuppressWarnings("unchecked")
 	public void delete() {
 		loopOnNode(createNode());
 	}

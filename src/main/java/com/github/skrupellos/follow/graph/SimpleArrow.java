@@ -15,4 +15,9 @@ class SimpleArrow extends GraphArrow<SimpleNode, SimpleArrow> {
 	protected SimpleNode createNode() {
 		return new SimpleNode();
 	}
+	
+	
+	protected SimpleArrow uncheckedSelf() {
+		return this;
+	}
 }

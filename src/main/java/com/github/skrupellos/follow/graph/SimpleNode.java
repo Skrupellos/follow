@@ -10,4 +10,9 @@ class SimpleNode extends GraphNode<SimpleNode, SimpleArrow> {
 	public SimpleNode(Iterable<SimpleArrow> tails, Iterable<SimpleArrow> heads) {
 		super(tails, heads);
 	}
+	
+	
+	protected SimpleNode uncheckedSelf() {
+		return this;
+	}
 }
