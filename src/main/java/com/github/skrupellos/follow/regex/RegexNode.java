@@ -24,11 +24,6 @@ public abstract class RegexNode extends TreeNode<RegexNode> {
 	
 	
 	// Parent & children
-	public RegexNode(RegexIntNode parent, RegexNode... children) {
-		super(parent, children);
-	}
-	
-	
 	public RegexNode(RegexIntNode parent, List<RegexNode> children) {
 		super(parent, children);
 	}

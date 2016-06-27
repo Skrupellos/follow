@@ -2,11 +2,13 @@ package com.github.skrupellos.follow.regex;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Arrays;
+
 
 public class RegexStar extends RegexIntNode {
 	// Only children
 	public RegexStar(RegexNode sub) {
-		super(null, sub);
+		super(null, Arrays.asList(sub));
 	}
 	
 	public RegexStar(List<RegexNode> subs) {
@@ -15,7 +17,7 @@ public class RegexStar extends RegexIntNode {
 	
 	// Parent & children
 	public RegexStar(RegexNode sub, RegexIntNode parent) {
-		super(parent, sub);
+		super(parent, Arrays.asList(sub));
 	}
 	
 	public RegexStar(List<RegexNode> subs, RegexIntNode parent) {

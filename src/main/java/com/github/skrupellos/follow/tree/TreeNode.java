@@ -35,12 +35,6 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	
 	
 	// Parent & children
-	public TreeNode(SELF parent, SELF... children) {
-		setParent(parent);
-		setChildren(children);
-	}
-	
-	
 	public TreeNode(SELF parent, List<SELF> children) {
 		setParent(parent);
 		setChildren(children);
@@ -124,15 +118,6 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	 */
 	public Iterator<SELF> iterator() {
 		return children().iterator();
-	}
-	
-	
-	public SELF setChildren(SELF... newChildren) {
-		List<SELF> list = new LinkedList<SELF>();
-		for(SELF child : newChildren) {
-			list.add(child);
-		}
-		return setChildren(list);
 	}
 	
 	

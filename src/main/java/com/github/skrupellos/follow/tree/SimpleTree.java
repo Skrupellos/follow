@@ -25,11 +25,6 @@ public class SimpleTree extends TreeNode<SimpleTree> {
 	
 	
 	// Parent & children
-	public SimpleTree(SimpleTree parent, SimpleTree... children) {
-		super(parent, children);
-	}
-	
-	
 	public SimpleTree(SimpleTree parent, List<SimpleTree> children) {
 		super(parent, children);
 	}

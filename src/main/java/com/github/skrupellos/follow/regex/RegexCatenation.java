@@ -2,11 +2,13 @@ package com.github.skrupellos.follow.regex;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Arrays;
+
 
 public class RegexCatenation extends RegexIntNode {
 	// Only children
 	public RegexCatenation(RegexNode left, RegexNode right) {
-		super(null, left, right);
+		super(null, Arrays.asList(left, right));
 	}
 	
 	public RegexCatenation(List<RegexNode> subs) {
@@ -15,7 +17,7 @@ public class RegexCatenation extends RegexIntNode {
 	
 	// Parent & children
 	public RegexCatenation(RegexNode left, RegexNode right, RegexIntNode parent) {
-		super(parent, left, right);
+		super(parent, Arrays.asList(left, right));
 	}
 	
 	public RegexCatenation(List<RegexNode> subs, RegexIntNode parent) {
