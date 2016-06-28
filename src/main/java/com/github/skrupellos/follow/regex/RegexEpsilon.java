@@ -20,6 +20,11 @@ public class RegexEpsilon extends RegexExtNode {
 	}
 	
 	
+	public RegexNode deepCopy() {
+		return new RegexEpsilon();
+	}
+	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		visitor.post(this);

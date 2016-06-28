@@ -49,6 +49,11 @@ public class RegexSymbol<T> extends RegexExtNode {
 	}
 	
 	
+	public RegexNode deepCopy() {
+		return new RegexSymbol<T>(symbol);
+	}
+	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		visitor.post(this);

@@ -20,6 +20,11 @@ public class RegexEmptySet extends RegexExtNode {
 	}
 	
 	
+	public RegexNode deepCopy() {
+		return new RegexEmptySet();
+	}
+	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		visitor.post(this);
