@@ -15,30 +15,30 @@ import static org.junit.Assert.assertEquals;
 
 public class TreeSpec {
 	private SimpleTree getTeta() {
-		return new SimpleTree(null,
-			new SimpleTree(null,
+		return new SimpleTree(null, Arrays.asList(
+			new SimpleTree(null, Arrays.asList(
 				new SimpleTree(),
 				new SimpleTree()
-			),
-			new SimpleTree(null,
-				new SimpleTree(null,
-					new SimpleTree(null,
-						new SimpleTree(null,
+			)),
+			new SimpleTree(null, Arrays.asList(
+				new SimpleTree(null, Arrays.asList(
+					new SimpleTree(null, Arrays.asList(
+						new SimpleTree(null, Arrays.asList(
 							new SimpleTree()
-						),
-						new SimpleTree(null,
+						)),
+						new SimpleTree(null, Arrays.asList(
 							new SimpleTree(),
-							new SimpleTree(null,
+							new SimpleTree(null, Arrays.asList(
 								new SimpleTree()
-							)
-						)
-					),
-					new SimpleTree(null,
+							))
+						))
+					)),
+					new SimpleTree(null, Arrays.asList(
 						new SimpleTree()
-					)
-				)
-			)
-		);
+					))
+				))
+			))
+		));
 	}
 	
 	private void createCircle(SimpleTree[] nodes) {
@@ -105,7 +105,7 @@ public class TreeSpec {
 	@Test
 	public void constructorParentNoChildren() {
 		SimpleTree parent = new SimpleTree();
-		SimpleTree node = new SimpleTree(parent, new SimpleTree[]{});
+		SimpleTree node = new SimpleTree(parent, Arrays.asList());
 		
 		assertNull("Parent: No parent", parent.parent());
 		assertArrayEquals("Parent: Has children", new Object[]{node}, parent.children().toArray());
@@ -119,7 +119,7 @@ public class TreeSpec {
 	public void constructorParentOneChild() {
 		SimpleTree child  = new SimpleTree();
 		SimpleTree parent = new SimpleTree();
-		SimpleTree node   = new SimpleTree(parent, child);
+		SimpleTree node   = new SimpleTree(parent, Arrays.asList(child));
 		
 		assertNull("Parent: No parent", parent.parent());
 		assertArrayEquals("Parent: Has children", new Object[]{node}, parent.children().toArray());
@@ -134,7 +134,7 @@ public class TreeSpec {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void constructorParentOneNullChild() {
-		new SimpleTree(null, (SimpleTree)null );
+		new SimpleTree(null, Arrays.asList((SimpleTree)null) );
 	}
 	
 	
@@ -142,7 +142,7 @@ public class TreeSpec {
 	public void constructorParentTwoChildren() {
 		SimpleTree[] children = {new SimpleTree(), new SimpleTree()};
 		SimpleTree parent     = new SimpleTree();
-		SimpleTree node       = new SimpleTree(parent, children[0], children[1]);
+		SimpleTree node       = new SimpleTree(parent, Arrays.asList(children));
 		
 		assertNull("Parent: No parent", parent.parent());
 		assertArrayEquals("Parent: Has children", new Object[]{node}, parent.children().toArray());
@@ -161,7 +161,7 @@ public class TreeSpec {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void constructorParentOneChildOneNullChild() {
-		new SimpleTree(null, new SimpleTree(), null);
+		new SimpleTree(null, Arrays.asList(new SimpleTree(), null));
 	}
 	
 	
@@ -292,7 +292,7 @@ public class TreeSpec {
 	@Test
 	public void setChildrenAdopt() {
 		SimpleTree[] children = {new SimpleTree(), new SimpleTree()};
-		SimpleTree oldParent = new SimpleTree(null, children);
+		SimpleTree oldParent = new SimpleTree(null, Arrays.asList(children));
 		SimpleTree newParent = new SimpleTree();
 		
 		assertNull("Before: Old parent: No parent", oldParent.parent());
@@ -343,7 +343,7 @@ public class TreeSpec {
 	public void removeChild() {
 		SimpleTree[] childrenBefore = {new SimpleTree(), new SimpleTree(), new SimpleTree()};
 		SimpleTree[] childrenAfter  = {childrenBefore[0], childrenBefore[2]};
-		SimpleTree node = new SimpleTree(null, childrenBefore);
+		SimpleTree node = new SimpleTree(null, Arrays.asList(childrenBefore));
 		
 		assertNull("Before: Node: No parent", node.parent());
 		assertArrayEquals("Before: Node: Has children", childrenBefore, node.children().toArray());
@@ -374,7 +374,7 @@ public class TreeSpec {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void replaceChildNull() {
-		SimpleTree node = new SimpleTree(null, new SimpleTree());
+		SimpleTree node = new SimpleTree(null, Arrays.asList(new SimpleTree()));
 		node.replaceChild(0, null);
 	}
 	
@@ -384,7 +384,7 @@ public class TreeSpec {
 		SimpleTree oldChild = new SimpleTree();
 		SimpleTree newChild = new SimpleTree();
 		SimpleTree[] children = {new SimpleTree(), oldChild, new SimpleTree()};
-		SimpleTree node = new SimpleTree(null, children);
+		SimpleTree node = new SimpleTree(null, Arrays.asList(children));
 		
 		assertNull("Before: Testee: No parent", node.parent());
 		assertArrayEquals("Before: Testee: Has children", children, node.children().toArray());
@@ -416,7 +416,7 @@ public class TreeSpec {
 	@Test
 	public void getChild() {
 		SimpleTree child = new SimpleTree();
-		SimpleTree node = new SimpleTree(null, new SimpleTree(), child, new SimpleTree());
+		SimpleTree node = new SimpleTree(null, Arrays.asList(new SimpleTree(), child, new SimpleTree()));
 		
 		assertEquals("Get child", child, node.getChild(1));
 	}
@@ -425,7 +425,7 @@ public class TreeSpec {
 	@Test
 	public void iterator() {
 		SimpleTree[] children = {new SimpleTree(), new SimpleTree(), new SimpleTree()};
-		SimpleTree node = new SimpleTree(null, children);
+		SimpleTree node = new SimpleTree(null, Arrays.asList(children));
 		
 		int i = 0;
 		for(SimpleTree child : node) {

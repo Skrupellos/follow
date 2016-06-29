@@ -11,11 +11,6 @@ public abstract class RegexIntNode extends RegexNode {
 	
 	
 	// Parent & children
-	public RegexIntNode(RegexIntNode parent, RegexNode... children) {
-		super(parent, children);
-	}
-	
-	
 	public RegexIntNode(RegexIntNode parent, List<RegexNode> children) {
 		super(parent, children);
 	}

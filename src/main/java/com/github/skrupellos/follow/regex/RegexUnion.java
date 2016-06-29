@@ -2,12 +2,13 @@ package com.github.skrupellos.follow.regex;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Arrays;
 
 
 public class RegexUnion extends RegexIntNode {
 	// Only children
 	public RegexUnion(RegexNode left, RegexNode right) {
-		super(null, left, right);
+		super(null, Arrays.asList(left, right));
 	}
 	
 	public RegexUnion(List<RegexNode> subs) {
@@ -16,7 +17,7 @@ public class RegexUnion extends RegexIntNode {
 	
 	// Parent & children
 	public RegexUnion(RegexNode left, RegexNode right, RegexIntNode parent) {
-		super(parent, left, right);
+		super(parent, Arrays.asList(left, right));
 	}
 	
 	public RegexUnion(List<RegexNode> subs, RegexIntNode parent) {
