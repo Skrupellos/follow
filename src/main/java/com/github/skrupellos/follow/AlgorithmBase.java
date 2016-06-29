@@ -2,30 +2,26 @@ package com.github.skrupellos.follow;
 
 import java.util.Map;
 import java.util.HashMap;
-import com.github.skrupellos.follow.regex.RegexVisitor;
-import com.github.skrupellos.follow.regex.RegexNode;
 
 
-
-class AlgorithmBase<T> implements RegexVisitor {
-	private final Map<RegexNode, T> map = new HashMap<RegexNode, T>();
-	private final RegexNode root;
+public class AlgorithmBase<KEY, VALUE> {
+	private final Map<KEY, VALUE> map = new HashMap<KEY, VALUE>();
+	private final KEY root;
 	
 	
-	public AlgorithmBase(RegexNode root) {
+	public AlgorithmBase(KEY root) {
 		this.root = root;
-		root.accept(this);
 	}
 	
 	
-	public T result() {
-		T result = map.get(root);
+	public VALUE result() {
+		VALUE result = map.get(root);
 		assert(result != null);
 		return result;
 	}
 	
 	
-	protected void define(RegexNode key, T value) {
+	protected void define(KEY key, VALUE value) {
 		if(key == null) {
 			throw new IllegalArgumentException("null");
 		}
@@ -33,19 +29,19 @@ class AlgorithmBase<T> implements RegexVisitor {
 			throw new IllegalArgumentException("null");
 		}
 		
-		T ret = map.putIfAbsent(key, value);
+		VALUE ret = map.putIfAbsent(key, value);
 		if(ret != null) {
 			throw new IllegalArgumentException("Not a new regex");
 		}
 	}
 	
 	
-	protected T lookup(RegexNode key) {
+	protected VALUE lookup(KEY key) {
 		if(key == null) {
 			throw new IllegalArgumentException("null");
 		}
 		
-		T value = map.get(key);
+		VALUE value = map.get(key);
 		if(value == null) {
 			throw new IllegalArgumentException("regex does not exist");
 		}

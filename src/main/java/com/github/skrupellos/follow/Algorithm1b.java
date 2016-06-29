@@ -24,7 +24,7 @@ class Attributes {
 }
 
 
-public class Algorithm1b extends AlgorithmBase<Attributes> {
+public class Algorithm1b extends AlgorithmBase<RegexNode, Attributes> implements RegexVisitor {
 	public static Attributes apply(RegexNode root) {
 		return (new Algorithm1b(root)).result();
 	}
@@ -32,6 +32,7 @@ public class Algorithm1b extends AlgorithmBase<Attributes> {
 	
 	public Algorithm1b(RegexNode root) {
 		super(root);
+		root.accept(this);
 	}
 	
 	
