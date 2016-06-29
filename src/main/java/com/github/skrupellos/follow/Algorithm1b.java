@@ -85,7 +85,7 @@ public class Algorithm1b extends AlgorithmBase<Attributes> {
 		else {
 			define(
 				regex,
-				new RegexCatenation(left.tree, right.tree),
+				new RegexUnion(left.tree, right.tree),
 				left.containsEpsilon || right.containsEpsilon
 			);
 		}

@@ -27,7 +27,7 @@ public class Algorithm1c extends AlgorithmBase<RegexNode> {
 	
 	
 	public void post(RegexCatenation regex) {
-		define(regex, new RegexUnion(lookup(regex.left()), lookup(regex.right())));
+		define(regex, new RegexCatenation(lookup(regex.left()), lookup(regex.right())));
 	}
 	
 	

@@ -30,11 +30,8 @@ public class Algorithm1a extends AlgorithmBase<RegexNode> {
 		RegexNode left  = lookup(regex.left());
 		RegexNode right = lookup(regex.right());
 		
-		if(left.getClass().equals(RegexEmptySet.class)) {
-			define(regex, right);
-		}
-		else if(right.getClass().equals(RegexEmptySet.class)) {
-			define(regex, left);
+		if(left.getClass().equals(RegexEmptySet.class) || right.getClass().equals(RegexEmptySet.class)) {
+			define(regex, new RegexEmptySet());
 		}
 		else {
 			define(regex, new RegexCatenation(left, right));
