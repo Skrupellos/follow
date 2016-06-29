@@ -29,6 +29,9 @@ public abstract class RegexNode extends TreeNode<RegexNode> {
 	}
 	
 	
+	public abstract RegexNode deepCopy();
+	
+	
 	public abstract RegexNode accept(RegexVisitor visitor);
 	
 	

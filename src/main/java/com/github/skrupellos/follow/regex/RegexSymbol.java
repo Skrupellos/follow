@@ -1,6 +1,7 @@
 package com.github.skrupellos.follow.regex;
 
 import com.github.skrupellos.follow.exceptions.AlterJungeException;
+import com.github.skrupellos.follow.tree.TreeNode;
 
 
 public class RegexSymbol<T> extends RegexExtNode {
@@ -43,9 +44,19 @@ public class RegexSymbol<T> extends RegexExtNode {
 	}
 	
 	
+	public boolean shallowEquivalent(TreeNode other) {
+		return this.getClass() == other.getClass() && symbol.equals(((RegexSymbol<T>)other).symbol());
+	}
+	
+	
 	@Override
 	public String toString() {
 		return symbol.toString();
+	}
+	
+	
+	public RegexNode deepCopy() {
+		return new RegexSymbol<T>(symbol);
 	}
 	
 	

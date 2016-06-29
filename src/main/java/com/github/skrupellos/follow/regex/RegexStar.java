@@ -49,6 +49,11 @@ public class RegexStar extends RegexIntNode {
 	}
 	
 	
+	public RegexNode deepCopy() {
+		return new RegexStar(sub().deepCopy());
+	}
+	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		getChild(0).accept(visitor);

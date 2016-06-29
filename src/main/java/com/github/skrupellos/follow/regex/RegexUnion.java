@@ -52,6 +52,11 @@ public class RegexUnion extends RegexIntNode {
 		}
 	}
 	
+	public RegexNode deepCopy() {
+		return new RegexUnion(left().deepCopy(), right().deepCopy());
+	}
+	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		left().accept(visitor);

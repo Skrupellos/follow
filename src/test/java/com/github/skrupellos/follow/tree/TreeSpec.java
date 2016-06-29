@@ -7,6 +7,8 @@ import com.github.skrupellos.follow.tree.TreeNode;
 import com.github.skrupellos.follow.tree.SimpleTree;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertArrayEquals;
 import java.util.Arrays;
 import java.util.List;
@@ -435,11 +437,45 @@ public class TreeSpec {
 	}
 	
 	
-// 	@Test(expected = AlterJungeException.class)
-// 	public void testFailingTree() {
-// 		new RegexCatenation(
-// 			new SimpleTree<Integer>(23),
-// 			new SimpleTree<String>("23")
-// 		);
-// 	}
+	@Test
+	public void isomorphChildCnt() {
+		SimpleTree a = new SimpleTree();
+		SimpleTree b = new SimpleTree(null, Arrays.asList(new SimpleTree(), new SimpleTree()));
+		
+		assertFalse("0 < 2", a.isIsomorphTo(b)); new SimpleTree(a);
+		assertFalse("1 < 2", a.isIsomorphTo(b)); new SimpleTree(a);
+		assertTrue("2 == 2", a.isIsomorphTo(b)); new SimpleTree(a);
+		assertFalse("3 > 2", a.isIsomorphTo(b)); new SimpleTree(a);
+		assertFalse("4 > 4", a.isIsomorphTo(b)); new SimpleTree(a);
+	}
+	
+	
+	@Test
+	public void isomorphSame() {
+		SimpleTree a = new SimpleTree(null, Arrays.asList(new SimpleTree(), new SimpleTree()));
+		
+		assertTrue("same", a.isIsomorphTo(a));
+	}
+	
+	
+	@Test
+	public void isomorphDifferentClass() {
+		SimpleTree a = new SimpleTree();
+		SimpleTree b = new SimpleTree(){};
+		
+		assertFalse("Different class", a.isIsomorphTo(b));
+	}
+	
+	
+	@Test
+	public void isomorphComplex() {
+		assertTrue("Different class", getTeta().isIsomorphTo(getTeta()));
+	}
+	
+	@Test
+	public void isomorphComplexFail() {
+		SimpleTree tree = getTeta();
+		new SimpleTree(tree.getChild(0).getChild(0));
+		assertFalse("Different class", tree.isIsomorphTo(getTeta()));
+	}
 }

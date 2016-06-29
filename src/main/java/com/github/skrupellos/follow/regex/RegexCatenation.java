@@ -52,6 +52,12 @@ public class RegexCatenation extends RegexIntNode {
 		}
 	}
 	
+	
+	public RegexNode deepCopy() {
+		return new RegexCatenation(left().deepCopy(), right().deepCopy());
+	}
+	
+	
 	public RegexNode accept(RegexVisitor visitor) {
 		visitor.pre(this);
 		left().accept(visitor);
