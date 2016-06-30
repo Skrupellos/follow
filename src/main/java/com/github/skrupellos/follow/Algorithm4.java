@@ -89,11 +89,13 @@ class Algorithm4 implements RegexVisitor {
 		Nfa subNfa = nfaForExistingRegex(regex.sub());
 		NfaNode mid = new NfaNode();
 		
-		subNfa.start.replaceBy(mid);
-		subNfa.end.replaceBy(mid);
-		
+		// Adding the epsilon transitions first will result in a faster
+		// depth-first search for the end node in GraphNode.reachable().
 		new NfaEpsilonArrow(nfa.start, mid);
 		new NfaEpsilonArrow(mid, nfa.end);
+		
+		subNfa.start.replaceBy(mid);
+		subNfa.end.replaceBy(mid);
 	}
 	
 	

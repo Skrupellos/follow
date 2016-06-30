@@ -15,7 +15,7 @@ import com.github.skrupellos.follow.regex.RegexExtNode;
 
 
 
-public class Algorithm1a extends AlgorithmBase<RegexNode> {
+public class Algorithm1a extends AlgorithmBase<RegexNode, RegexNode> implements RegexVisitor {
 	public static RegexNode apply(RegexNode root) {
 		return (new Algorithm1a(root)).result();
 	}
@@ -23,6 +23,7 @@ public class Algorithm1a extends AlgorithmBase<RegexNode> {
 	
 	public Algorithm1a(RegexNode root) {
 		super(root);
+		root.accept(this);
 	}
 	
 	

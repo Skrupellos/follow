@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.junit.Assert.assertEquals;
 
-class Dummy extends AlgorithmBase<String> {
+class Dummy extends AlgorithmBase<RegexNode, String> {
 	public Dummy(RegexNode root) {
 		super(root);
 	}
