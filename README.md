@@ -1,6 +1,6 @@
 # follow
 A [follow automata](http://www.sciencedirect.com/science/article/pii/S0890540103000907/pdf?md5=a0fee0d8831cd92e198b13689a807ae0&pid=1-s2.0-S0890540103000907-main.pdf) implementation in Java.
-It is a project task of the [Compiler Construction I](http://www2.in.tum.de/hp/Main?nid=300) course at the department of computer science at the [TUM](https://tum.de).
+It is a project task of the [Compiler Construction I](http://www2.in.tum.de/hp/Main?nid=300) course at the department of computer science at the [TUM](https://www.tum.de).
 The [LGPL 3](https://tldrlegal.com/license/gnu-lesser-general-public-license-v3-(lgpl-3)) licensed source code can be found on [Github](https://github.com/Skrupellos/follow).
 
 Master:
