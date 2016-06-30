@@ -17,63 +17,29 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 
 
 
-class Algorithm4 implements RegexVisitor {
-	private final Map<RegexNode, Nfa> map = new HashMap<RegexNode, Nfa>();
-	private final RegexNode regex;
-	
-	
-	public static Nfa apply(RegexNode regex) {
-		return (new Algorithm4(regex)).nfa();
+class Algorithm4 extends AlgorithmBase<RegexNode, Nfa> implements RegexVisitor {
+	public static Nfa apply(RegexNode root) {
+		return (new Algorithm4(root)).result();
 	}
 	
 	
-	public Algorithm4(RegexNode regex) {
-		this.regex = regex;
-		regex.accept(this);
+	public Algorithm4(RegexNode root) {
+		super(root);
+		root.accept(this);
 	}
 	
 	
-	public Nfa nfa() {
-		Nfa nfa = map.get(regex);
-		assert(nfa != null);
-		return nfa;
-	}
-	
-	
-	private Nfa nfaForFreshRegex(RegexNode regex) {
-		if(regex == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
+	private Nfa nfaForFreshRegex(RegexNode key) {
 		Nfa nfa = new Nfa();
-		
-		Nfa ret = map.putIfAbsent(regex, nfa);
-		if(ret != null) {
-			throw new RuntimeException("Not a new regex");
-		}
-		
-		return nfa;
-	}
-	
-	
-	private Nfa nfaForExistingRegex(RegexNode regex) {
-		if(regex == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
-		Nfa nfa = map.get(regex);
-		if(nfa == null) {
-			throw new RuntimeException("regex does not exist");
-		}
-		
+		define(key, nfa);
 		return nfa;
 	}
 	
 	
 	public void post(RegexCatenation regex) {
 		Nfa nfa = nfaForFreshRegex(regex);
-		Nfa leftNfa = nfaForExistingRegex(regex.left());
-		Nfa rightNfa = nfaForExistingRegex(regex.right());
+		Nfa leftNfa = lookup(regex.left());
+		Nfa rightNfa = lookup(regex.right());
 		NfaNode mid = new NfaNode();
 		
 		leftNfa.start.replaceBy(nfa.start);
@@ -86,7 +52,7 @@ class Algorithm4 implements RegexVisitor {
 	
 	public void post(RegexStar regex) {
 		Nfa nfa = nfaForFreshRegex(regex);
-		Nfa subNfa = nfaForExistingRegex(regex.sub());
+		Nfa subNfa = lookup(regex.sub());
 		NfaNode mid = new NfaNode();
 		
 		// Adding the epsilon transitions first will result in a faster
@@ -101,8 +67,8 @@ class Algorithm4 implements RegexVisitor {
 	
 	public void post(RegexUnion regex) {
 		Nfa nfa = nfaForFreshRegex(regex);
-		Nfa leftNfa = nfaForExistingRegex(regex.left());
-		Nfa rightNfa = nfaForExistingRegex(regex.right());
+		Nfa leftNfa = lookup(regex.left());
+		Nfa rightNfa = lookup(regex.right());
 		
 		leftNfa.start.replaceBy(nfa.start);
 		leftNfa.end.replaceBy(nfa.end);
