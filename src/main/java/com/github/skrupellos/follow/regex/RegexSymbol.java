@@ -45,7 +45,7 @@ public class RegexSymbol<T> extends RegexExtNode<T> {
 	
 	
 	public boolean shallowEquivalent(RegexNode<T> other) {
-		return this.getClass() == other.getClass() && symbol.equals(((RegexSymbol<T>)other).symbol());
+		return this.getClass() == other.getClass() && other instanceof RegexSymbol && symbol.equals(((RegexSymbol<T>)other).symbol());
 	}
 	
 	
