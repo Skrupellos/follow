@@ -1,4 +1,4 @@
-package projects;
+package projects.project7;
 
 import com.github.skrupellos.follow.regex.RegexVisitor;
 import com.github.skrupellos.follow.regex.RegexNode;

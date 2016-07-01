@@ -1,4 +1,4 @@
-package projects;
+package projects.project7;
 
 import nfa.TransitionTable;
 import regex.RegularExpression;
