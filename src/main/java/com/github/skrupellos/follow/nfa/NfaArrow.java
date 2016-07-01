@@ -3,23 +3,23 @@ package com.github.skrupellos.follow.nfa;
 import com.github.skrupellos.follow.graph.GraphArrow;
 
 
-public class NfaArrow extends GraphArrow<NfaNode, NfaArrow> {
-	public NfaArrow(NfaNode tail, NfaNode head) {
+public abstract class NfaArrow<T> extends GraphArrow<NfaNode<T>, NfaArrow<T>> {
+	public NfaArrow(NfaNode<T> tail, NfaNode<T> head) {
 		super(tail, head);
 	}
 	
 	
-	public NfaArrow(NfaNode node) {
+	public NfaArrow(NfaNode<T> node) {
 		super(node);
 	}
 	
 	
-	protected NfaNode createNode() {
-		return new NfaNode();
+	protected NfaNode<T> createNode() {
+		return new NfaNode<T>();
 	}
 	
 	
-	protected NfaArrow uncheckedSelf() {
+	protected NfaArrow<T> uncheckedSelf() {
 		return this;
 	}
 }

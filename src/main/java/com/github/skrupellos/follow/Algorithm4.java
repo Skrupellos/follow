@@ -17,30 +17,30 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 
 
 
-class Algorithm4 extends AlgorithmBase<RegexNode, Nfa> implements RegexVisitor {
-	public static Nfa apply(RegexNode root) {
-		return (new Algorithm4(root)).result();
+class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements RegexVisitor<T> {
+	public static <T> Nfa<T> apply(RegexNode<T> root) {
+		return (new Algorithm4<T>(root)).result();
 	}
 	
 	
-	public Algorithm4(RegexNode root) {
+	public Algorithm4(RegexNode<T> root) {
 		super(root);
 		root.accept(this);
 	}
 	
 	
-	private Nfa nfaForFreshRegex(RegexNode key) {
-		Nfa nfa = new Nfa();
+	private Nfa<T> nfaForFreshRegex(RegexNode<T> key) {
+		Nfa<T> nfa = new Nfa<T>();
 		define(key, nfa);
 		return nfa;
 	}
 	
 	
-	public void post(RegexCatenation regex) {
-		Nfa nfa = nfaForFreshRegex(regex);
-		Nfa leftNfa = lookup(regex.left());
-		Nfa rightNfa = lookup(regex.right());
-		NfaNode mid = new NfaNode();
+	public void post(RegexCatenation<T> regex) {
+		Nfa<T> nfa = nfaForFreshRegex(regex);
+		Nfa<T> leftNfa = lookup(regex.left());
+		Nfa<T> rightNfa = lookup(regex.right());
+		NfaNode<T> mid = new NfaNode<T>();
 		
 		leftNfa.start.replaceBy(nfa.start);
 		leftNfa.end.replaceBy(mid);
@@ -50,25 +50,25 @@ class Algorithm4 extends AlgorithmBase<RegexNode, Nfa> implements RegexVisitor {
 	}
 	
 	
-	public void post(RegexStar regex) {
-		Nfa nfa = nfaForFreshRegex(regex);
-		Nfa subNfa = lookup(regex.sub());
-		NfaNode mid = new NfaNode();
+	public void post(RegexStar<T> regex) {
+		Nfa<T> nfa = nfaForFreshRegex(regex);
+		Nfa<T> subNfa = lookup(regex.sub());
+		NfaNode<T> mid = new NfaNode<T>();
 		
 		// Adding the epsilon transitions first will result in a faster
 		// depth-first search for the end node in GraphNode.reachable().
-		new NfaEpsilonArrow(nfa.start, mid);
-		new NfaEpsilonArrow(mid, nfa.end);
+		new NfaEpsilonArrow<T>(nfa.start, mid);
+		new NfaEpsilonArrow<T>(mid, nfa.end);
 		
 		subNfa.start.replaceBy(mid);
 		subNfa.end.replaceBy(mid);
 	}
 	
 	
-	public void post(RegexUnion regex) {
-		Nfa nfa = nfaForFreshRegex(regex);
-		Nfa leftNfa = lookup(regex.left());
-		Nfa rightNfa = lookup(regex.right());
+	public void post(RegexUnion<T> regex) {
+		Nfa<T> nfa = nfaForFreshRegex(regex);
+		Nfa<T> leftNfa = lookup(regex.left());
+		Nfa<T> rightNfa = lookup(regex.right());
 		
 		leftNfa.start.replaceBy(nfa.start);
 		leftNfa.end.replaceBy(nfa.end);
@@ -78,20 +78,20 @@ class Algorithm4 extends AlgorithmBase<RegexNode, Nfa> implements RegexVisitor {
 	}
 	
 	
-	public void post(RegexEmptySet regex) {
+	public void post(RegexEmptySet<T> regex) {
 		/*Nfa nfa =*/ nfaForFreshRegex(regex);
 		/* NOP */
 	}
 	
 	
-	public void post(RegexEpsilon regex) {
-		Nfa nfa = nfaForFreshRegex(regex);
-		new NfaEpsilonArrow(nfa.start, nfa.end);
+	public void post(RegexEpsilon<T> regex) {
+		Nfa<T> nfa = nfaForFreshRegex(regex);
+		new NfaEpsilonArrow<T>(nfa.start, nfa.end);
 	}
 	
 	
-	public void post(RegexSymbol regex) {
-		Nfa nfa = nfaForFreshRegex(regex);
-		new NfaSymbolArrow(regex.symbol(), nfa.start, nfa.end);
+	public void post(RegexSymbol<T> regex) {
+		Nfa<T> nfa = nfaForFreshRegex(regex);
+		new NfaSymbolArrow<T>(regex.symbol(), nfa.start, nfa.end);
 	}
 }

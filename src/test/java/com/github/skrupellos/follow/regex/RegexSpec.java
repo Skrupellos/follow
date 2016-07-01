@@ -12,79 +12,79 @@ import java.util.List;
 import java.util.LinkedList;
 
 
-class VisitorA implements RegexVisitor {
+class VisitorA implements RegexVisitor<String> {
 	private final static String NEWLINE = "\n";
 	public final StringBuilder builder = new StringBuilder();
 	
-	public void pre(RegexCatenation regex)   { builder.append("pre(RegexCatenation): "+regex+NEWLINE);   }
-	public void pre(RegexStar regex)         { builder.append("pre(RegexStar): "+regex+NEWLINE);         }
-	public void pre(RegexUnion regex)        { builder.append("pre(RegexUnion): "+regex+NEWLINE);        }
-	public void pre(RegexEmptySet regex)     { builder.append("pre(RegexEmptySet): "+regex+NEWLINE);     }
-	public void pre(RegexEpsilon regex)      { builder.append("pre(RegexEpsilon): "+regex+NEWLINE);      }
-	public void pre(RegexSymbol regex)       { builder.append("pre(RegexSymbol): "+regex+NEWLINE);       }
+	public void pre(RegexCatenation<String> regex)   { builder.append("pre(RegexCatenation): "+regex+NEWLINE);   }
+	public void pre(RegexStar<String> regex)         { builder.append("pre(RegexStar): "+regex+NEWLINE);         }
+	public void pre(RegexUnion<String> regex)        { builder.append("pre(RegexUnion): "+regex+NEWLINE);        }
+	public void pre(RegexEmptySet<String> regex)     { builder.append("pre(RegexEmptySet): "+regex+NEWLINE);     }
+	public void pre(RegexEpsilon<String> regex)      { builder.append("pre(RegexEpsilon): "+regex+NEWLINE);      }
+	public void pre(RegexSymbol<String> regex)       { builder.append("pre(RegexSymbol): "+regex+NEWLINE);       }
 	
-	public void inter(RegexCatenation regex) { builder.append("inter(RegexCatenation): "+regex+NEWLINE); }
-	public void inter(RegexStar regex)       { builder.append("inter(RegexStar): "+regex+NEWLINE);       }
-	public void inter(RegexUnion regex)      { builder.append("inter(RegexUnion): "+regex+NEWLINE);      }
-	public void inter(RegexEmptySet regex)   { builder.append("inter(RegexEmptySet): "+regex+NEWLINE);   }
-	public void inter(RegexEpsilon regex)    { builder.append("inter(RegexEpsilon): "+regex+NEWLINE);    }
-	public void inter(RegexSymbol regex)     { builder.append("inter(RegexSymbol): "+regex+NEWLINE);     }
+	public void inter(RegexCatenation<String> regex) { builder.append("inter(RegexCatenation): "+regex+NEWLINE); }
+	public void inter(RegexStar<String> regex)       { builder.append("inter(RegexStar): "+regex+NEWLINE);       }
+	public void inter(RegexUnion<String> regex)      { builder.append("inter(RegexUnion): "+regex+NEWLINE);      }
+	public void inter(RegexEmptySet<String> regex)   { builder.append("inter(RegexEmptySet): "+regex+NEWLINE);   }
+	public void inter(RegexEpsilon<String> regex)    { builder.append("inter(RegexEpsilon): "+regex+NEWLINE);    }
+	public void inter(RegexSymbol<String> regex)     { builder.append("inter(RegexSymbol): "+regex+NEWLINE);     }
 	
-	public void post(RegexCatenation regex)  { builder.append("post(RegexCatenation): "+regex+NEWLINE);  }
-	public void post(RegexStar regex)        { builder.append("post(RegexStar): "+regex+NEWLINE);        }
-	public void post(RegexUnion regex)       { builder.append("post(RegexUnion): "+regex+NEWLINE);       }
-	public void post(RegexEmptySet regex)    { builder.append("post(RegexEmptySet): "+regex+NEWLINE);    }
-	public void post(RegexEpsilon regex)     { builder.append("post(RegexEpsilon): "+regex+NEWLINE);     }
-	public void post(RegexSymbol regex)      { builder.append("post(RegexSymbol): "+regex+NEWLINE);      }
+	public void post(RegexCatenation<String> regex)  { builder.append("post(RegexCatenation): "+regex+NEWLINE);  }
+	public void post(RegexStar<String> regex)        { builder.append("post(RegexStar): "+regex+NEWLINE);        }
+	public void post(RegexUnion<String> regex)       { builder.append("post(RegexUnion): "+regex+NEWLINE);       }
+	public void post(RegexEmptySet<String> regex)    { builder.append("post(RegexEmptySet): "+regex+NEWLINE);    }
+	public void post(RegexEpsilon<String> regex)     { builder.append("post(RegexEpsilon): "+regex+NEWLINE);     }
+	public void post(RegexSymbol<String> regex)      { builder.append("post(RegexSymbol): "+regex+NEWLINE);      }
 }
 
 
-class VisitorB implements RegexVisitor {
+class VisitorB implements RegexVisitor<String> {
 	private final static String NEWLINE = "\n";
 	public final StringBuilder builder = new StringBuilder();
 	
-	public void preInt(RegexIntNode regex)   { builder.append("preInt: "+regex+NEWLINE);   }
-	public void preExt(RegexExtNode regex)   { builder.append("preExt: "+regex+NEWLINE);   }
+	public void preInt(RegexIntNode<String> regex)   { builder.append("preInt: "+regex+NEWLINE);   }
+	public void preExt(RegexExtNode<String> regex)   { builder.append("preExt: "+regex+NEWLINE);   }
 	
-	public void interInt(RegexIntNode regex) { builder.append("interInt: "+regex+NEWLINE); }
-	public void interExt(RegexExtNode regex) { builder.append("interExt: "+regex+NEWLINE); }
+	public void interInt(RegexIntNode<String> regex) { builder.append("interInt: "+regex+NEWLINE); }
+	public void interExt(RegexExtNode<String> regex) { builder.append("interExt: "+regex+NEWLINE); }
 	
-	public void postInt(RegexIntNode regex)  { builder.append("postInt: "+regex+NEWLINE);  }
-	public void postExt(RegexExtNode regex)  { builder.append("postExt: "+regex+NEWLINE);  }
+	public void postInt(RegexIntNode<String> regex)  { builder.append("postInt: "+regex+NEWLINE);  }
+	public void postExt(RegexExtNode<String> regex)  { builder.append("postExt: "+regex+NEWLINE);  }
 }
 
 
-class VisitorC implements RegexVisitor {
+class VisitorC implements RegexVisitor<String> {
 	private final static String NEWLINE = "\n";
 	public final StringBuilder builder = new StringBuilder();
 	
-	public void preAll(RegexNode regex)   { builder.append("preAll: "+regex+NEWLINE);   }
-	public void interAll(RegexNode regex) { builder.append("interAll: "+regex+NEWLINE); }
-	public void postAll(RegexNode regex)  { builder.append("postAll: "+regex+NEWLINE);  }
+	public void preAll(RegexNode<String> regex)   { builder.append("preAll: "+regex+NEWLINE);   }
+	public void interAll(RegexNode<String> regex) { builder.append("interAll: "+regex+NEWLINE); }
+	public void postAll(RegexNode<String> regex)  { builder.append("postAll: "+regex+NEWLINE);  }
 }
 
 
 public class RegexSpec {
-	private RegexIntNode getTeta() {
-		return new RegexCatenation(
-			new RegexUnion(
+	private RegexIntNode<String> getTeta() {
+		return new RegexCatenation<String>(
+			new RegexUnion<String>(
 				new RegexSymbol<String>("a"),
 				new RegexSymbol<String>("b")
 			),
-			new RegexStar(
-				new RegexUnion(
-					new RegexUnion(
-						new RegexStar(
+			new RegexStar<String>(
+				new RegexUnion<String>(
+					new RegexUnion<String>(
+						new RegexStar<String>(
 							new RegexSymbol<String>("a")
 						),
-						new RegexCatenation(
+						new RegexCatenation<String>(
 							new RegexSymbol<String>("b"),
-							new RegexStar(
+							new RegexStar<String>(
 								new RegexSymbol<String>("a")
 							)
 						)
 					),
-					new RegexStar(
+					new RegexStar<String>(
 						new RegexSymbol<String>("b")
 					)
 				)
@@ -93,14 +93,14 @@ public class RegexSpec {
 	}
 	
 	
-	private RegexIntNode completeRegex() {
-		return new RegexCatenation(
-			new RegexUnion(
+	private RegexIntNode<String> completeRegex() {
+		return new RegexCatenation<String>(
+			new RegexUnion<String>(
 				new RegexSymbol<String>("a"),
-				new RegexEpsilon()
+				new RegexEpsilon<String>()
 			),
-			new RegexStar(
-				new RegexEmptySet()
+			new RegexStar<String>(
+				new RegexEmptySet<String>()
 			)
 		);
 	}
@@ -211,15 +211,15 @@ public class RegexSpec {
 	
 	@Test
 	public void acceptD() {
-		RegexVisitor visitor = new RegexVisitor(){};
+		RegexVisitor<String> visitor = new RegexVisitor<String>(){};
 		completeRegex().accept(visitor);
 	}
 	
 	
 	@Test(expected = AlterJungeException.class)
 	public void testFailingTree() {
-		new RegexCatenation(
-			new RegexSymbol<Integer>(23),
+		new RegexCatenation<String>(
+			new RegexSymbol<String>("23"),
 			new RegexSymbol<String>("23")
 		);
 	}

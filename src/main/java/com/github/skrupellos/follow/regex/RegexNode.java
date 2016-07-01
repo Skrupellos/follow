@@ -4,7 +4,7 @@ import com.github.skrupellos.follow.tree.TreeNode;
 import java.util.List;
 
 
-public abstract class RegexNode extends TreeNode<RegexNode> {
+public abstract class RegexNode<T> extends TreeNode<RegexNode<T>> {
 	// Nothing
 	public RegexNode() {
 		super();
@@ -12,30 +12,30 @@ public abstract class RegexNode extends TreeNode<RegexNode> {
 	
 	
 	// Only parent
-	public RegexNode(RegexIntNode parent) {
+	public RegexNode(RegexIntNode<T> parent) {
 		super(parent);
 	}
 	
 	
 	// Only children
-	public RegexNode(List<RegexNode> children) {
+	public RegexNode(List<RegexNode<T>> children) {
 		super(children);
 	}
 	
 	
 	// Parent & children
-	public RegexNode(RegexIntNode parent, List<RegexNode> children) {
+	public RegexNode(RegexIntNode<T> parent, List<RegexNode<T>> children) {
 		super(parent, children);
 	}
 	
 	
-	public abstract RegexNode deepCopy();
+	public abstract RegexNode<T> deepCopy();
 	
 	
-	public abstract RegexNode accept(RegexVisitor visitor);
+	public abstract RegexNode<T> accept(RegexVisitor<T> visitor);
 	
 	
-	protected RegexNode uncheckedSelf() {
+	protected RegexNode<T> uncheckedSelf() {
 		return this;
 	}
 }

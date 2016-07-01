@@ -20,8 +20,8 @@ import regex.PlusExpression;
 import regex.RegularExpression;
 
 
-public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode> implements RegularExpressionVisitor {
-	public static RegexNode apply(RegularExpression root) {
+public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode<String>> implements RegularExpressionVisitor {
+	public static RegexNode<String> apply(RegularExpression root) {
 		return (new ImportRegex(root)).result();
 	}
 	
@@ -33,7 +33,7 @@ public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode> imp
 	
 	
 	public void post(AlternationExpression expression){
-		define(expression, new RegexUnion(
+		define(expression, new RegexUnion<String>(
 			lookup(expression.getLHS()),
 			lookup(expression.getRHS())
 		));
@@ -46,7 +46,7 @@ public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode> imp
 	
 	
 	public void post(ConcatenationExpression expression){
-		define(expression, new RegexCatenation(
+		define(expression, new RegexCatenation<String>(
 			lookup(expression.getLHS()),
 			lookup(expression.getRHS())
 		));
@@ -54,24 +54,24 @@ public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode> imp
 	
 	
 	public void post(KleeneStarExpression expression) {
-		define(expression, new RegexStar(
+		define(expression, new RegexStar<String>(
 			lookup(expression.getChild())
 		));
 	}
 	
 	
 	public void post(OptionalExpression expression) {
-		define(expression, new RegexUnion(
-			new RegexEpsilon(),
+		define(expression, new RegexUnion<String>(
+			new RegexEpsilon<String>(),
 			lookup(expression.getChild())
 		));
 	}
 	
 	
 	public void post(PlusExpression expression) {
-		define(expression, new RegexCatenation(
+		define(expression, new RegexCatenation<String>(
 			lookup(expression.getChild()),
-			new RegexStar(
+			new RegexStar<String>(
 				lookup(expression.getChild())
 			)
 		));

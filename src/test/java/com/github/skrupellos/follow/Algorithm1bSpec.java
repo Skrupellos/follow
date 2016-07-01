@@ -27,26 +27,26 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import static org.junit.Assert.assertEquals;
 
 public class Algorithm1bSpec {
-	private RegexIntNode getTeta() {
-		return new RegexCatenation(
-			new RegexUnion(
+	private RegexIntNode<String> getTeta() {
+		return new RegexCatenation<String>(
+			new RegexUnion<String>(
 				new RegexSymbol<String>("a"),
 				new RegexSymbol<String>("b")
 			),
-			new RegexStar(
-				new RegexUnion(
-					new RegexUnion(
-						new RegexStar(
+			new RegexStar<String>(
+				new RegexUnion<String>(
+					new RegexUnion<String>(
+						new RegexStar<String>(
 							new RegexSymbol<String>("a")
 						),
-						new RegexCatenation(
+						new RegexCatenation<String>(
 							new RegexSymbol<String>("b"),
-							new RegexStar(
+							new RegexStar<String>(
 								new RegexSymbol<String>("a")
 							)
 						)
 					),
-					new RegexStar(
+					new RegexStar<String>(
 						new RegexSymbol<String>("b")
 					)
 				)
@@ -55,13 +55,13 @@ public class Algorithm1bSpec {
 	}
 	
 	
-	private RegexIntNode epsilonRegex() {
-		return new RegexUnion(
+	private RegexIntNode<String> epsilonRegex() {
+		return new RegexUnion<String>(
 			new RegexSymbol<String>("a"),
-			new RegexStar(
-				new RegexCatenation(
-					new RegexEpsilon(),
-					new RegexEpsilon()
+			new RegexStar<String>(
+				new RegexCatenation<String>(
+					new RegexEpsilon<String>(),
+					new RegexEpsilon<String>()
 				)
 			)
 		);
@@ -70,64 +70,64 @@ public class Algorithm1bSpec {
 	
 	@Test
 	public void teta() {
-		RegexNode in = getTeta();
-		RegexNode out = getTeta();
+		RegexNode<String> in = getTeta();
+		RegexNode<String> out = getTeta();
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void catenationEpsilonLeft() {
-		RegexNode in = new RegexCatenation(new RegexEpsilon(), getTeta());
-		RegexNode out = getTeta();
+		RegexNode<String> in = new RegexCatenation<String>(new RegexEpsilon<String>(), getTeta());
+		RegexNode<String> out = getTeta();
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void catenationEpsilonRight() {
-		RegexNode in = new RegexCatenation(getTeta(), new RegexEpsilon());
-		RegexNode out = getTeta();
+		RegexNode<String> in = new RegexCatenation<String>(getTeta(), new RegexEpsilon<String>());
+		RegexNode<String> out = getTeta();
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void catenationNoEpsilon() {
-		RegexNode in = new RegexCatenation(getTeta(), getTeta());
-		RegexNode out = new RegexCatenation(getTeta(), getTeta());
+		RegexNode<String> in = new RegexCatenation<String>(getTeta(), getTeta());
+		RegexNode<String> out = new RegexCatenation<String>(getTeta(), getTeta());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void emptySet() {
-		RegexNode in = new RegexEmptySet();
-		RegexNode out = new RegexEmptySet();
+		RegexNode<String> in = new RegexEmptySet<String>();
+		RegexNode<String> out = new RegexEmptySet<String>();
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void epsilon() {
-		RegexNode in = new RegexEpsilon();
-		RegexNode out = new RegexEpsilon();
+		RegexNode<String> in = new RegexEpsilon<String>();
+		RegexNode<String> out = new RegexEpsilon<String>();
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void starEpsilon() {
-		RegexNode in = new RegexStar(new RegexEpsilon());
-		RegexNode out = new RegexEpsilon();
+		RegexNode<String> in = new RegexStar<String>(new RegexEpsilon<String>());
+		RegexNode<String> out = new RegexEpsilon<String>();
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void starNoEpsilon() {
-		RegexNode in = new RegexStar(getTeta());
-		RegexNode out = new RegexStar(getTeta());
+		RegexNode<String> in = new RegexStar<String>(getTeta());
+		RegexNode<String> out = new RegexStar<String>(getTeta());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
@@ -135,58 +135,58 @@ public class Algorithm1bSpec {
 	@SuppressFBWarnings(value="DM_STRING_CTOR")
 	@Test
 	public void symbol() {
-		RegexNode in = new RegexSymbol<String>(new String("follow"));
-		RegexNode out = new RegexSymbol<String>(new String("follow"));
+		RegexNode<String> in = new RegexSymbol<String>(new String("follow"));
+		RegexNode<String> out = new RegexSymbol<String>(new String("follow"));
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void unionEpsilonLeftSingle() {
-		RegexNode in = new RegexUnion(new RegexEpsilon(), getTeta());
-		RegexNode out = new RegexUnion(new RegexEpsilon(), getTeta());
+		RegexNode<String> in = new RegexUnion<String>(new RegexEpsilon<String>(), getTeta());
+		RegexNode<String> out = new RegexUnion<String>(new RegexEpsilon<String>(), getTeta());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void unionEpsilonRightSingle() {
-		RegexNode in = new RegexUnion(getTeta(), new RegexEpsilon());
-		RegexNode out = new RegexUnion(getTeta(), new RegexEpsilon());
+		RegexNode<String> in = new RegexUnion<String>(getTeta(), new RegexEpsilon<String>());
+		RegexNode<String> out = new RegexUnion<String>(getTeta(), new RegexEpsilon<String>());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void unionEpsilonLeftMultiple() {
-		RegexNode in = new RegexUnion(new RegexEpsilon(), epsilonRegex());
-		RegexNode out = new RegexUnion(new RegexSymbol<String>("a"), new RegexEpsilon());
+		RegexNode<String> in = new RegexUnion<String>(new RegexEpsilon<String>(), epsilonRegex());
+		RegexNode<String> out = new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexEpsilon<String>());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void unionEpsilonRightMultiple() {
-		RegexNode in = new RegexUnion(epsilonRegex(), new RegexEpsilon());
-		RegexNode out = new RegexUnion(new RegexSymbol<String>("a"), new RegexEpsilon());
+		RegexNode<String> in = new RegexUnion<String>(epsilonRegex(), new RegexEpsilon<String>());
+		RegexNode<String> out = new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexEpsilon<String>());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void unionNoEpsilon() {
-		RegexNode in = new RegexUnion(getTeta(), getTeta());
-		RegexNode out = new RegexUnion(getTeta(), getTeta());
+		RegexNode<String> in = new RegexUnion<String>(getTeta(), getTeta());
+		RegexNode<String> out = new RegexUnion<String>(getTeta(), getTeta());
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}
 	
 	
 	@Test
 	public void unionIndirectEpsilon() {
-		RegexNode in = new RegexUnion(epsilonRegex(), epsilonRegex());
-		RegexNode out = new RegexUnion(
-			new RegexUnion(new RegexSymbol<String>("a"), new RegexEpsilon()),
-			new RegexUnion(new RegexSymbol<String>("a"), new RegexEpsilon())
+		RegexNode<String> in = new RegexUnion<String>(epsilonRegex(), epsilonRegex());
+		RegexNode<String> out = new RegexUnion<String>(
+			new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexEpsilon<String>()),
+			new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexEpsilon<String>())
 		);
 		assertTrue("", Algorithm1b.apply(in).tree.isIsomorphTo(out));
 	}

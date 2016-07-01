@@ -5,22 +5,22 @@ import java.util.LinkedList;
 import java.util.Arrays;
 
 
-public class RegexStar extends RegexIntNode {
+public class RegexStar<T> extends RegexIntNode<T> {
 	// Only children
-	public RegexStar(RegexNode sub) {
+	public RegexStar(RegexNode<T> sub) {
 		super(null, Arrays.asList(sub));
 	}
 	
-	public RegexStar(List<RegexNode> subs) {
+	public RegexStar(List<RegexNode<T>> subs) {
 		super(subs);
 	}
 	
 	// Parent & children
-	public RegexStar(RegexNode sub, RegexIntNode parent) {
+	public RegexStar(RegexNode<T> sub, RegexIntNode<T> parent) {
 		super(parent, Arrays.asList(sub));
 	}
 	
-	public RegexStar(List<RegexNode> subs, RegexIntNode parent) {
+	public RegexStar(List<RegexNode<T>> subs, RegexIntNode<T> parent) {
 		super(parent, subs);
 	}
 	
@@ -31,30 +31,30 @@ public class RegexStar extends RegexIntNode {
 	}
 	
 	
-	public RegexNode sub() {
+	public RegexNode<T> sub() {
 		return getChild(0);
 	}
 	
 	
-	public RegexNode replaceSub(RegexNode sub) {
+	public RegexNode<T> replaceSub(RegexNode<T> sub) {
 		return replaceChild(0, sub);
 	}
 	
 	
 	@Override
-	protected void invariant(List<RegexNode> newChildren) {
+	protected void invariant(List<RegexNode<T>> newChildren) {
 		if(newChildren.size() != 1) {
 			throw new IllegalArgumentException("RegexStar must have exactly 1 child");
 		}
 	}
 	
 	
-	public RegexNode deepCopy() {
-		return new RegexStar(sub().deepCopy());
+	public RegexNode<T> deepCopy() {
+		return new RegexStar<T>(sub().deepCopy());
 	}
 	
 	
-	public RegexNode accept(RegexVisitor visitor) {
+	public RegexNode<T> accept(RegexVisitor<T> visitor) {
 		visitor.pre(this);
 		getChild(0).accept(visitor);
 		visitor.post(this);

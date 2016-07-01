@@ -1,17 +1,17 @@
 package com.github.skrupellos.follow.nfa;
 
 
-public class NfaSymbolArrow<T> extends NfaArrow {
+public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	private T symbol;
 	
 	
-	public NfaSymbolArrow(T symbol, NfaNode tail, NfaNode head) {
+	public NfaSymbolArrow(T symbol, NfaNode<T> tail, NfaNode<T> head) {
 		super(tail, head);
 		setSymbol(symbol);
 	}
 	
 	
-	public NfaSymbolArrow(T symbol, NfaNode node) {
+	public NfaSymbolArrow(T symbol, NfaNode<T> node) {
 		super(node);
 		setSymbol(symbol);
 	}

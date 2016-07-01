@@ -1,7 +1,7 @@
 package com.github.skrupellos.follow.regex;
 
 
-public class RegexEmptySet extends RegexExtNode {
+public class RegexEmptySet<T> extends RegexExtNode<T> {
 	// Nothing
 	public RegexEmptySet() {
 		super();
@@ -9,7 +9,7 @@ public class RegexEmptySet extends RegexExtNode {
 	
 	
 	// Only parent
-	public RegexEmptySet(RegexIntNode parent) {
+	public RegexEmptySet(RegexIntNode<T> parent) {
 		super(parent);
 	}
 	
@@ -20,12 +20,12 @@ public class RegexEmptySet extends RegexExtNode {
 	}
 	
 	
-	public RegexNode deepCopy() {
-		return new RegexEmptySet();
+	public RegexNode<T> deepCopy() {
+		return new RegexEmptySet<T>();
 	}
 	
 	
-	public RegexNode accept(RegexVisitor visitor) {
+	public RegexNode<T> accept(RegexVisitor<T> visitor) {
 		visitor.pre(this);
 		visitor.post(this);
 		return this;
