@@ -238,12 +238,12 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	}
 	
 	
-	public boolean shallowEquivalent(TreeNode other) {
+	public boolean shallowEquivalent(SELF other) {
 		return this.getClass() == other.getClass();
 	}
 	
 	
-	public final boolean isIsomorphTo(TreeNode other) {
+	public boolean isIsomorphTo(SELF other) {
 		// Fast path: Both objects are identical
 		if(other == this) {
 			return true;
@@ -256,8 +256,8 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 		
 		// Not isomorph, if the other root has less children than us or they
 		// are not isomorph to our children.
-		Iterator<? extends TreeNode> otherChildren = other.iterator();
-		for(TreeNode child : children) {
+		Iterator<SELF> otherChildren = other.iterator();
+		for(SELF child : children) {
 			if(!(otherChildren.hasNext() && child.isIsomorphTo(otherChildren.next()))) {
 				return false;
 			}

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.lang.Iterable;
 
 
-/*package*/ abstract class GraphArrowSet<
+public abstract class GraphArrowSet<
 	NODE  extends GraphNode<NODE, ARROW>,
 	ARROW extends GraphArrow<NODE, ARROW>
 > implements Iterable<ARROW> {
