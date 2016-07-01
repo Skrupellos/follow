@@ -32,4 +32,10 @@ public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	public String toString() {
 		return symbol.toString();
 	}
+	
+	
+	public NfaArrow<T> accept(NfaVisitor<T> visitor) {
+		visitor.visitArrow(this);
+		return this;
+	}
 }

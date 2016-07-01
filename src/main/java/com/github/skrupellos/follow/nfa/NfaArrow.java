@@ -22,4 +22,7 @@ public abstract class NfaArrow<T> extends GraphArrow<NfaNode<T>, NfaArrow<T>> {
 	protected NfaArrow<T> uncheckedSelf() {
 		return this;
 	}
+	
+	
+	public abstract NfaArrow<T> accept(NfaVisitor<T> visitor);
 }

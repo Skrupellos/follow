@@ -17,4 +17,10 @@ public class NfaNode<T> extends GraphNode<NfaNode<T>, NfaArrow<T>> {
 	protected NfaNode<T> uncheckedSelf() {
 		return this;
 	}
+	
+	
+	public NfaNode<T> accept(NfaVisitor<T> visitor) {
+		visitor.visitNode(this);
+		return this;
+	}
 }

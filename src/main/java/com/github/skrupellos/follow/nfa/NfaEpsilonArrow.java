@@ -16,4 +16,10 @@ public class NfaEpsilonArrow<T> extends NfaArrow<T> {
 	public String toString() {
 		return "ε";
 	}
+	
+	
+	public NfaArrow<T> accept(NfaVisitor<T> visitor) {
+		visitor.visitArrow(this);
+		return this;
+	}
 }
