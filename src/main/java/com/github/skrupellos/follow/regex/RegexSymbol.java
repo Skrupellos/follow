@@ -1,6 +1,5 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.exceptions.AlterJungeException;
 import com.github.skrupellos.follow.tree.TreeNode;
 
 
@@ -17,7 +16,6 @@ public class RegexSymbol<T> extends RegexExtNode<T> {
 	// Only parent
 	public RegexSymbol(T symbol, RegexIntNode<T> parent) {
 		super(parent);
-		checkInputValidity(symbol);
 		this.symbol = symbol;
 	}
 	
@@ -28,19 +26,8 @@ public class RegexSymbol<T> extends RegexExtNode<T> {
 	
 	
 	public RegexSymbol<T> setSymbol(T symbol) {
-		checkInputValidity(symbol);
 		this.symbol = symbol;
 		return this;
-	}
-	
-	
-	private void checkInputValidity(T symbol) {
-		if(symbol.getClass().equals(String.class)) {
-			String testString = (String) symbol;
-			if(testString.contains("meow") || testString.contains("+") || testString.contains("*") || testString.contains("-") || testString.contains(" ") || testString.contains("3")) {
-				throw new AlterJungeException();
-			}
-		}
 	}
 	
 	

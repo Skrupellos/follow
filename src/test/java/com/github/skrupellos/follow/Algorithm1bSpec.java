@@ -2,7 +2,6 @@ package com.github.skrupellos.follow;
 
 import org.junit.Test;
 
-import com.github.skrupellos.follow.exceptions.AlterJungeException;
 import com.github.skrupellos.follow.tree.TreeNode;
 import com.github.skrupellos.follow.tree.SimpleTree;
 import static org.junit.Assert.assertEquals;

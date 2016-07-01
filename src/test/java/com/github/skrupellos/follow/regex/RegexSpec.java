@@ -2,7 +2,6 @@ package com.github.skrupellos.follow.regex;
 
 import org.junit.Test;
 
-import com.github.skrupellos.follow.exceptions.AlterJungeException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertArrayEquals;
@@ -213,14 +212,5 @@ public class RegexSpec {
 	public void acceptD() {
 		RegexVisitor<String> visitor = new RegexVisitor<String>(){};
 		completeRegex().accept(visitor);
-	}
-	
-	
-	@Test(expected = AlterJungeException.class)
-	public void testFailingTree() {
-		new RegexCatenation<String>(
-			new RegexSymbol<String>("23"),
-			new RegexSymbol<String>("23")
-		);
 	}
 }
