@@ -69,7 +69,7 @@ public abstract class GraphNode<
 	}
 	
 	
-	public Collection<? extends GraphNode<NODE, ARROW>> reachable() {
+	public Collection<NODE> reachable() {
 		return reachable(null);
 	}
 	
@@ -79,18 +79,18 @@ public abstract class GraphNode<
 	}
 	
 	
-	private Collection<? extends GraphNode<NODE, ARROW>> reachable(NODE needle) {
-		Collection<GraphNode<NODE, ARROW>> seen = new HashSet<GraphNode<NODE, ARROW>>();
+	private Collection<NODE> reachable(NODE needle) {
+		Collection<NODE> seen = new HashSet<NODE>();
 		
 		// Using a stack results in a depth-first search, which should answer
 		// queries for the end state faster.
-		Stack<GraphNode<NODE, ARROW>> open = new Stack<GraphNode<NODE, ARROW>>();
+		Stack<NODE> open = new Stack<NODE>();
 		
-		seen.add(this);
+		seen.add(self);
 		
-		for(GraphNode<NODE, ARROW> pos = this; pos != null; pos = open.pop()) {
+		for(NODE pos = self; pos != null; pos = open.pop()) {
 			for(ARROW arrow : pos.tails()) {
-				GraphNode<NODE, ARROW> next = arrow.head();
+				NODE next = arrow.head();
 				
 				// If this is a node, which has never been seen bevore, add it
 				// to the list of open nodes and the set of seen nodes. Since
