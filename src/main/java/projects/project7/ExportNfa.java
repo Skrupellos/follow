@@ -31,8 +31,8 @@ public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements Nf
 	private P7TransitionTable transitionTable = new P7TransitionTable();
 	
 	
-	public static P7TransitionTable apply(Nfa<String> nfa) {
-		return (new ExportNfa(nfa)).result();
+	public static P7TransitionTable apply(NfaNode<String> start) {
+		return (new ExportNfa(start)).result();
 	}
 	
 	
@@ -41,8 +41,8 @@ public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements Nf
 	}
 	
 	
-	public ExportNfa(Nfa<String> nfa) {
-		Collection<NfaNode<String>> nodes = nfa.start.reachable();
+	public ExportNfa(NfaNode<String> start) {
+		Collection<NfaNode<String>> nodes = start.reachable();
 		for(NfaNode<String> node : nodes) {
 			node.accept(this);
 		}

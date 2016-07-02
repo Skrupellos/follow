@@ -2,6 +2,7 @@ package com.github.skrupellos.follow;
 
 import com.github.skrupellos.follow.regex.RegexNode;
 import com.github.skrupellos.follow.nfa.Nfa;
+import com.github.skrupellos.follow.nfa.NfaNode;
 
 
 
@@ -10,10 +11,15 @@ public final class Follow<T>  {
 	private Follow() {}
 	
 	
-	public static <T> Nfa<T> apply(RegexNode<T> root) {
-		root = Algorithm1a.<T>apply(root);
-		root = Algorithm1b.<T>apply(root).tree;
-		root = Algorithm1c.<T>apply(root);
-		return Algorithm4.<T>apply(root);
+	public static <T> NfaNode<T> apply(RegexNode<T> root) {
+		NfaNode<T> start;
+		
+		root  = Algorithm1a.<T>apply(root);
+		root  = Algorithm1b.<T>apply(root).tree;
+		root  = Algorithm1c.<T>apply(root);
+		start = Algorithm4 .<T>apply(root).start;
+		        Algorithm20.<T>apply(start); // _Modifies_ start
+		
+		return start;
 	}
 }
