@@ -4,6 +4,7 @@ import java.lang.Iterable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Stack;
+import java.util.Set;
 
 
 
@@ -69,7 +70,7 @@ public abstract class GraphNode<
 	}
 	
 	
-	public Collection<NODE> reachable() {
+	public Set<NODE> reachable() {
 		return reachable(null);
 	}
 	
@@ -79,8 +80,8 @@ public abstract class GraphNode<
 	}
 	
 	
-	private Collection<NODE> reachable(NODE needle) {
-		Collection<NODE> seen = new HashSet<NODE>();
+	private Set<NODE> reachable(NODE needle) {
+		Set<NODE> seen = new HashSet<NODE>();
 		
 		// Using a stack results in a depth-first search, which should answer
 		// queries for the end state faster.
