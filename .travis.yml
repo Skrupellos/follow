@@ -8,16 +8,17 @@ dist: trusty
   #- sudo apt-get -qq update
   #- sudo apt-get install -y libxml2-dev
 
-#addons:
-  #apt:
-    #sources:
-      #- debian-sid
-    #packages:
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - gradle
       #- doxygen
       #- graphviz
 
 
-install:
+before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y doxygen graphviz
 
