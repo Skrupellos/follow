@@ -1,11 +1,17 @@
 package com.github.skrupellos.follow;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Stack;
 import com.github.skrupellos.follow.nfa.Nfa;
 import com.github.skrupellos.follow.nfa.NfaNode;
+import com.github.skrupellos.follow.nfa.NfaArrow;
 import com.github.skrupellos.follow.nfa.NfaEpsilonArrow;
 import com.github.skrupellos.follow.nfa.NfaSymbolArrow;
+import com.github.skrupellos.follow.graph.GraphArrowSet;
 import com.github.skrupellos.follow.regex.RegexVisitor;
 import com.github.skrupellos.follow.regex.RegexNode;
 import com.github.skrupellos.follow.regex.RegexCatenation;
@@ -41,12 +47,42 @@ class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements Regex
 		Nfa<T> leftNfa = lookup(regex.left());
 		Nfa<T> rightNfa = lookup(regex.right());
 		NfaNode<T> mid = new NfaNode<T>();
+		Set<NfaArrow<T>> arrows;
+		NfaArrow<T> arrow;
 		
-		leftNfa.start.replaceBy(nfa.start);
-		leftNfa.end.replaceBy(mid);
+		//> (a) After catenation: denote the state common to the two automata
+		//>     by p; (a1) if there is a single transition outgoing from p, say
+		//>     [sic] p -ε→ q, then the transition is removed and p and q
+		//>     merged; otherwise (a2) if there is a single transition incoming
+		//>     to p, say [sic] q -ε→ p, then the transition is removed and p
+		//>     and q merged.
+		// Sk: I'm pretty shure this works _only_ for ε transitions.
+		// Don't remove/merge incoming _and_ outgoing transitions. This would
+		// fail for the simple regex a*·b*. This also procuces an NFA which
+		// starts and ends with ε.
+		if(
+			(arrows = rightNfa.start.tails().arrows()).size() == 1 &&
+			(arrow  = arrows.iterator().next())               instanceof NfaEpsilonArrow
+		) {
+			mid.takeover(leftNfa.end);
+			mid.takeover(arrow.head());
+			arrow.delete(); // Delete has to be the last action.
+		}
+		else if(
+			(arrows = leftNfa.end.heads().arrows()).size() == 1 &&
+			(arrow  = arrows.iterator().next())            instanceof NfaEpsilonArrow
+		) {
+			mid.takeover(arrow.tail());
+			mid.takeover(rightNfa.start);
+			arrow.delete(); // Delete has to be the last action.
+		}
+		else {
+			mid.takeover(leftNfa.end);
+			mid.takeover(rightNfa.start);
+		}
 		
-		rightNfa.start.replaceBy(mid);
-		rightNfa.end.replaceBy(nfa.end);
+		nfa.start.takeover(leftNfa.start);
+		nfa.end.takeover(rightNfa.end);
 	}
 	
 	
