@@ -28,7 +28,14 @@ after_success:
 
 before_deploy:
   - tree
-  #- mv ./build/docs/doxygen/html/ ./build/reports/doxygen
+  - pwd
+  - ls -l ./
+  - ls -l ./build/
+  - ls -l ./build/docs/
+  - ls -l ./build/docs/doxygen/
+  - ls -l ./build/docs/doxygen/html/
+  - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
+  - cp -R ./build/docs/doxygen/html/ ./build/reports/doxygen
 
 
 deploy:
