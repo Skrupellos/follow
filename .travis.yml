@@ -1,19 +1,25 @@
 language: java
 jdk: oraclejdk8
-sudo: false
+sudo: required
+dist: trusty
 
 
-addons:
-  apt:
-    sources:
-      - debian-sid
-    packages:
-      - doxygen
-      - graphviz
+#before_install:
+  #- sudo apt-get -qq update
+  #- sudo apt-get install -y libxml2-dev
+
+#addons:
+  #apt:
+    #sources:
+      #- debian-sid
+    #packages:
+      #- doxygen
+      #- graphviz
 
 
 install:
-  - true
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libxml2-dev
 
 
 script:
