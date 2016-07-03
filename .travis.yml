@@ -25,7 +25,8 @@ after_success:
 
 
 before_deploy:
-  - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
+  - tree
+  #- mv ./build/docs/doxygen/html/ ./build/reports/doxygen
 
 
 deploy:
