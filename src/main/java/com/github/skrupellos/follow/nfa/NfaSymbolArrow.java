@@ -1,5 +1,6 @@
 package com.github.skrupellos.follow.nfa;
 
+import com.github.skrupellos.follow.graph.GraphArrow;
 
 public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	private T symbol;
@@ -37,5 +38,14 @@ public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	public NfaArrow<T> accept(NfaVisitor<T> visitor) {
 		visitor.visitArrow(this);
 		return this;
+	}
+	
+	
+	@Override
+	public boolean equalContents(GraphArrow other) {
+		return
+			super.equalContents(other) &&
+			other instanceof NfaSymbolArrow &&
+			symbol.equals( ((NfaSymbolArrow)other).symbol );
 	}
 }

@@ -86,6 +86,16 @@ public abstract class GraphArrow<
 	}
 	
 	
+	// Here we make a huge exception and don't use ARROW. Instead we use
+	// GraphArrow, which allows us to access private members.
+	public boolean equalContents(GraphArrow other) {
+		return
+			getClass().equals(other.getClass()) &&
+			tail == other.tail &&
+			head == other.head;
+	}
+	
+	
 	/**
 	 * Remove this GraphArrow from any GraphNode it is currently connected to.
 	 * This is done by removing both ends from the current Nodes and placing
