@@ -1,14 +1,17 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeIntNode;
+import java.util.List;
 
-public class RegexIntNode extends TreeIntNode implements RegexNode {
 
-	public RegexIntNode() {
-		this(null);
+public abstract class RegexIntNode<T> extends RegexNode<T> {
+	// Only children
+	public RegexIntNode(List<RegexNode<T>> children) {
+		super(children);
 	}
 	
-	public RegexIntNode(TreeIntNode parent) {
-		super(parent);
+	
+	// Parent & children
+	public RegexIntNode(RegexIntNode<T> parent, List<RegexNode<T>> children) {
+		super(parent, children);
 	}
 }
