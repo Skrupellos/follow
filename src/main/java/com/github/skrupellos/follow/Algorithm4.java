@@ -32,6 +32,25 @@ class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements Regex
 	public Algorithm4(RegexNode<T> root) {
 		super(root);
 		root.accept(this);
+		
+		
+		//> (c) After the end of all steps in Fig. 1; if there is only one
+		//>     transition leaving the initial state and is labelled ε, say
+		//>     q_0 -ε→ p, then the transition is removed and q_0 and p merged.
+		// The regex ε* would produces two following ε transitions, where,
+		// according to (c), only the first one would be removed. Algorithm 1b
+		// will prevent those cases.
+		NfaNode<T> start = result().start;
+		Set<NfaArrow<T>> arrows;
+		NfaArrow<T> arrow;
+		
+		if(
+			(arrows = start.tails().arrows()).size() == 1 &&
+			(arrow  = arrows.iterator().next())      instanceof NfaEpsilonArrow
+		) {
+			start.takeover(arrow.head());
+			arrow.delete(); // Delete has to be the last action.
+		}
 	}
 	
 	
