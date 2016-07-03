@@ -35,7 +35,6 @@ before_deploy:
   - ls -l ./build/docs/doxygen/
   - ls -l ./build/docs/doxygen/html/
   - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
-  - cp -R ./build/docs/doxygen/html/ ./build/reports/doxygen
 
 
 deploy:
