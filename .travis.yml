@@ -4,23 +4,16 @@ sudo: required
 dist: trusty
 
 
-#before_install:
-  #- sudo apt-get -qq update
-  #- sudo apt-get install -y libxml2-dev
-
 addons:
   apt:
-    #sources:
-      #- debian-sid
     packages:
-      #- gradle
       - doxygen
       - graphviz
 
 
-#before_install:
-  #- sudo apt-get -qq update
-  #- sudo apt-get install -y doxygen graphviz
+install:
+  - grep -vE '^(ALLOW_UNICODE_NAMES|GROUP_NESTED_COMPOUNDS|HIDE_COMPOUND_REFERENCE|CLANG_ASSISTED_PARSING|CLANG_OPTIONS|LATEX_EXTRA_STYLESHEET|RTF_SOURCE_CODE|MAN_SUBDIR|DOCBOOK_PROGRAMLISTING|PLANTUML_JAR_PATH|PLANTUML_INCLUDE_PATH|#|$)' config/Doxyfile >config/Doxyfile.tmp
+  - mv config/Doxyfile.tmp config/Doxyfile
 
 
 script:
