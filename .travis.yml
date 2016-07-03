@@ -10,21 +10,21 @@ dist: trusty
 
 addons:
   apt:
-    sources:
-      - debian-sid
+    #sources:
+      #- debian-sid
     packages:
-      - gradle
-      #- doxygen
-      #- graphviz
+      #- gradle
+      - doxygen
+      - graphviz
 
 
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y doxygen graphviz
+#before_install:
+  #- sudo apt-get -qq update
+  #- sudo apt-get install -y doxygen graphviz
 
 
 script:
-  - gradle build
+  - ./gradlew build
 
 
 after_success:
