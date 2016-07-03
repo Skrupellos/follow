@@ -98,6 +98,70 @@ class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements Regex
 		
 		subNfa.start.replaceBy(mid);
 		subNfa.end.replaceBy(mid);
+		
+		//> (b) After iteration, denote the middle state by p. If there is a
+		//>     cycle containing p such that all its transitions are labelled
+		//>     by ε, then all transitions in the cycle are removed and all
+		//>     states in the cycle are merged.
+		// There can be multiple ε cycles (pathes).
+		
+		// Those sets collect the found items. It can happen that an item is
+		// added twice, but we don't want duplicates. Hence: Sets.
+		Set<NfaNode<T>>              nodesToMerge   = new HashSet<NfaNode<T>>();
+		Set<NfaArrow<T>>             arrowsToDelete = new HashSet<NfaArrow<T>>();
+		
+		// Some sort of stack frame
+		Stack<Iterator<NfaArrow<T>>> iterators      = new Stack<Iterator<NfaArrow<T>>>();
+		Stack<NfaNode<T>>            nodes          = new Stack<NfaNode<T>>();
+		Stack<NfaArrow<T>>           arrows         = new Stack<NfaArrow<T>>();
+		
+		// The start and end state of an sub nfa are always merged.
+		nodesToMerge.add(subNfa.start);
+		nodesToMerge.add(subNfa.end);
+		
+		// Find ε pathes from the start to the end state of the sub nfa by
+		// back-tracking. This is done with an emulated recusive aproach. Since
+		// at the end, when doing back-tracking, the whole stack needs to be
+		// read.
+		iterators.push(subNfa.start.tails().iterator());
+		while(iterators.isEmpty() == false) {
+			Iterator<NfaArrow<T>> iterator = iterators.peek();
+			
+			if(iterator.hasNext()) {
+				NfaArrow<T> arrow = iterator.next();
+				if((arrow instanceof NfaEpsilonArrow) == false)
+					continue;
+				
+				// Found final ε-transition => Extend merge/delete list.
+				if(arrow.head() == subNfa.end) {
+					nodesToMerge  .addAll(nodes);
+					arrowsToDelete.addAll(arrows);
+					arrowsToDelete.add(arrow);
+				}
+				// Found intermediate ε-transition => go one node down.
+				else {
+					iterators.push(arrow.head().tails().iterator());
+					nodes    .push(arrow.head());
+					arrows   .push(arrow);
+				}
+			}
+			// No further transitions => go one node up.
+			else {
+				iterators.pop();
+				nodes    .pop();
+				arrows   .pop();
+			}
+		}
+		
+		// Deleting arrows first results in less arrows to move, when taking
+		// over nodes in the next step.
+		for(NfaArrow<T> arrow : arrowsToDelete) {
+			arrow.delete();
+		}
+		
+		for(NfaNode<T> node : nodesToMerge) {
+			mid.takeover(node);
+		}
 	}
 	
 	
