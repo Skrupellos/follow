@@ -10,7 +10,6 @@ addons:
     packages:
       - doxygen
       - graphviz
-      - tree
 
 
 install:
@@ -27,13 +26,6 @@ after_success:
 
 
 before_deploy:
-  - tree
-  - pwd
-  - ls -l ./
-  - ls -l ./build/
-  - ls -l ./build/docs/
-  - ls -l ./build/docs/doxygen/
-  - ls -l ./build/docs/doxygen/html/
   - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
 
 

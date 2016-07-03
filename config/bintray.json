@@ -4,12 +4,12 @@
         "repo": "generic",
         "subject": "skrupellos"
     },
-
+    
     "version": {
-        "name": "1.0.0",
+        "name": "nightly",
         "desc": "Release"
     },
-
+    
     "files": [
         {"includePattern": "build/libs/(.*\\.jar)", "uploadPattern": "$1", "list_in_downloads": true, "matrixParams": {"override": 1 }}
     ],
