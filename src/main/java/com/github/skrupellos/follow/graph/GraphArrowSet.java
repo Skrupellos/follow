@@ -57,6 +57,13 @@ public abstract class GraphArrowSet<
 	 */
 	public void takeover(ARROW arrow) {
 		connect(arrow, node);
+		
+		for(ARROW other : arrows) {
+			if(other != arrow && other.equals(arrow)) {
+				other.delete();
+				break;
+			}
+		}
 	}
 	
 	

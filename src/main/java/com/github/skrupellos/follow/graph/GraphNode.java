@@ -57,11 +57,22 @@ public abstract class GraphNode<
 	}
 	
 	
+	/**
+	 * Removes all in- and outgoing arrows from this nodes and adds all, not
+	 * already existing arrows, to the replacement node. At the end, this node
+	 * has zero Arrows, the replacement node has more arrows. To be exact, the
+	 * replacement node gains up to the number of arrows this node had before.
+	 */
 	public NODE replaceBy(NODE replacement) {
 		return replacement.takeover(self);
 	}
 	
 	
+	/**
+	 * Adds all in- and outgoing arrows from the other node, which don't
+	 * duplicate any existing arrows. At the end the other node has zero
+	 * Arrows.
+	 */
 	public NODE takeover(NODE node) {
 		tails.takeover(node.tails());
 		heads.takeover(node.heads());
