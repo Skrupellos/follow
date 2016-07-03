@@ -26,6 +26,8 @@ after_success:
 
 
 before_deploy:
+  - pwd
+  - ls -l ./build/docs/doxygen/html/
   - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
 
 
