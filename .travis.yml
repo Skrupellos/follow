@@ -1,8 +1,6 @@
 language: java
 jdk: oraclejdk8
 sudo: false
-#sudo: required
-#dist: trusty
 
 
 addons:
@@ -10,11 +8,6 @@ addons:
     packages:
       - doxygen
       - graphviz
-
-
-install:
-  - grep -vE '^(ALLOW_UNICODE_NAMES|GROUP_NESTED_COMPOUNDS|HIDE_COMPOUND_REFERENCE|CLANG_ASSISTED_PARSING|CLANG_OPTIONS|LATEX_EXTRA_STYLESHEET|RTF_SOURCE_CODE|MAN_SUBDIR|DOCBOOK_PROGRAMLISTING|PLANTUML_JAR_PATH|PLANTUML_INCLUDE_PATH|#|$)' config/Doxyfile >config/Doxyfile.tmp
-  - mv config/Doxyfile.tmp config/Doxyfile
 
 
 script:
@@ -26,23 +19,21 @@ after_success:
 
 
 before_deploy:
-  - pwd
-  - ls -l ./build/docs/doxygen/html/
   - mv ./build/docs/doxygen/html/ ./build/reports/doxygen
 
 
 deploy:
-  - provider: surge
-    project: ./build/reports/
-    domain: follow.surge.sh
-    skip_cleanup: true
-    on: { all_branches: true }
-  #- provider: bintray
-    #file: "config/bintray.json"
-    #user: "skrupellos"
-    #key: { secure: "F2S+DgkpkyeJJSL3t+y5Qkbj6NpsBCjBpjvzb5pr9hWCjnYvnKCbcgugvLtez2cLWALHxRmGOIWTIiXujSGkwJfTJOzRliXaW2R94/NLcH29frjwuYxs4udZXo1+GK/wVW7z9gpLbJecRLpW03obzBzI5a7bO9i/iqgdx+/a3CjlB11K1rPGrqprTzpiCK6AZrz1qdu2kemApE/o/s74Q/fJPOBughmTS+saednX5/4bktbfiVKWsBfQZurNTUs5YHKd5WphUz6Qd74w8qodXk6Ut3lrFT2BOxUfJsOBVZn93gRDKDUbjRUq3p0gO3rzpd6xAg9Qq2lcgTC4b+0RJ20GVn4l3AdrtE7us/wUGkfbIEQuIrwJd/Wd37vrm4IKlPXfouP9M8kGmLZdUmhm1hF8R7rNDU9B2LDH8tTmdiUDt6Wt9VvdxQezUdaQ73U2jom3YV1EQ89HuIy77tiNR6hK9Vz+78LZ9Q55/idftF4YYa6nv+9Gwbkudtui+/k9wlgMHCwJaFia/0AdUR86VWbUKcAR2Ag8uXc8GFPsLhN3fNPy2WAgt3nzcZP6bP/szz6lvFCmfD0eZw4hNCJgkgT3Sf8Fq3p8x4jKuPsqDm+kA3Tkv7Iy2D7hxINojkmxD+CKDZV1iZc03LTg0dGc9hvxI9FGBRzgiRd0NhYM+m4=" }
+  #- provider: surge
+    #project: ./build/reports/
+    #domain: follow.surge.sh
     #skip_cleanup: true
     #on: { all_branches: true }
+  - provider: bintray
+    file: "config/bintray.json"
+    user: "skrupellos"
+    key: { secure: "F2S+DgkpkyeJJSL3t+y5Qkbj6NpsBCjBpjvzb5pr9hWCjnYvnKCbcgugvLtez2cLWALHxRmGOIWTIiXujSGkwJfTJOzRliXaW2R94/NLcH29frjwuYxs4udZXo1+GK/wVW7z9gpLbJecRLpW03obzBzI5a7bO9i/iqgdx+/a3CjlB11K1rPGrqprTzpiCK6AZrz1qdu2kemApE/o/s74Q/fJPOBughmTS+saednX5/4bktbfiVKWsBfQZurNTUs5YHKd5WphUz6Qd74w8qodXk6Ut3lrFT2BOxUfJsOBVZn93gRDKDUbjRUq3p0gO3rzpd6xAg9Qq2lcgTC4b+0RJ20GVn4l3AdrtE7us/wUGkfbIEQuIrwJd/Wd37vrm4IKlPXfouP9M8kGmLZdUmhm1hF8R7rNDU9B2LDH8tTmdiUDt6Wt9VvdxQezUdaQ73U2jom3YV1EQ89HuIy77tiNR6hK9Vz+78LZ9Q55/idftF4YYa6nv+9Gwbkudtui+/k9wlgMHCwJaFia/0AdUR86VWbUKcAR2Ag8uXc8GFPsLhN3fNPy2WAgt3nzcZP6bP/szz6lvFCmfD0eZw4hNCJgkgT3Sf8Fq3p8x4jKuPsqDm+kA3Tkv7Iy2D7hxINojkmxD+CKDZV1iZc03LTg0dGc9hvxI9FGBRzgiRd0NhYM+m4=" }
+    skip_cleanup: true
+    on: { all_branches: true }
 
 
 before_cache:
