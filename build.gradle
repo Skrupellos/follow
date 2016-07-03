@@ -8,7 +8,8 @@ apply plugin: 'jacoco'
 apply plugin: 'findbugs'
 
 
-project.version = 'nightly'
+// Don't forget to bump version in config/bintay.json
+project.version = '1.0.0'
 
 
 repositories {

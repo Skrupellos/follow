@@ -6,8 +6,8 @@
     },
 
     "version": {
-        "name": "nightly",
-        "desc": "The latest dev build"
+        "name": "1.0.0",
+        "desc": "Release"
     },
 
     "files": [
