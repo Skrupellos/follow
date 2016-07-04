@@ -1,5 +1,6 @@
 plugins {
 	id "org.ysb33r.doxygen" version "0.2"
+	id "com.github.kt3k.coveralls" version "2.6.3"
 }
 
 apply plugin: 'java'
@@ -55,6 +56,12 @@ doxygen {
 	template 'config/Doxyfile'
 	source new File(projectDir,'src/main/java')
 }
+
+
+coveralls {
+	jacocoReportPath "${buildDir}/jacoco/report.xml"
+}
+
 
 check.dependsOn jacocoTestReport
 build.dependsOn doxygen
