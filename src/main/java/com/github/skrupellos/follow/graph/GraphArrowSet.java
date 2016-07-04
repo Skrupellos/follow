@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.lang.Iterable;
+import lombok.NonNull;
 
 
 public abstract class GraphArrowSet<
@@ -14,11 +15,7 @@ public abstract class GraphArrowSet<
 	private final Set<ARROW> arrows;
 	
 	
-	/*package*/ GraphArrowSet(NODE node) {
-		if(node == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
+	/*package*/ GraphArrowSet(@NonNull NODE node) {
 		this.node   = node;
 		this.arrows = new HashSet<ARROW>();
 	}

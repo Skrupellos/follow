@@ -1,6 +1,8 @@
 package com.github.skrupellos.follow.graph;
 
 
+import lombok.NonNull;
+
 
 public abstract class GraphArrow<
 	NODE  extends GraphNode<NODE, ARROW>,
@@ -39,11 +41,7 @@ public abstract class GraphArrow<
 	}
 	
 	
-	public ARROW connectTailTo(NODE node) {
-		if(node == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
+	public ARROW connectTailTo(@NonNull NODE node) {
 		if(tail != null) {
 			tail.tails().remove(self);
 		}
@@ -59,11 +57,7 @@ public abstract class GraphArrow<
 	}
 	
 	
-	public ARROW connectHeadTo(NODE node) {
-		if(node == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
+	public ARROW connectHeadTo(@NonNull NODE node) {
 		if(head != null) {
 			head.heads().remove(self);
 		}

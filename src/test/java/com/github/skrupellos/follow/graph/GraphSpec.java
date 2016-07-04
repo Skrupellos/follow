@@ -42,19 +42,19 @@ public class GraphSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void connectTailToNull() {
 		new SimpleArrow(null, new SimpleNode());
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void connectHeadToNull() {
 		new SimpleArrow(new SimpleNode(), null);
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void arrowSetWithNullNode() {
 		new GraphArrowSet<SimpleNode, SimpleArrow>(null) {
 			public void connect(SimpleArrow arrow, SimpleNode node) {

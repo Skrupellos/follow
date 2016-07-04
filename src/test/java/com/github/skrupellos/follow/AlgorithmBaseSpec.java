@@ -42,12 +42,12 @@ class Dummy extends AlgorithmBase<RegexNode, String> {
 
 
 public class AlgorithmBaseSpec {
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void defineKeyNull() {
 		new Dummy(new RegexEpsilon()).callDefine(null, "follow");
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void defineValueNull() {
 		new Dummy(new RegexEpsilon()).callDefine(new RegexEpsilon(), null);
 	}
@@ -72,7 +72,7 @@ public class AlgorithmBaseSpec {
 		assertEquals("", "b", testee.callLookup(key[1]));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void lookupNullKey() {
 		Dummy testee = new Dummy(new RegexEpsilon());
 		testee.callDefine(new RegexEpsilon(), "follow");

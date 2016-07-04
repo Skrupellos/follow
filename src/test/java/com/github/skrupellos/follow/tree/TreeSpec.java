@@ -50,7 +50,7 @@ public class TreeSpec {
 	}
 	
 	
-		@Test
+	@Test
 	public void constructorEmpty() {
 		SimpleTree node = new SimpleTree();
 		
@@ -97,7 +97,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorChildrenNull() {
 		new SimpleTree( (List<SimpleTree>)null );
 	}
@@ -133,7 +133,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorParentOneNullChild() {
 		new SimpleTree(null, Arrays.asList((SimpleTree)null) );
 	}
@@ -160,7 +160,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorParentOneChildOneNullChild() {
 		new SimpleTree(null, Arrays.asList(new SimpleTree(), null));
 	}
@@ -188,7 +188,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorParentNullList() {
 		new SimpleTree(null, (List<SimpleTree>)null );
 	}
@@ -282,7 +282,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void setChildrenNull() {
 		SimpleTree child = new SimpleTree();
 		SimpleTree node = new SimpleTree();
@@ -326,7 +326,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void removeChildNull() {
 		SimpleTree node = new SimpleTree(Arrays.asList(new SimpleTree()));
 		node.removeChild(null);
@@ -373,7 +373,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void replaceChildNull() {
 		SimpleTree node = new SimpleTree(null, Arrays.asList(new SimpleTree()));
 		node.replaceChild(0, null);
