@@ -57,6 +57,12 @@ doxygen {
 	source new File(projectDir,'src/main/java')
 }
 
+
+coveralls {
+	jacocoReportPath "${buildDir}/jacoco/report.xml"
+}
+
+
 check.dependsOn jacocoTestReport
 build.dependsOn doxygen
 
