@@ -51,6 +51,12 @@ public class Algorithm4Spec {
 		Nfa<String> nfa = Algorithm4.apply(getTeta());
 	}
 	
+	/**
+	 * Expected εNFA:<p>
+	 * 
+	 * ---->o---a--->o---ε--->o---b--->o---ε--->(o)
+	 * 
+	 */
 	@Test
 	public void catenationToEpsilonNFA() {
 		Nfa<String> nfa = Algorithm4.apply(new RegexCatenation<String>(new RegexSymbol<String>("a"), new RegexSymbol<String>("b")));
@@ -62,6 +68,21 @@ public class Algorithm4Spec {
 		assertEquals("a", symbolArrow.symbol());
 	}
 	
+	/**
+	 * Expected εNFA:<p>
+	 * 
+	 *           o---a--->o
+	 *          🡭                         \
+	 *         /            ε
+	 *        ε              \
+	 *       /                v
+	 * ---->o                  o---ε--->(o)
+	 *       \                🡭
+	 *        ε              /
+	 *         \            ε
+	 *          v          /
+	 *           o---b--->o
+	 */
 	@Test
 	public void unionToEpsilonNFA() {
 		Nfa<String> nfa = Algorithm4.apply(new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexSymbol<String>("b")));
@@ -72,6 +93,17 @@ public class Algorithm4Spec {
 		assertEquals(NfaEpsilonArrow.class, arrow[1].getClass());
 	}
 	
+	/**
+	 * Expected εNFA:<p>
+	 * 
+	 *  o---a--->o
+	 *  🡬                 /
+	 *   \     ε   
+	 *    ε   /
+	 *     \ v
+	 * ---->o--ε-->(o)
+	 * 
+	 */
 	@Test
 	public void iterationToEpsilonNFA() {
 		Nfa<String> nfa = Algorithm4.apply(new RegexStar<String>(new RegexSymbol<String>("a")));
