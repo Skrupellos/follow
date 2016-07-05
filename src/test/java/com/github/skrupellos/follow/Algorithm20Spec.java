@@ -1,8 +1,15 @@
 package com.github.skrupellos.follow;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.skrupellos.follow.nfa.Nfa;
+import com.github.skrupellos.follow.nfa.NfaArrow;
+import com.github.skrupellos.follow.nfa.NfaNode;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexIntNode;
 import com.github.skrupellos.follow.regex.RegexStar;
@@ -11,6 +18,13 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 
 public class Algorithm20Spec {
 
+	private static Set<NfaNode<String>> markedNodes;
+	
+	@Before
+	public void init() {
+		markedNodes = new HashSet<>();
+	}
+	
 	private Nfa<String> getBaseNFA() {
 		return Algorithm4.apply(getTeta());
 	}
@@ -46,5 +60,20 @@ public class Algorithm20Spec {
 	public void simplifyEpsilonNFA() {
 		Nfa<String> nfa = getBaseNFA();
 		Algorithm20.apply(nfa.start);
+		lookUpTargetNodes(nfa.start.tails().arrows());
+		nfa.toString();
+	}
+
+	private void lookUpTargetNodes(Set<NfaArrow<String>> arrows) {
+		Iterator<NfaArrow<String>> arrow;
+		NfaNode<String> node;
+		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
+			node = arrow.next().head();
+			if(markedNodes.contains(node)) {
+				return;
+			}
+			markedNodes.add(node);
+			lookUpTargetNodes(node.tails().arrows());
+		}
 	}
 }

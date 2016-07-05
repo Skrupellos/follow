@@ -1,6 +1,6 @@
 package com.github.skrupellos.follow;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -71,7 +71,7 @@ public class Algorithm4Spec {
 	/**
 	 * Expected εNFA:<p>
 	 * 
-	 * ---->o---a--->o---ε--->o---b--->o---ε--->(o)
+	 * ---->o---a--->o---b--->(o)
 	 * 
 	 */
 	@Test
@@ -88,17 +88,13 @@ public class Algorithm4Spec {
 	/**
 	 * Expected εNFA:<p>
 	 * 
-	 *           o---a--->o
-	 *          🡭                         \
-	 *         /            ε
-	 *        ε              \
+	 *         -------a------
+	 *        /              \
 	 *       /                v
-	 * ---->o                  o---ε--->(o)
+	 * ---->o                  (o)
 	 *       \                🡭
-	 *        ε              /
-	 *         \            ε
-	 *          v          /
-	 *           o---b--->o
+	 *        \              /
+	 *         -------b------
 	 */
 	@Test
 	public void unionToEpsilonNFA() {
@@ -106,17 +102,20 @@ public class Algorithm4Spec {
 		GraphArrowSet<?, ?> set = nfa.start.tails();
 		assertEquals(2, set.arrows().size());
 		GraphArrow[] arrow = set.arrows().toArray(new GraphArrow[2]);
-		assertEquals(NfaEpsilonArrow.class, arrow[0].getClass());
-		assertEquals(NfaEpsilonArrow.class, arrow[1].getClass());
+		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
+		assertEquals(NfaSymbolArrow.class, arrow[1].getClass());
+		
+		NfaSymbolArrow symbolArrow1 = (NfaSymbolArrow) arrow[0];
+		NfaSymbolArrow symbolArrow2 = (NfaSymbolArrow) arrow[1];
+		assertTrue((symbolArrow1.symbol().equals("a") && symbolArrow2.symbol().equals("b"))
+				|| (symbolArrow1.symbol().equals("b") && symbolArrow2.symbol().equals("a")));
 	}
 	
 	/**
 	 * Expected εNFA:<p>
 	 * 
-	 *  o---a--->o
-	 *  🡬                 /
-	 *   \     ε   
-	 *    ε   /
+	 *    --a--
+	 *    \   /
 	 *     \ v
 	 * ---->o--ε-->(o)
 	 * 
@@ -127,12 +126,14 @@ public class Algorithm4Spec {
 		GraphArrowSet<?, ?> outSet = nfa.start.tails();
 		assertEquals(2, outSet.arrows().size());
 		GraphArrow[] arrow = outSet.arrows().toArray(new GraphArrow[2]);
-		assertEquals(NfaEpsilonArrow.class, arrow[0].getClass());
-		assertEquals(NfaEpsilonArrow.class, arrow[1].getClass());
+		assertTrue((arrow[0].getClass().equals(NfaSymbolArrow.class) && arrow[1].getClass().equals(NfaEpsilonArrow.class))
+				|| (arrow[0].getClass().equals(NfaEpsilonArrow.class) && arrow[1].getClass().equals(NfaSymbolArrow.class)));
 		
 		GraphArrowSet<?, ?> inSet = nfa.start.heads();
 		assertEquals(1, inSet.arrows().size());
 		arrow = inSet.arrows().toArray(new GraphArrow[1]);
-		assertEquals(NfaEpsilonArrow.class, arrow[0].getClass());
+		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
+		NfaSymbolArrow symbolArrow = (NfaSymbolArrow) arrow[0];
+		assertEquals("a", symbolArrow.symbol());
 	}
 }
