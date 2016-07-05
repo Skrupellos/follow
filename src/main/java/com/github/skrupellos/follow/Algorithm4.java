@@ -167,8 +167,12 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 			// No further transitions => go one node up.
 			else {
 				iterators.pop();
-				nodes    .pop();
-				arrows   .pop();
+				if(!nodes.isEmpty()) {
+					nodes.pop();
+				}
+				if(!arrows.isEmpty()) {
+					arrows.pop();
+				}
 			}
 		}
 		
