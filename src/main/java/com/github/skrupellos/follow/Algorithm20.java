@@ -130,7 +130,8 @@ public class Algorithm20<T> {
 		//> if n has a temporary mark then stop (not a DAG)
 		if(topSortTmpMark.contains(node)) {
 			// so what??? We don't expect an acyclic graph!
-			throw new RuntimeException("Not a DAG");
+			// throw new RuntimeException("Not a DAG");
+			return;
 		}
 		
 		//> if n is not marked (i.e. has not been visited yet) then
