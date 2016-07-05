@@ -95,6 +95,8 @@ public abstract class GraphNode<
 		// Using a stack results in a depth-first search, which should answer
 		// queries for the end state faster.
 		Stack<NODE> open = new Stack<NODE>();
+		// guaranty a safe termination condition for for-loop
+		open.push(null);
 		
 		seen.add(self);
 		

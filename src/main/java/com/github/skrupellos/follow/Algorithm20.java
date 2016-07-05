@@ -129,6 +129,7 @@ public class Algorithm20<T> {
 	private void topSortNode(NfaNode<T> node) {
 		//> if n has a temporary mark then stop (not a DAG)
 		if(topSortTmpMark.contains(node)) {
+			// so what??? We don't expect an acyclic graph!
 			throw new RuntimeException("Not a DAG");
 		}
 		
