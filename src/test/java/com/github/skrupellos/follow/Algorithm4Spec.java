@@ -54,6 +54,23 @@ public class Algorithm4Spec {
 	/**
 	 * Expected εNFA:<p>
 	 * 
+	 * ---->o---a--->(o)
+	 * 
+	 */
+	@Test
+	public void symbolToEpsilonNFA() {
+		Nfa<String> nfa = Algorithm4.apply(new RegexSymbol<String>("a"));
+		GraphArrowSet<?, ?> set = nfa.start.tails();
+		assertEquals(1, set.arrows().size());
+		GraphArrow[] arrow = set.arrows().toArray(new GraphArrow[1]);
+		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
+		NfaSymbolArrow symbolArrow = (NfaSymbolArrow) arrow[0];
+		assertEquals("a", symbolArrow.symbol());
+	}
+	
+	/**
+	 * Expected εNFA:<p>
+	 * 
 	 * ---->o---a--->o---ε--->o---b--->o---ε--->(o)
 	 * 
 	 */
