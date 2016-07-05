@@ -82,6 +82,7 @@ public abstract class GraphArrow<
 	
 	// Here we make a huge exception and don't use ARROW. Instead we use
 	// GraphArrow, which allows us to access private members.
+	@SuppressWarnings("rawtypes")
 	public boolean equalContents(GraphArrow other) {
 		return
 			getClass().equals(other.getClass()) &&

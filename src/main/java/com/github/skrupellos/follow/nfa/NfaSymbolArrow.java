@@ -41,6 +41,7 @@ public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equalContents(GraphArrow other) {
 		return

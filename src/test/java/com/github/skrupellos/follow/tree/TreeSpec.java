@@ -1,18 +1,15 @@
 package com.github.skrupellos.follow.tree;
 
-import org.junit.Test;
-
-import com.github.skrupellos.follow.tree.TreeNode;
-import com.github.skrupellos.follow.tree.SimpleTree;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.LinkedList;
-import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class TreeSpec {
 	private SimpleTree getTeta() {
@@ -248,6 +245,7 @@ public class TreeSpec {
 		});
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unused" })
 	@Test
 	public void getLevelRoot() {
 		SimpleTree n1, n2, n3;

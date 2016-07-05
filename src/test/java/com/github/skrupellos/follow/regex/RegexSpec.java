@@ -1,14 +1,8 @@
 package com.github.skrupellos.follow.regex;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import java.util.Arrays;
-import java.util.List;
-import java.util.LinkedList;
+import org.junit.Test;
 
 
 class VisitorA implements RegexVisitor<String> {
