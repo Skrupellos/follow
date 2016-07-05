@@ -1,10 +1,10 @@
 package com.github.skrupellos.follow.tree;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Iterator;
-import java.lang.Iterable;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import lombok.NonNull;
 
 

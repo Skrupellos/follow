@@ -1,7 +1,6 @@
 package com.github.skrupellos.follow.tree;
 
 
-import java.lang.Iterable;
 import java.util.List;
 
 

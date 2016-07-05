@@ -1,8 +1,5 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeNode;
-
-
 public class RegexSymbol<T> extends RegexExtNode<T> {
 	private T symbol;
 	

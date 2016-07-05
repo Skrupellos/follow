@@ -1,9 +1,9 @@
 package com.github.skrupellos.follow.graph;
 
-import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.lang.Iterable;
+import java.util.Set;
+
 import lombok.NonNull;
 
 

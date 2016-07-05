@@ -1,7 +1,8 @@
 package com.github.skrupellos.follow;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
 import lombok.NonNull;
 
 

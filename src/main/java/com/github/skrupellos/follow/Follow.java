@@ -1,8 +1,7 @@
 package com.github.skrupellos.follow;
 
-import com.github.skrupellos.follow.regex.RegexNode;
-import com.github.skrupellos.follow.nfa.Nfa;
 import com.github.skrupellos.follow.nfa.NfaNode;
+import com.github.skrupellos.follow.regex.RegexNode;
 
 
 

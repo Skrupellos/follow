@@ -1,25 +1,23 @@
 package com.github.skrupellos.follow;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Stack;
+
 import com.github.skrupellos.follow.nfa.Nfa;
-import com.github.skrupellos.follow.nfa.NfaNode;
 import com.github.skrupellos.follow.nfa.NfaArrow;
 import com.github.skrupellos.follow.nfa.NfaEpsilonArrow;
+import com.github.skrupellos.follow.nfa.NfaNode;
 import com.github.skrupellos.follow.nfa.NfaSymbolArrow;
-import com.github.skrupellos.follow.graph.GraphArrowSet;
-import com.github.skrupellos.follow.regex.RegexVisitor;
-import com.github.skrupellos.follow.regex.RegexNode;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexEmptySet;
 import com.github.skrupellos.follow.regex.RegexEpsilon;
+import com.github.skrupellos.follow.regex.RegexNode;
 import com.github.skrupellos.follow.regex.RegexStar;
 import com.github.skrupellos.follow.regex.RegexSymbol;
 import com.github.skrupellos.follow.regex.RegexUnion;
+import com.github.skrupellos.follow.regex.RegexVisitor;
 
 
 

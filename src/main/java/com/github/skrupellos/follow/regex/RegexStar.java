@@ -1,8 +1,7 @@
 package com.github.skrupellos.follow.regex;
 
-import java.util.List;
-import java.util.LinkedList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class RegexStar<T> extends RegexIntNode<T> {

@@ -1,7 +1,8 @@
 package com.github.skrupellos.follow.regex;
 
-import com.github.skrupellos.follow.tree.TreeNode;
 import java.util.List;
+
+import com.github.skrupellos.follow.tree.TreeNode;
 
 
 public abstract class RegexNode<T> extends TreeNode<RegexNode<T>> {

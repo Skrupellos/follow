@@ -1,8 +1,8 @@
 package projects.project7;
 
 import nfa.State;
-import nfa.Transitions;
 import nfa.TransitionTable;
+import nfa.Transitions;
 
 public class P7TransitionTable implements TransitionTable {
 	//public P7State start;

@@ -1,10 +1,8 @@
 package com.github.skrupellos.follow.graph;
 
-import java.lang.Iterable;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Stack;
 import java.util.Set;
+import java.util.Stack;
 
 
 

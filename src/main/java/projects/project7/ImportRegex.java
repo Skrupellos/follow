@@ -1,16 +1,13 @@
 package projects.project7;
 
-import com.github.skrupellos.follow.regex.RegexVisitor;
-import com.github.skrupellos.follow.regex.RegexNode;
+import com.github.skrupellos.follow.AlgorithmBase;
 import com.github.skrupellos.follow.regex.RegexCatenation;
-import com.github.skrupellos.follow.regex.RegexEmptySet;
 import com.github.skrupellos.follow.regex.RegexEpsilon;
+import com.github.skrupellos.follow.regex.RegexNode;
 import com.github.skrupellos.follow.regex.RegexStar;
 import com.github.skrupellos.follow.regex.RegexSymbol;
 import com.github.skrupellos.follow.regex.RegexUnion;
-import com.github.skrupellos.follow.regex.RegexExtNode;
-import com.github.skrupellos.follow.AlgorithmBase;
-import regex.RegularExpressionVisitor;
+
 import regex.AlternationExpression;
 import regex.Char;
 import regex.ConcatenationExpression;
@@ -18,6 +15,7 @@ import regex.KleeneStarExpression;
 import regex.OptionalExpression;
 import regex.PlusExpression;
 import regex.RegularExpression;
+import regex.RegularExpressionVisitor;
 
 
 public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode<String>> implements RegularExpressionVisitor {
