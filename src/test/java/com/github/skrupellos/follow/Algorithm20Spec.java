@@ -60,20 +60,21 @@ public class Algorithm20Spec {
 	public void simplifyEpsilonNFA() {
 		Nfa<String> nfa = getBaseNFA();
 		Algorithm20.apply(nfa.start);
-		lookUpTargetNodes(nfa.start.tails().arrows());
+		lookUpTargetNodes(nfa.start.tails().arrows(), nfa.start);
 		nfa.toString();
 	}
 
-	private void lookUpTargetNodes(Set<NfaArrow<String>> arrows) {
+	private void lookUpTargetNodes(Set<NfaArrow<String>> arrows, NfaNode<String> currentNode) {
 		Iterator<NfaArrow<String>> arrow;
-		NfaNode<String> node;
+		NfaNode<String> nextNode;
 		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
-			node = arrow.next().head();
-			if(markedNodes.contains(node)) {
-				return;
+			nextNode = arrow.next().head();
+			if(markedNodes.contains(nextNode)) {
+				continue;
 			}
-			markedNodes.add(node);
-			lookUpTargetNodes(node.tails().arrows());
+			markedNodes.add(nextNode);
+			Set<NfaArrow<String>> nextArrows = nextNode.tails().arrows();
+			lookUpTargetNodes(nextArrows, nextNode);
 		}
 	}
 }

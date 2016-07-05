@@ -140,17 +140,19 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		// back-tracking. This is done with an emulated recusive aproach. Since
 		// at the end, when doing back-tracking, the whole stack needs to be
 		// read.
-		iterators.push(subNfa.start.tails().iterator());
+		// Since start and end already have been merged into mid, use mid as a 
+		// placeholder for both of them instead.
+		iterators.push(mid.tails().iterator());
 		while(iterators.isEmpty() == false) {
 			Iterator<NfaArrow<T>> iterator = iterators.peek();
 			
-			if(iterator.hasNext()) {
+			while(iterator.hasNext()) {
 				NfaArrow<T> arrow = iterator.next();
 				if((arrow instanceof NfaEpsilonArrow) == false)
 					continue;
 				
 				// Found final ε-transition => Extend merge/delete list.
-				if(arrow.head() == subNfa.end) {
+				if(arrow.head() == mid) {
 					nodesToMerge  .addAll(nodes);
 					arrowsToDelete.addAll(arrows);
 					arrowsToDelete.add(arrow);
@@ -163,14 +165,12 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 				}
 			}
 			// No further transitions => go one node up.
-			else {
-				iterators.pop();
-				if(!nodes.isEmpty()) {
-					nodes.pop();
-				}
-				if(!arrows.isEmpty()) {
-					arrows.pop();
-				}
+			iterators.pop();
+			if(!nodes.isEmpty()) {
+				nodes.pop();
+			}
+			if(!arrows.isEmpty()) {
+				arrows.pop();
 			}
 		}
 		
