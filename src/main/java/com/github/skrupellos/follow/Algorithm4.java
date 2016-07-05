@@ -23,7 +23,7 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 
 
 
-class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements RegexVisitor<T> {
+public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements RegexVisitor<T> {
 	public static <T> Nfa<T> apply(RegexNode<T> root) {
 		return (new Algorithm4<T>(root)).result();
 	}
