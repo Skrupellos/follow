@@ -82,8 +82,10 @@ public class Algorithm20<T> {
 									}
 								}
 							}
-							
+							// Do you probably intend to do this?
+							// if(!found) {
 							new NfaSymbolArrow<T>(arrow_2_3.symbol(), node1, node3);
+							//}
 						}
 					}
 					
