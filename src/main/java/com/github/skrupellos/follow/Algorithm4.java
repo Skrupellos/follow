@@ -146,7 +146,7 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		while(iterators.isEmpty() == false) {
 			Iterator<NfaArrow<T>> iterator = iterators.peek();
 			
-			while(iterator.hasNext()) {
+			if(iterator.hasNext()) {
 				NfaArrow<T> arrow = iterator.next();
 				if((arrow instanceof NfaEpsilonArrow) == false)
 					continue;
@@ -163,14 +163,15 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 					nodes    .push(arrow.head());
 					arrows   .push(arrow);
 				}
-			}
-			// No further transitions => go one node up.
-			iterators.pop();
-			if(!nodes.isEmpty()) {
-				nodes.pop();
-			}
-			if(!arrows.isEmpty()) {
-				arrows.pop();
+			} else {
+				// No further transitions => go one node up.
+				iterators.pop();
+				if(!nodes.isEmpty()) {
+					nodes.pop();
+				}
+				if(!arrows.isEmpty()) {
+					arrows.pop();
+				}
 			}
 		}
 		
