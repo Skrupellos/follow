@@ -1,10 +1,14 @@
 package com.github.skrupellos.follow;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import org.junit.Test;
 
 import com.github.skrupellos.follow.nfa.Nfa;
@@ -16,13 +20,20 @@ import com.github.skrupellos.follow.regex.RegexStar;
 import com.github.skrupellos.follow.regex.RegexSymbol;
 import com.github.skrupellos.follow.regex.RegexUnion;
 
+@FixMethodOrder(MethodSorters.JVM)
 public class Algorithm20Spec {
 
 	private static Set<NfaNode<String>> markedNodes;
+	private static StringBuilder builder;
+	private static Map<Integer, Integer> nodeMap;
+	private static int nodeId;
 	
 	@Before
 	public void init() {
 		markedNodes = new HashSet<>();
+		builder = new StringBuilder();
+		nodeMap = new HashMap<>();
+		nodeId = 0;
 	}
 	
 	private Nfa<String> getBaseNFA() {
@@ -57,18 +68,39 @@ public class Algorithm20Spec {
 	}
 	
 	@Test
+	public void printUnsimplifiedEpsilonNFA() {
+		Nfa<String> nfa = getBaseNFA();
+		lookUpTargetNodes(nfa.start.tails().arrows(), nfa.start);
+		System.out.println(builder);
+	}
+	
+	@Test
 	public void simplifyEpsilonNFA() {
 		Nfa<String> nfa = getBaseNFA();
 		Algorithm20.apply(nfa.start);
 		lookUpTargetNodes(nfa.start.tails().arrows(), nfa.start);
-		nfa.toString();
+		System.out.println(builder);
 	}
 
 	private void lookUpTargetNodes(Set<NfaArrow<String>> arrows, NfaNode<String> currentNode) {
 		Iterator<NfaArrow<String>> arrow;
 		NfaNode<String> nextNode;
+		if(nodeMap.putIfAbsent(currentNode.hashCode(), nodeId) == null) {
+			nodeId++;
+		}
 		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
-			nextNode = arrow.next().head();
+			NfaArrow<String> currentArrow = arrow.next();
+			nextNode = currentArrow.head();
+			if(nodeMap.putIfAbsent(nextNode.hashCode(), nodeId) == null) {
+				nodeId++;
+			}
+			builder.append("\t").append(nodeMap.get(currentNode.hashCode())).append(" --")
+					.append(currentArrow).append("--> ").append(nodeMap.get(nextNode.hashCode()))
+					.append("\n");
+		}
+		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
+			NfaArrow<String> currentArrow = arrow.next();
+			nextNode = currentArrow.head();
 			if(markedNodes.contains(nextNode)) {
 				continue;
 			}
