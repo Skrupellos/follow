@@ -50,7 +50,17 @@ public class Algorithm20Spec {
 				new RegexUnion<String>(
 					new RegexUnion<String>(
 						new RegexStar<String>(
-							new RegexSymbol<String>("a")
+							new RegexUnion<String>(
+									new RegexSymbol<String>("c"),
+									new RegexStar<String>(
+											new RegexUnion<String>(
+													new RegexSymbol<String>("d"),
+													new RegexStar<String>(
+															new RegexSymbol<String>("a")
+															)
+													)
+											)
+									)
 						),
 						new RegexCatenation<String>(
 							new RegexSymbol<String>("b"),
