@@ -67,10 +67,11 @@ public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode<Stri
 	
 	
 	public void post(PlusExpression expression) {
+		RegexNode<String> child = lookup(expression.getChild());
 		define(expression, new RegexCatenation<String>(
-			lookup(expression.getChild()),
+			child,
 			new RegexStar<String>(
-				ImportRegex.apply(expression.getChild())
+				child.deepCopy()
 			)
 		));
 	}
