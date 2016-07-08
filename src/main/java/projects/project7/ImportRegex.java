@@ -70,7 +70,7 @@ public class ImportRegex extends AlgorithmBase<RegularExpression, RegexNode<Stri
 		define(expression, new RegexCatenation<String>(
 			lookup(expression.getChild()),
 			new RegexStar<String>(
-				lookup(expression.getChild())
+				ImportRegex.apply(expression.getChild())
 			)
 		));
 	}
