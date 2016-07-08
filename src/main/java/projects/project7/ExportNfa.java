@@ -35,7 +35,8 @@ public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements Nf
 			}
 		}
 		
-		//transitionTable.start = lookup(nfa.start);
+//		transitionTable.start = lookup(start);
+//		transitionTable.start.setStart(true);
 	}
 	
 	
@@ -48,6 +49,9 @@ public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements Nf
 	
 	public void visitNode(NfaNode<String> node) {
 		P7State state = new P7State();
+		if(node.isFinal) {
+			state.setFinal(true);
+		}
 		define(node, state);
 	}
 	

@@ -73,9 +73,9 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		//>     merged; otherwise (a2) if there is a single transition incoming
 		//>     to p, say [sic] q -ε→ p, then the transition is removed and p
 		//>     and q merged.
-		// Sk: I'm pretty shure this works _only_ for ε transitions.
+		// Sk: I'm pretty sure this works _only_ for ε transitions.
 		// Don't remove/merge incoming _and_ outgoing transitions. This would
-		// fail for the simple regex a*·b*. This also procuces an NFA which
+		// fail for the simple regex a*·b*. This also produces an NFA which
 		// starts and ends with ε.
 		if(
 			(arrows = rightNfa.start.tails().arrows()).size() == 1 &&

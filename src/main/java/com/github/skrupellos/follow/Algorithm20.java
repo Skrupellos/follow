@@ -69,8 +69,8 @@ public class Algorithm20<T> {
 					}
 					
 					//> if p ∈ F then add q_i to F
-					if(node2.accepting) {
-						node1.accepting = true;
+					if(node2.isFinal) {
+						node1.isFinal = true;
 					}
 					
 					//> remove the transition q_i -ε→ p
