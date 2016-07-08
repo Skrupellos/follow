@@ -45,10 +45,9 @@ public class Algorithm4Spec {
 		);
 	}
 	
-	@SuppressWarnings("unused")
 	@Test
 	public void constructEpislonNFA() {
-		Nfa<String> nfa = Algorithm4.apply(getTeta());
+		/*Nfa<String> nfa = */ Algorithm4.apply(getTeta());
 	}
 	
 	/**

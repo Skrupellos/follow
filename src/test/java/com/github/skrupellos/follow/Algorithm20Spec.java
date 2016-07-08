@@ -23,10 +23,10 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 @FixMethodOrder(MethodSorters.JVM)
 public class Algorithm20Spec {
 
-	private static Set<NfaNode<String>> markedNodes;
-	private static StringBuilder builder;
-	private static Map<Integer, Integer> nodeMap;
-	private static int nodeId;
+	private Set<NfaNode<String>> markedNodes;
+	private StringBuilder builder;
+	private Map<Integer, Integer> nodeMap;
+	private int nodeId;
 	
 	@Before
 	public void init() {
