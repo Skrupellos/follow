@@ -12,9 +12,9 @@ public class NfaNode<T> extends GraphNode<NfaNode<T>, NfaArrow<T>> {
 	}
 	
 	
-	public NfaNode(boolean accepting) {
+	public NfaNode(boolean isFinal) {
 		super();
-		this.isFinal = accepting;
+		this.isFinal = isFinal;
 	}
 	
 	
@@ -23,9 +23,9 @@ public class NfaNode<T> extends GraphNode<NfaNode<T>, NfaArrow<T>> {
 	}
 	
 	
-	public NfaNode(Iterable<NfaArrow<T>> tails, Iterable<NfaArrow<T>> heads, boolean accepting) {
+	public NfaNode(Iterable<NfaArrow<T>> tails, Iterable<NfaArrow<T>> heads, boolean isFinal) {
 		super(tails, heads);
-		this.isFinal = accepting;
+		this.isFinal = isFinal;
 	}
 	
 	
