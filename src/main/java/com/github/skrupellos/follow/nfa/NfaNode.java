@@ -4,7 +4,7 @@ import com.github.skrupellos.follow.graph.GraphNode;
 
 
 public class NfaNode<T> extends GraphNode<NfaNode<T>, NfaArrow<T>> {
-	public boolean accepting = false;
+	public boolean isFinal = false;
 	
 	
 	public NfaNode() {
@@ -14,7 +14,7 @@ public class NfaNode<T> extends GraphNode<NfaNode<T>, NfaArrow<T>> {
 	
 	public NfaNode(boolean accepting) {
 		super();
-		this.accepting = accepting;
+		this.isFinal = accepting;
 	}
 	
 	
@@ -25,7 +25,7 @@ public class NfaNode<T> extends GraphNode<NfaNode<T>, NfaArrow<T>> {
 	
 	public NfaNode(Iterable<NfaArrow<T>> tails, Iterable<NfaArrow<T>> heads, boolean accepting) {
 		super(tails, heads);
-		this.accepting = accepting;
+		this.isFinal = accepting;
 	}
 	
 	
