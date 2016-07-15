@@ -1,6 +1,8 @@
 package com.github.skrupellos.follow;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import lombok.NonNull;
@@ -25,5 +27,10 @@ public abstract class MapHelper<KEY, VALUE> {
 		}
 		
 		return value;
+	}
+
+	
+	protected Collection<VALUE> getValues() {
+		return new LinkedList<>(map.values());
 	}
 }

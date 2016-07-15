@@ -1,6 +1,7 @@
 package projects.project7;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.github.skrupellos.follow.MapHelper;
 import com.github.skrupellos.follow.nfa.NfaArrow;
@@ -35,8 +36,8 @@ public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements Nf
 			}
 		}
 		
-//		transitionTable.start = lookup(start);
-//		transitionTable.start.setStart(true);
+		transitionTable.start = lookup(start);
+		transitionTable.start.states = new HashSet<>(getValues());
 	}
 	
 	

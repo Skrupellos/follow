@@ -48,4 +48,5 @@ public interface RegularExpressionVisitor {
 	default void visit(Char character) {};
 	default void pre(RegularExpression expression) {};
 	default void post(RegularExpression expression) {};
+
 }
