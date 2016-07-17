@@ -2,6 +2,9 @@ package com.github.skrupellos.follow;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 
 import com.github.skrupellos.follow.graph.GraphArrow;
@@ -45,9 +48,54 @@ public class Algorithm4Spec {
 		);
 	}
 	
+	private Set<String> getExpectedTetaResult_1() {
+		Set<String> expected = new HashSet<>();
+		expected.add("0 --a--> 1");
+		expected.add("0 --b--> 1");
+		expected.add("1 --a--> 1");
+		expected.add("1 --b--> 1");
+		expected.add("1 --ε--> 3");
+		expected.add("1 --b--> 2");
+		expected.add("2 --ε--> 1");
+		expected.add("2 --a--> 2");
+		return expected;
+	}
+	
+	/**
+	 * Alternative to {@link Algorithm4Spec#getExpectedTetaResult_1()}, since {@link SpecUtil#evaluateGraph(Set, com.github.skrupellos.follow.nfa.NfaNode)}
+	 * does not necessarily evaluate the transitions from second node to either of the other two nodes in deterministic order.
+	 * 
+	 * @return
+	 */
+	private Set<String> getExpectedTetaResult_2() {
+		Set<String> expected = new HashSet<>();
+		expected.add("0 --a--> 1");
+		expected.add("0 --b--> 1");
+		expected.add("1 --a--> 1");
+		expected.add("1 --b--> 1");
+		expected.add("1 --ε--> 2");
+		expected.add("1 --b--> 3");
+		expected.add("3 --ε--> 1");
+		expected.add("3 --a--> 3");
+		return expected;
+	}
+	
+	/**
+	 * Compare the output of {@link Algorithm4#apply(com.github.skrupellos.follow.regex.RegexNode)} to {@link Set}s of transitions
+	 * derived from Ilie and Yu, Follow automata, page 6 figure 2.
+	 */
 	@Test
 	public void constructEpislonNFA() {
-		/*Nfa<String> nfa = */ Algorithm4.apply(getTeta());
+		Nfa<String> nfa =  Algorithm4.apply(getTeta());
+		Set<String> actual = SpecUtil.evaluateGraph(nfa.start.tails().arrows(), nfa.start);
+		Set<String> expected_1 = getExpectedTetaResult_1();
+		Set<String> expected_2 = getExpectedTetaResult_2();
+		
+		// since size of expected_1 and expected_2 is the same this check suffices
+		assertEquals(expected_1.size(), actual.size());
+		
+		// either of the two possible solutions has to match
+		assertTrue(expected_1.equals(actual) || expected_2.equals(actual));
 	}
 	
 	/**

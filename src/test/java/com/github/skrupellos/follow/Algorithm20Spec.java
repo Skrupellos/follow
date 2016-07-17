@@ -1,12 +1,12 @@
 package com.github.skrupellos.follow;
 
-import java.util.HashMap;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 import org.junit.Test;
@@ -22,19 +22,6 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 
 @FixMethodOrder(MethodSorters.JVM)
 public class Algorithm20Spec {
-
-	private Set<NfaNode<String>> markedNodes;
-	private StringBuilder builder;
-	private Map<Integer, Integer> nodeMap;
-	private int nodeId;
-	
-	@Before
-	public void init() {
-		markedNodes = new HashSet<>();
-		builder = new StringBuilder();
-		nodeMap = new HashMap<>();
-		nodeId = 0;
-	}
 	
 	private Nfa<String> getBaseNFA() {
 		return Algorithm4.apply(getTeta());
@@ -42,81 +29,76 @@ public class Algorithm20Spec {
 	
 	private RegexIntNode<String> getTeta() {
 		return new RegexCatenation<String>(
-			new RegexUnion<String>(
-				new RegexSymbol<String>("a"),
-				new RegexSymbol<String>("b")
-			),
-			new RegexStar<String>(
 				new RegexUnion<String>(
+					new RegexSymbol<String>("a"),
+					new RegexSymbol<String>("b")
+				),
+				new RegexStar<String>(
 					new RegexUnion<String>(
-						new RegexStar<String>(
-							new RegexUnion<String>(
-									new RegexSymbol<String>("c"),
-									new RegexStar<String>(
-											new RegexUnion<String>(
-													new RegexSymbol<String>("d"),
-													new RegexStar<String>(
-															new RegexSymbol<String>("a")
-															)
-													)
-											)
-									)
-						),
-						new RegexCatenation<String>(
-							new RegexSymbol<String>("b"),
+						new RegexUnion<String>(
 							new RegexStar<String>(
 								new RegexSymbol<String>("a")
+							),
+							new RegexCatenation<String>(
+								new RegexSymbol<String>("b"),
+								new RegexStar<String>(
+									new RegexSymbol<String>("a")
+								)
 							)
+						),
+						new RegexStar<String>(
+							new RegexSymbol<String>("b")
 						)
-					),
-					new RegexStar<String>(
-						new RegexSymbol<String>("b")
 					)
 				)
-			)
-		);
+			);
 	}
 	
-	@Test
-	public void printUnsimplifiedEpsilonNFA() {
-		Nfa<String> nfa = getBaseNFA();
-		lookUpTargetNodes(nfa.start.tails().arrows(), nfa.start);
-		System.out.println(builder);
+	private Set<String> getExpectedBaseNfaResult() {
+		Set<String> result = new HashSet<>();
+		result.add("0 --a--> 1");
+		result.add("0 --b--> 1");
+		result.add("1 --a--> 1");
+		result.add("1 --b--> 1");
+		result.add("1 --b--> 2");
+		result.add("2 --a--> 2");
+		result.add("2 --b--> 2");
+		result.add("2 --a--> 1");
+		result.add("2 --b--> 1");
+		return result;
 	}
 	
 	@Test
 	public void simplifyEpsilonNFA() {
 		Nfa<String> nfa = getBaseNFA();
 		Algorithm20.apply(nfa.start);
-		lookUpTargetNodes(nfa.start.tails().arrows(), nfa.start);
-		System.out.println(builder);
+		Set<String> actual = SpecUtil.evaluateGraph(nfa.start.tails().arrows(), nfa.start);
+		Set<String> expected = getExpectedBaseNfaResult();
+		
+		assertEquals(expected.size(), actual.size());
+		assertEquals(expected, actual);
+		
+		assertFalse(nfa.start.isFinal);
+		
+		List<NfaNode<String>> nodes = new ArrayList<>();
+		nodes.add(nfa.start);
+		checkFinal(nfa.start, nodes);
 	}
 
-	private void lookUpTargetNodes(Set<NfaArrow<String>> arrows, NfaNode<String> currentNode) {
-		Iterator<NfaArrow<String>> arrow;
-		NfaNode<String> nextNode;
-		if(nodeMap.putIfAbsent(currentNode.hashCode(), nodeId) == null) {
-			nodeId++;
-		}
-		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
-			NfaArrow<String> currentArrow = arrow.next();
-			nextNode = currentArrow.head();
-			if(nodeMap.putIfAbsent(nextNode.hashCode(), nodeId) == null) {
-				nodeId++;
+	/**
+	 * In the example of the paper every node accept the initial one results to be a finite state.
+	 * 
+	 * @param nfa
+	 * @param nodes
+	 */
+	private void checkFinal(NfaNode<String> nfa, List<NfaNode<String>> nodes) {
+		for(NfaArrow<String> arrow : nfa.tails().arrows()) {
+			NfaNode<String> node = arrow.head();
+			if(!nodes.contains(node)) {
+				nodes.add(node);
+				assertTrue(node.isFinal);
+				checkFinal(node, nodes);
 			}
-			builder.append("\t").append(nodeMap.get(currentNode.hashCode())).append(" --")
-					.append(currentArrow).append("--> ").append(nodeMap.get(nextNode.hashCode()))
-					.append("\n");
-		}
-		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
-			NfaArrow<String> currentArrow = arrow.next();
-			nextNode = currentArrow.head();
-			if(markedNodes.contains(nextNode)) {
-				continue;
-			}
-			markedNodes.add(nextNode);
-			Set<NfaArrow<String>> nextArrows = nextNode.tails().arrows();
-			lookUpTargetNodes(nextArrows, nextNode);
 		}
 	}
 }
