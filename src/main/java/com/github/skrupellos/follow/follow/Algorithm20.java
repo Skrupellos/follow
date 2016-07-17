@@ -1,4 +1,4 @@
-package com.github.skrupellos.follow;
+package com.github.skrupellos.follow.follow;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -6,24 +6,24 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import com.github.skrupellos.follow.nfa.NfaArrow;
-import com.github.skrupellos.follow.nfa.NfaEpsilonArrow;
-import com.github.skrupellos.follow.nfa.NfaNode;
-import com.github.skrupellos.follow.nfa.NfaSymbolArrow;
+import com.github.skrupellos.follow.nfa.NfaTransition;
+import com.github.skrupellos.follow.nfa.NfaEpsilonTransition;
+import com.github.skrupellos.follow.nfa.NfaState;
+import com.github.skrupellos.follow.nfa.NfaSymbolTransition;
 
 
 public class Algorithm20<T> {
-	private List<NfaNode<T>>  topSortSorted;
-	private Queue<NfaNode<T>> topSortUnmarked;
-	private Set<NfaNode<T>>   topSortTmpMark;
+	private List<NfaState<T>>  topSortSorted;
+	private Queue<NfaState<T>> topSortUnmarked;
+	private Set<NfaState<T>>   topSortTmpMark;
 	
 	
-	public static <T> void apply(NfaNode<T> start) {
+	public static <T> void apply(NfaState<T> start) {
 		new Algorithm20<T>(start);
 	}
 	
 	
-	public Algorithm20(NfaNode<T> start) {
+	public Algorithm20(NfaState<T> start) {
 		//> F_f ← {q_f}
 		// Nothing to do, since we modify the input data structure, where the
 		// final state is already marked.
@@ -35,27 +35,27 @@ public class Algorithm20<T> {
 		//> for i from r down to 1 do
 		// Order was already changed in the construction of topSortSorted by
 		// topSortNode().
-		for(NfaNode<T> node1 : topSortSorted) {
+		for(NfaState<T> state1 : topSortSorted) {
 			//> for each transition q_i -ε→ p do
-			for(NfaArrow<T> arrow_1_2_tmp : node1.tails()) {
-				if(arrow_1_2_tmp instanceof NfaEpsilonArrow) {
-					NfaEpsilonArrow<T> arrow_1_2 = (NfaEpsilonArrow<T>)arrow_1_2_tmp;
-					NfaNode<T> node2 = arrow_1_2.head();
+			for(NfaTransition<T> transition_1_2_tmp : state1.tails()) {
+				if(transition_1_2_tmp instanceof NfaEpsilonTransition) {
+					NfaEpsilonTransition<T> transition_1_2 = (NfaEpsilonTransition<T>)transition_1_2_tmp;
+					NfaState<T> state2 = transition_1_2.head();
 					
 					//> for each transition p -a→ q do
-					for(NfaArrow<T> arrow_2_3_tmp : node2.tails()) {
-						if(arrow_2_3_tmp instanceof NfaSymbolArrow) {
-							NfaSymbolArrow<T> arrow_2_3 = (NfaSymbolArrow<T>)arrow_2_3_tmp;
-							NfaNode<T> node3 = arrow_2_3.head();
+					for(NfaTransition<T> transition_2_3_tmp : state2.tails()) {
+						if(transition_2_3_tmp instanceof NfaSymbolTransition) {
+							NfaSymbolTransition<T> transition_2_3 = (NfaSymbolTransition<T>)transition_2_3_tmp;
+							NfaState<T> state3 = transition_2_3.head();
 							
 							//> if q_i -a→ q ∉ \delta then add q_i -a→ q to \delta
 							boolean found = false;
-							for(NfaArrow<T> arrow_1_4_tmp : node1.tails()) {
-								if(arrow_1_4_tmp instanceof NfaSymbolArrow) {
-									NfaSymbolArrow<T> arrow_1_4 = (NfaSymbolArrow<T>)arrow_1_4_tmp;
-									NfaNode<T> node4 = arrow_1_4.head();
+							for(NfaTransition<T> transition_1_4_tmp : state1.tails()) {
+								if(transition_1_4_tmp instanceof NfaSymbolTransition) {
+									NfaSymbolTransition<T> transition_1_4 = (NfaSymbolTransition<T>)transition_1_4_tmp;
+									NfaState<T> node4 = transition_1_4.head();
 									
-									if(node3 == node4 && arrow_1_4.symbol().equals(arrow_2_3.symbol())) {
+									if(state3 == node4 && transition_1_4.symbol().equals(transition_2_3.symbol())) {
 										found = true;
 										break;
 									}
@@ -63,18 +63,18 @@ public class Algorithm20<T> {
 							}
 
 							if(!found) {
-								new NfaSymbolArrow<T>(arrow_2_3.symbol(), node1, node3);
+								new NfaSymbolTransition<T>(transition_2_3.symbol(), state1, state3);
 							}
 						}
 					}
 					
 					//> if p ∈ F then add q_i to F
-					if(node2.isFinal) {
-						node1.isFinal = true;
+					if(state2.isFinal) {
+						state1.isFinal = true;
 					}
 					
 					//> remove the transition q_i -ε→ p
-					arrow_1_2.delete();
+					transition_1_2.delete();
 				}
 			}
 		}
@@ -88,15 +88,15 @@ public class Algorithm20<T> {
 		// the reachable ones. Cutting incomeing edges from unreachable States
 		// results also in a cleand graph (and the garbage collector does the
 		// rest).
-		Set<NfaNode<T>> reachable = start.reachable();
-		for(NfaNode<T> node : reachable) {
-			if(node == start) {
+		Set<NfaState<T>> reachable = start.reachable();
+		for(NfaState<T> state : reachable) {
+			if(state == start) {
 				continue;
 			}
 			
-			for(NfaArrow<T> arrow : node.heads()) {
-				if(reachable.contains(arrow.tail()) == false) {
-					arrow.delete();
+			for(NfaTransition<T> transition : state.heads()) {
+				if(reachable.contains(transition.tail()) == false) {
+					transition.delete();
 				}
 			}
 		}
@@ -108,55 +108,55 @@ public class Algorithm20<T> {
 	}
 	
 	
-	private void topSort(NfaNode<T> start) {
+	private void topSort(NfaState<T> start) {
 		// https://en.wikipedia.org/wiki/Topological_sorting#Depth-first_search
 		//> L ← Empty list that will contain the sorted nodes
-		topSortSorted   = new LinkedList<NfaNode<T>>();
-		topSortUnmarked = new LinkedList<NfaNode<T>>(start.reachable());
-		topSortTmpMark  = new HashSet<NfaNode<T>>();
+		topSortSorted   = new LinkedList<NfaState<T>>();
+		topSortUnmarked = new LinkedList<NfaState<T>>(start.reachable());
+		topSortTmpMark  = new HashSet<NfaState<T>>();
 		
 		//> while there are unmarked nodes do
 		//>     select an unmarked node n
-		NfaNode<T> node;
-		while((node = topSortUnmarked.peek()) != null) {
+		NfaState<T> state;
+		while((state = topSortUnmarked.peek()) != null) {
 			//> visit(n)
-			topSortNode(node);
+			topSortState(state);
 		}
 	}
 	
 	
 	//> function visit(node n)
-	private void topSortNode(NfaNode<T> node) {
+	private void topSortState(NfaState<T> state) {
 		//> if n has a temporary mark then stop (not a DAG)
-		if(topSortTmpMark.contains(node)) {
+		if(topSortTmpMark.contains(state)) {
 			throw new RuntimeException("Not a DAG");
 		}
 		
 		//> if n is not marked (i.e. has not been visited yet) then
-		if(topSortUnmarked.contains(node)) {
+		if(topSortUnmarked.contains(state)) {
 			//> mark n temporarily
-			topSortUnmarked.remove(node);
-			topSortTmpMark.add(node);
+			topSortUnmarked.remove(state);
+			topSortTmpMark.add(state);
 			
 			//> for each node m with an edge from n to m do
-			for(NfaArrow<T> arrow : node.tails()) {
+			for(NfaTransition<T> transition : state.tails()) {
 				//> visit(m)
 				// Since, in our case, the sort is solely based on epsilon
 				// transitions we filter other transitions out.
-				if(arrow instanceof NfaEpsilonArrow) {
-					topSortNode(arrow.head());
+				if(transition instanceof NfaEpsilonTransition) {
+					topSortState(transition.head());
 				}
 			}
 			
 			//> mark n permanently
 			//> unmark n temporarily
 			// Not temporarily marked & not unmarked => permanently marked
-			topSortTmpMark.remove(node);
+			topSortTmpMark.remove(state);
 			
 			//> add n to head of L
 			// Since the paper iterates over the list from the end, we simply
 			// change the order here and iterate later from the beginning.
-			topSortSorted.add(node);
+			topSortSorted.add(state);
 		}
 	}
 }

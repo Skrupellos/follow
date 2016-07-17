@@ -33,7 +33,7 @@ public abstract class GraphArrow<
 	}
 	
 	
-	protected abstract NODE createNode();
+	protected abstract NODE createState();
 	
 	
 	public NODE tail() {
@@ -97,6 +97,6 @@ public abstract class GraphArrow<
 	 * them in a newly created one.
 	 */
 	public void delete() {
-		loopOnNode(createNode());
+		loopOnNode(createState());
 	}
 }

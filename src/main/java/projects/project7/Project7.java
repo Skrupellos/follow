@@ -1,6 +1,6 @@
 package projects.project7;
 
-import com.github.skrupellos.follow.Follow;
+import com.github.skrupellos.follow.follow.Follow;
 
 import nfa.TransitionTable;
 import projects.NFAGenerator;

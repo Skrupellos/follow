@@ -2,9 +2,9 @@ package com.github.skrupellos.follow.nfa;
 
 
 public interface NfaVisitor<T> {
-	default void visitArrow(NfaEpsilonArrow<T> arrow)   { visitArrowAll(arrow); }
-	default void visitArrow(NfaSymbolArrow<T> arrow) { visitArrowAll(arrow); }
-	default void visitArrowAll(NfaArrow<T> arrow)       {                       }
+	default void visitTransition(NfaEpsilonTransition<T> transition)   { visitTransitionAll(transition); }
+	default void visitTransition(NfaSymbolTransition<T> transition) { visitTransitionAll(transition); }
+	default void visitTransitionAll(NfaTransition<T> transition)       {                       }
 	
-	default void visitNode(NfaNode<T> node)             {                       }
+	default void visitState(NfaState<T> state)             {                       }
 }

@@ -7,11 +7,12 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.github.skrupellos.follow.follow.Algorithm4;
 import com.github.skrupellos.follow.graph.GraphArrow;
 import com.github.skrupellos.follow.graph.GraphArrowSet;
-import com.github.skrupellos.follow.nfa.Nfa;
-import com.github.skrupellos.follow.nfa.NfaEpsilonArrow;
-import com.github.skrupellos.follow.nfa.NfaSymbolArrow;
+import com.github.skrupellos.follow.nfa.EpsilonNfa;
+import com.github.skrupellos.follow.nfa.NfaEpsilonTransition;
+import com.github.skrupellos.follow.nfa.NfaSymbolTransition;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexIntNode;
 import com.github.skrupellos.follow.regex.RegexStar;
@@ -86,7 +87,7 @@ public class Algorithm4Spec {
 	 */
 	@Test
 	public void constructEpislonNFA() {
-		Nfa<String> nfa =  Algorithm4.apply(getTeta());
+		EpsilonNfa<String> nfa =  Algorithm4.apply(getTeta());
 		Set<String> actual = SpecUtil.evaluateGraph(nfa.start.tails().arrows(), nfa.start);
 		Set<String> expected_1 = getExpectedTetaResult_1();
 		Set<String> expected_2 = getExpectedTetaResult_2();
@@ -106,12 +107,12 @@ public class Algorithm4Spec {
 	 */
 	@Test
 	public void symbolToEpsilonNFA() {
-		Nfa<String> nfa = Algorithm4.apply(new RegexSymbol<String>("a"));
+		EpsilonNfa<String> nfa = Algorithm4.apply(new RegexSymbol<String>("a"));
 		GraphArrowSet<?, ?> set = nfa.start.tails();
 		assertEquals(1, set.arrows().size());
 		GraphArrow[] arrow = set.arrows().toArray(new GraphArrow[1]);
-		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
-		NfaSymbolArrow symbolArrow = (NfaSymbolArrow) arrow[0];
+		assertEquals(NfaSymbolTransition.class, arrow[0].getClass());
+		NfaSymbolTransition symbolArrow = (NfaSymbolTransition) arrow[0];
 		assertEquals("a", symbolArrow.symbol());
 	}
 	
@@ -123,12 +124,12 @@ public class Algorithm4Spec {
 	 */
 	@Test
 	public void catenationToEpsilonNFA() {
-		Nfa<String> nfa = Algorithm4.apply(new RegexCatenation<String>(new RegexSymbol<String>("a"), new RegexSymbol<String>("b")));
+		EpsilonNfa<String> nfa = Algorithm4.apply(new RegexCatenation<String>(new RegexSymbol<String>("a"), new RegexSymbol<String>("b")));
 		GraphArrowSet<?, ?> set = nfa.start.tails();
 		assertEquals(1, set.arrows().size());
 		GraphArrow[] arrow = set.arrows().toArray(new GraphArrow[1]);
-		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
-		NfaSymbolArrow symbolArrow = (NfaSymbolArrow) arrow[0];
+		assertEquals(NfaSymbolTransition.class, arrow[0].getClass());
+		NfaSymbolTransition symbolArrow = (NfaSymbolTransition) arrow[0];
 		assertEquals("a", symbolArrow.symbol());
 	}
 	
@@ -145,15 +146,15 @@ public class Algorithm4Spec {
 	 */
 	@Test
 	public void unionToEpsilonNFA() {
-		Nfa<String> nfa = Algorithm4.apply(new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexSymbol<String>("b")));
+		EpsilonNfa<String> nfa = Algorithm4.apply(new RegexUnion<String>(new RegexSymbol<String>("a"), new RegexSymbol<String>("b")));
 		GraphArrowSet<?, ?> set = nfa.start.tails();
 		assertEquals(2, set.arrows().size());
 		GraphArrow[] arrow = set.arrows().toArray(new GraphArrow[2]);
-		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
-		assertEquals(NfaSymbolArrow.class, arrow[1].getClass());
+		assertEquals(NfaSymbolTransition.class, arrow[0].getClass());
+		assertEquals(NfaSymbolTransition.class, arrow[1].getClass());
 		
-		NfaSymbolArrow symbolArrow1 = (NfaSymbolArrow) arrow[0];
-		NfaSymbolArrow symbolArrow2 = (NfaSymbolArrow) arrow[1];
+		NfaSymbolTransition symbolArrow1 = (NfaSymbolTransition) arrow[0];
+		NfaSymbolTransition symbolArrow2 = (NfaSymbolTransition) arrow[1];
 		assertTrue((symbolArrow1.symbol().equals("a") && symbolArrow2.symbol().equals("b"))
 				|| (symbolArrow1.symbol().equals("b") && symbolArrow2.symbol().equals("a")));
 	}
@@ -169,18 +170,18 @@ public class Algorithm4Spec {
 	 */
 	@Test
 	public void iterationToEpsilonNFA() {
-		Nfa<String> nfa = Algorithm4.apply(new RegexStar<String>(new RegexSymbol<String>("a")));
+		EpsilonNfa<String> nfa = Algorithm4.apply(new RegexStar<String>(new RegexSymbol<String>("a")));
 		GraphArrowSet<?, ?> outSet = nfa.start.tails();
 		assertEquals(2, outSet.arrows().size());
 		GraphArrow[] arrow = outSet.arrows().toArray(new GraphArrow[2]);
-		assertTrue((arrow[0].getClass().equals(NfaSymbolArrow.class) && arrow[1].getClass().equals(NfaEpsilonArrow.class))
-				|| (arrow[0].getClass().equals(NfaEpsilonArrow.class) && arrow[1].getClass().equals(NfaSymbolArrow.class)));
+		assertTrue((arrow[0].getClass().equals(NfaSymbolTransition.class) && arrow[1].getClass().equals(NfaEpsilonTransition.class))
+				|| (arrow[0].getClass().equals(NfaEpsilonTransition.class) && arrow[1].getClass().equals(NfaSymbolTransition.class)));
 		
 		GraphArrowSet<?, ?> inSet = nfa.start.heads();
 		assertEquals(1, inSet.arrows().size());
 		arrow = inSet.arrows().toArray(new GraphArrow[1]);
-		assertEquals(NfaSymbolArrow.class, arrow[0].getClass());
-		NfaSymbolArrow symbolArrow = (NfaSymbolArrow) arrow[0];
+		assertEquals(NfaSymbolTransition.class, arrow[0].getClass());
+		NfaSymbolTransition symbolArrow = (NfaSymbolTransition) arrow[0];
 		assertEquals("a", symbolArrow.symbol());
 	}
 }

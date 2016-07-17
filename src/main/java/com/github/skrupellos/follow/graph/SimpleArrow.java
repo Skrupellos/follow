@@ -12,7 +12,7 @@ class SimpleArrow extends GraphArrow<SimpleNode, SimpleArrow> {
 	}
 	
 	
-	protected SimpleNode createNode() {
+	protected SimpleNode createState() {
 		return new SimpleNode();
 	}
 	

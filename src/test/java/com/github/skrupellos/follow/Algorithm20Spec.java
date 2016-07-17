@@ -11,9 +11,11 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 import org.junit.Test;
 
-import com.github.skrupellos.follow.nfa.Nfa;
-import com.github.skrupellos.follow.nfa.NfaArrow;
-import com.github.skrupellos.follow.nfa.NfaNode;
+import com.github.skrupellos.follow.follow.Algorithm20;
+import com.github.skrupellos.follow.follow.Algorithm4;
+import com.github.skrupellos.follow.nfa.EpsilonNfa;
+import com.github.skrupellos.follow.nfa.NfaTransition;
+import com.github.skrupellos.follow.nfa.NfaState;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexIntNode;
 import com.github.skrupellos.follow.regex.RegexStar;
@@ -23,7 +25,7 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 @FixMethodOrder(MethodSorters.JVM)
 public class Algorithm20Spec {
 	
-	private Nfa<String> getBaseNFA() {
+	private EpsilonNfa<String> getBaseNFA() {
 		return Algorithm4.apply(getTeta());
 	}
 	
@@ -70,7 +72,7 @@ public class Algorithm20Spec {
 	
 	@Test
 	public void simplifyEpsilonNFA() {
-		Nfa<String> nfa = getBaseNFA();
+		EpsilonNfa<String> nfa = getBaseNFA();
 		Algorithm20.apply(nfa.start);
 		Set<String> actual = SpecUtil.evaluateGraph(nfa.start.tails().arrows(), nfa.start);
 		Set<String> expected = getExpectedBaseNfaResult();
@@ -80,7 +82,7 @@ public class Algorithm20Spec {
 		
 		assertFalse(nfa.start.isFinal);
 		
-		List<NfaNode<String>> nodes = new ArrayList<>();
+		List<NfaState<String>> nodes = new ArrayList<>();
 		nodes.add(nfa.start);
 		checkFinal(nfa.start, nodes);
 	}
@@ -91,9 +93,9 @@ public class Algorithm20Spec {
 	 * @param nfa
 	 * @param nodes
 	 */
-	private void checkFinal(NfaNode<String> nfa, List<NfaNode<String>> nodes) {
-		for(NfaArrow<String> arrow : nfa.tails().arrows()) {
-			NfaNode<String> node = arrow.head();
+	private void checkFinal(NfaState<String> nfa, List<NfaState<String>> nodes) {
+		for(NfaTransition<String> arrow : nfa.tails().arrows()) {
+			NfaState<String> node = arrow.head();
 			if(!nodes.contains(node)) {
 				nodes.add(node);
 				assertTrue(node.isFinal);

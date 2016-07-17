@@ -1,4 +1,4 @@
-package com.github.skrupellos.follow;
+package com.github.skrupellos.follow.follow;
 
 import java.util.Collection;
 import java.util.HashMap;

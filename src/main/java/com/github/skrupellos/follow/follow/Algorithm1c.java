@@ -1,4 +1,4 @@
-package com.github.skrupellos.follow;
+package com.github.skrupellos.follow.follow;
 
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexExtNode;

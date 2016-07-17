@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.github.skrupellos.follow.nfa.NfaArrow;
-import com.github.skrupellos.follow.nfa.NfaNode;
+import com.github.skrupellos.follow.nfa.NfaTransition;
+import com.github.skrupellos.follow.nfa.NfaState;
 
 public class SpecUtil {
 
@@ -17,8 +17,8 @@ public class SpecUtil {
 		// do not instantiate
 	}
 	
-	public static Set<String> evaluateGraph(Set<NfaArrow<String>> arrows, NfaNode<String> currentNode) {
-		Set<NfaNode<String>> markedNodes = new HashSet<>(); 
+	public static Set<String> evaluateGraph(Set<NfaTransition<String>> arrows, NfaState<String> currentNode) {
+		Set<NfaState<String>> markedNodes = new HashSet<>(); 
 		Map<Integer, Integer> nodeMap = new HashMap<>();
 		Set<String> transitionSet = new HashSet<>();
 		Counter nodeId = new Counter();
@@ -27,14 +27,14 @@ public class SpecUtil {
 		return transitionSet;
 	}
 	
-	private static void lookUpTargetNodes(Set<NfaArrow<String>> arrows, NfaNode<String> currentNode, Set<NfaNode<String>> markedNodes, Map<Integer, Integer> nodeMap, Set<String> transitionSet, Counter nodeId) {
-		Iterator<NfaArrow<String>> arrow;
-		NfaNode<String> nextNode;
+	private static void lookUpTargetNodes(Set<NfaTransition<String>> arrows, NfaState<String> currentNode, Set<NfaState<String>> markedNodes, Map<Integer, Integer> nodeMap, Set<String> transitionSet, Counter nodeId) {
+		Iterator<NfaTransition<String>> arrow;
+		NfaState<String> nextNode;
 		if(nodeMap.putIfAbsent(currentNode.hashCode(), nodeId.getValue()) == null) {
 			nodeId.increment();
 		}
 		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
-			NfaArrow<String> currentArrow = arrow.next();
+			NfaTransition<String> currentArrow = arrow.next();
 			nextNode = currentArrow.head();
 			if(nodeMap.putIfAbsent(nextNode.hashCode(), nodeId.getValue()) == null) {
 				nodeId.increment();
@@ -45,13 +45,13 @@ public class SpecUtil {
 			BUILDER.setLength(0);
 		}
 		for(arrow = arrows.iterator(); arrow.hasNext(); ) {
-			NfaArrow<String> currentArrow = arrow.next();
+			NfaTransition<String> currentArrow = arrow.next();
 			nextNode = currentArrow.head();
 			if(markedNodes.contains(nextNode)) {
 				continue;
 			}
 			markedNodes.add(nextNode);
-			Set<NfaArrow<String>> nextArrows = nextNode.tails().arrows();
+			Set<NfaTransition<String>> nextArrows = nextNode.tails().arrows();
 			lookUpTargetNodes(nextArrows, nextNode, markedNodes, nodeMap, transitionSet, nodeId);
 		}
 	}

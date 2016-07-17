@@ -1,6 +1,6 @@
 package projects.project7;
 
-import com.github.skrupellos.follow.AlgorithmBase;
+import com.github.skrupellos.follow.follow.AlgorithmBase;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexEpsilon;
 import com.github.skrupellos.follow.regex.RegexNode;

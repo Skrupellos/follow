@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.github.skrupellos.follow.follow.Algorithm1a;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexEmptySet;
 import com.github.skrupellos.follow.regex.RegexEpsilon;

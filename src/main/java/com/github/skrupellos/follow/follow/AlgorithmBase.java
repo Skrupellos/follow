@@ -1,4 +1,4 @@
-package com.github.skrupellos.follow;
+package com.github.skrupellos.follow.follow;
 
 public class AlgorithmBase<KEY, VALUE> extends MapHelper<KEY, VALUE> {
 	private final KEY root;

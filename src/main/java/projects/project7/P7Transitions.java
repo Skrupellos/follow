@@ -3,7 +3,7 @@ package projects.project7;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.skrupellos.follow.MapListHelper;
+import com.github.skrupellos.follow.follow.MapListHelper;
 
 import nfa.State;
 import nfa.Transitions;

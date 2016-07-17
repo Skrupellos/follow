@@ -1,15 +1,15 @@
-package com.github.skrupellos.follow;
+package com.github.skrupellos.follow.follow;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
-import com.github.skrupellos.follow.nfa.Nfa;
-import com.github.skrupellos.follow.nfa.NfaArrow;
-import com.github.skrupellos.follow.nfa.NfaEpsilonArrow;
-import com.github.skrupellos.follow.nfa.NfaNode;
-import com.github.skrupellos.follow.nfa.NfaSymbolArrow;
+import com.github.skrupellos.follow.nfa.EpsilonNfa;
+import com.github.skrupellos.follow.nfa.NfaTransition;
+import com.github.skrupellos.follow.nfa.NfaEpsilonTransition;
+import com.github.skrupellos.follow.nfa.NfaState;
+import com.github.skrupellos.follow.nfa.NfaSymbolTransition;
 import com.github.skrupellos.follow.regex.RegexCatenation;
 import com.github.skrupellos.follow.regex.RegexEmptySet;
 import com.github.skrupellos.follow.regex.RegexEpsilon;
@@ -21,8 +21,8 @@ import com.github.skrupellos.follow.regex.RegexVisitor;
 
 
 
-public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implements RegexVisitor<T> {
-	public static <T> Nfa<T> apply(RegexNode<T> root) {
+public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, EpsilonNfa<T>> implements RegexVisitor<T> {
+	public static <T> EpsilonNfa<T> apply(RegexNode<T> root) {
 		return (new Algorithm4<T>(root)).result();
 	}
 	
@@ -38,34 +38,34 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		// The regex ε* would produces two following ε transitions, where,
 		// according to (c), only the first one would be removed. Algorithm 1b
 		// will prevent those cases.
-		NfaNode<T> start = result().start;
-		Set<NfaArrow<T>> arrows;
-		NfaArrow<T> arrow;
+		NfaState<T> start = result().start;
+		Set<NfaTransition<T>> transitions;
+		NfaTransition<T> transition;
 		
 		if(
-			(arrows = start.tails().arrows()).size() == 1 &&
-			(arrow  = arrows.iterator().next())      instanceof NfaEpsilonArrow
+			(transitions = start.tails().arrows()).size() == 1 &&
+			(transition  = transitions.iterator().next())      instanceof NfaEpsilonTransition
 		) {
-			start.takeover(arrow.head());
-			arrow.delete(); // Delete has to be the last action.
+			start.takeover(transition.head());
+			transition.delete(); // Delete has to be the last action.
 		}
 	}
 	
 	
-	private Nfa<T> nfaForFreshRegex(RegexNode<T> key) {
-		Nfa<T> nfa = new Nfa<T>();
+	private EpsilonNfa<T> nfaForFreshRegex(RegexNode<T> key) {
+		EpsilonNfa<T> nfa = new EpsilonNfa<T>();
 		define(key, nfa);
 		return nfa;
 	}
 	
 	
 	public void post(RegexCatenation<T> regex) {
-		Nfa<T> nfa = nfaForFreshRegex(regex);
-		Nfa<T> leftNfa = lookup(regex.left());
-		Nfa<T> rightNfa = lookup(regex.right());
-		NfaNode<T> mid = new NfaNode<T>();
-		Set<NfaArrow<T>> arrows;
-		NfaArrow<T> arrow;
+		EpsilonNfa<T> nfa = nfaForFreshRegex(regex);
+		EpsilonNfa<T> leftNfa = lookup(regex.left());
+		EpsilonNfa<T> rightNfa = lookup(regex.right());
+		NfaState<T> mid = new NfaState<T>();
+		Set<NfaTransition<T>> transitions;
+		NfaTransition<T> transition;
 		
 		//> (a) After catenation: denote the state common to the two automata
 		//>     by p; (a1) if there is a single transition outgoing from p, say
@@ -78,20 +78,20 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		// fail for the simple regex a*·b*. This also produces an NFA which
 		// starts and ends with ε.
 		if(
-			(arrows = rightNfa.start.tails().arrows()).size() == 1 &&
-			(arrow  = arrows.iterator().next())               instanceof NfaEpsilonArrow
+			(transitions = rightNfa.start.tails().arrows()).size() == 1 &&
+			(transition  = transitions.iterator().next())               instanceof NfaEpsilonTransition
 		) {
 			mid.takeover(leftNfa.end);
-			mid.takeover(arrow.head());
-			arrow.delete(); // Delete has to be the last action.
+			mid.takeover(transition.head());
+			transition.delete(); // Delete has to be the last action.
 		}
 		else if(
-			(arrows = leftNfa.end.heads().arrows()).size() == 1 &&
-			(arrow  = arrows.iterator().next())            instanceof NfaEpsilonArrow
+			(transitions = leftNfa.end.heads().arrows()).size() == 1 &&
+			(transition  = transitions.iterator().next())            instanceof NfaEpsilonTransition
 		) {
-			mid.takeover(arrow.tail());
+			mid.takeover(transition.tail());
 			mid.takeover(rightNfa.start);
-			arrow.delete(); // Delete has to be the last action.
+			transition.delete(); // Delete has to be the last action.
 		}
 		else {
 			mid.takeover(leftNfa.end);
@@ -104,14 +104,14 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 	
 	
 	public void post(RegexStar<T> regex) {
-		Nfa<T> nfa = nfaForFreshRegex(regex);
-		Nfa<T> subNfa = lookup(regex.sub());
-		NfaNode<T> mid = new NfaNode<T>();
+		EpsilonNfa<T> nfa = nfaForFreshRegex(regex);
+		EpsilonNfa<T> subNfa = lookup(regex.sub());
+		NfaState<T> mid = new NfaState<T>();
 		
 		// Adding the epsilon transitions first will result in a faster
 		// depth-first search for the end node in GraphNode.reachable().
-		new NfaEpsilonArrow<T>(nfa.start, mid);
-		new NfaEpsilonArrow<T>(mid, nfa.end);
+		new NfaEpsilonTransition<T>(nfa.start, mid);
+		new NfaEpsilonTransition<T>(mid, nfa.end);
 		
 		subNfa.start.replaceBy(mid);
 		subNfa.end.replaceBy(mid);
@@ -124,17 +124,17 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		
 		// Those sets collect the found items. It can happen that an item is
 		// added twice, but we don't want duplicates. Hence: Sets.
-		Set<NfaNode<T>>              nodesToMerge   = new HashSet<NfaNode<T>>();
-		Set<NfaArrow<T>>             arrowsToDelete = new HashSet<NfaArrow<T>>();
+		Set<NfaState<T>>              statesToMerge   = new HashSet<NfaState<T>>();
+		Set<NfaTransition<T>>             transitionsToDelete = new HashSet<NfaTransition<T>>();
 		
 		// Some sort of stack frame
-		Stack<Iterator<NfaArrow<T>>> iterators      = new Stack<Iterator<NfaArrow<T>>>();
-		Stack<NfaNode<T>>            nodes          = new Stack<NfaNode<T>>();
-		Stack<NfaArrow<T>>           arrows         = new Stack<NfaArrow<T>>();
+		Stack<Iterator<NfaTransition<T>>> iterators      = new Stack<Iterator<NfaTransition<T>>>();
+		Stack<NfaState<T>>            states          = new Stack<NfaState<T>>();
+		Stack<NfaTransition<T>>           transitions         = new Stack<NfaTransition<T>>();
 		
 		// The start and end state of an sub nfa are always merged.
-		nodesToMerge.add(subNfa.start);
-		nodesToMerge.add(subNfa.end);
+		statesToMerge.add(subNfa.start);
+		statesToMerge.add(subNfa.end);
 		
 		// Find ε pathes from the start to the end state of the sub nfa by
 		// back-tracking. This is done with an emulated recusive aproach. Since
@@ -144,53 +144,53 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 		// placeholder for both of them instead.
 		iterators.push(mid.tails().iterator());
 		while(iterators.isEmpty() == false) {
-			Iterator<NfaArrow<T>> iterator = iterators.peek();
+			Iterator<NfaTransition<T>> iterator = iterators.peek();
 			
 			if(iterator.hasNext()) {
-				NfaArrow<T> arrow = iterator.next();
-				if((arrow instanceof NfaEpsilonArrow) == false)
+				NfaTransition<T> transition = iterator.next();
+				if((transition instanceof NfaEpsilonTransition) == false)
 					continue;
 				
 				// Found final ε-transition => Extend merge/delete list.
-				if(arrow.head() == mid) {
-					nodesToMerge  .addAll(nodes);
-					arrowsToDelete.addAll(arrows);
-					arrowsToDelete.add(arrow);
+				if(transition.head() == mid) {
+					statesToMerge  .addAll(states);
+					transitionsToDelete.addAll(transitions);
+					transitionsToDelete.add(transition);
 				}
 				// Found intermediate ε-transition => go one node down.
 				else {
-					iterators.push(arrow.head().tails().iterator());
-					nodes    .push(arrow.head());
-					arrows   .push(arrow);
+					iterators.push(transition.head().tails().iterator());
+					states    .push(transition.head());
+					transitions   .push(transition);
 				}
 			} else {
 				// No further transitions => go one node up.
 				iterators.pop();
-				if(!nodes.isEmpty()) {
-					nodes.pop();
+				if(!states.isEmpty()) {
+					states.pop();
 				}
-				if(!arrows.isEmpty()) {
-					arrows.pop();
+				if(!transitions.isEmpty()) {
+					transitions.pop();
 				}
 			}
 		}
 		
 		// Deleting arrows first results in less arrows to move, when taking
 		// over nodes in the next step.
-		for(NfaArrow<T> arrow : arrowsToDelete) {
-			arrow.delete();
+		for(NfaTransition<T> transition : transitionsToDelete) {
+			transition.delete();
 		}
 		
-		for(NfaNode<T> node : nodesToMerge) {
-			mid.takeover(node);
+		for(NfaState<T> state : statesToMerge) {
+			mid.takeover(state);
 		}
 	}
 	
 	
 	public void post(RegexUnion<T> regex) {
-		Nfa<T> nfa = nfaForFreshRegex(regex);
-		Nfa<T> leftNfa = lookup(regex.left());
-		Nfa<T> rightNfa = lookup(regex.right());
+		EpsilonNfa<T> nfa = nfaForFreshRegex(regex);
+		EpsilonNfa<T> leftNfa = lookup(regex.left());
+		EpsilonNfa<T> rightNfa = lookup(regex.right());
 		
 		leftNfa.start.replaceBy(nfa.start);
 		leftNfa.end.replaceBy(nfa.end);
@@ -207,13 +207,13 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, Nfa<T>> implement
 	
 	
 	public void post(RegexEpsilon<T> regex) {
-		Nfa<T> nfa = nfaForFreshRegex(regex);
-		new NfaEpsilonArrow<T>(nfa.start, nfa.end);
+		EpsilonNfa<T> nfa = nfaForFreshRegex(regex);
+		new NfaEpsilonTransition<T>(nfa.start, nfa.end);
 	}
 	
 	
 	public void post(RegexSymbol<T> regex) {
-		Nfa<T> nfa = nfaForFreshRegex(regex);
-		new NfaSymbolArrow<T>(regex.symbol(), nfa.start, nfa.end);
+		EpsilonNfa<T> nfa = nfaForFreshRegex(regex);
+		new NfaSymbolTransition<T>(regex.symbol(), nfa.start, nfa.end);
 	}
 }

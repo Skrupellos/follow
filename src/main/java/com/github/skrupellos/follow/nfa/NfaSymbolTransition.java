@@ -2,18 +2,18 @@ package com.github.skrupellos.follow.nfa;
 
 import com.github.skrupellos.follow.graph.GraphArrow;
 
-public class NfaSymbolArrow<T> extends NfaArrow<T> {
+public class NfaSymbolTransition<T> extends NfaTransition<T> {
 	private T symbol;
 	
 	
-	public NfaSymbolArrow(T symbol, NfaNode<T> tail, NfaNode<T> head) {
+	public NfaSymbolTransition(T symbol, NfaState<T> tail, NfaState<T> head) {
 		super(tail, head);
 		setSymbol(symbol);
 	}
 	
 	
-	public NfaSymbolArrow(T symbol, NfaNode<T> node) {
-		super(node);
+	public NfaSymbolTransition(T symbol, NfaState<T> state) {
+		super(state);
 		setSymbol(symbol);
 	}
 	
@@ -23,7 +23,7 @@ public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	}
 	
 	
-	public NfaSymbolArrow<T> setSymbol(T symbol) {
+	public NfaSymbolTransition<T> setSymbol(T symbol) {
 		this.symbol = symbol;
 		return this;
 	}
@@ -35,8 +35,8 @@ public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	}
 	
 	
-	public NfaArrow<T> accept(NfaVisitor<T> visitor) {
-		visitor.visitArrow(this);
+	public NfaTransition<T> accept(NfaVisitor<T> visitor) {
+		visitor.visitTransition(this);
 		return this;
 	}
 	
@@ -46,7 +46,7 @@ public class NfaSymbolArrow<T> extends NfaArrow<T> {
 	public boolean equalContents(GraphArrow other) {
 		return
 			super.equalContents(other) &&
-			other instanceof NfaSymbolArrow &&
-			symbol.equals( ((NfaSymbolArrow)other).symbol );
+			other instanceof NfaSymbolTransition &&
+			symbol.equals( ((NfaSymbolTransition)other).symbol );
 	}
 }
