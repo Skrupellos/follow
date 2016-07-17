@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import nfa.State;
 import nfa.TransitionTable;
 import nfa.Transitions;
@@ -20,6 +21,7 @@ import regex.RegularExpression;
 public class Project7Spec {
 	
 	private final static Char char_1 = new Char() {
+		@SuppressFBWarnings(value="DM_STRING_CTOR")
 		@Override
 		public String getCharacter() {
 			return new String("a");
@@ -27,6 +29,7 @@ public class Project7Spec {
 	};
 	
 	private final static Char char_2 = new Char() {
+		@SuppressFBWarnings(value="DM_STRING_CTOR")
 		@Override
 		public String getCharacter() {
 			return new String("b");
@@ -34,6 +37,7 @@ public class Project7Spec {
 	};
 	
 	private final static Char char_3 = new Char() {
+		@SuppressFBWarnings(value="DM_STRING_CTOR")
 		@Override
 		public String getCharacter() {
 			return new String("b");
@@ -41,6 +45,7 @@ public class Project7Spec {
 	};
 	
 	private final static Char char_4 = new Char() {
+		@SuppressFBWarnings(value="DM_STRING_CTOR")
 		@Override
 		public String getCharacter() {
 			return new String("b");
@@ -48,6 +53,7 @@ public class Project7Spec {
 	};
 	
 	private final static Char char_5 = new Char() {
+		@SuppressFBWarnings(value="DM_STRING_CTOR")
 		@Override
 		public String getCharacter() {
 			return new String("a");
@@ -55,6 +61,7 @@ public class Project7Spec {
 	};
 	
 	private final static Char char_6 = new Char() {
+		@SuppressFBWarnings(value="DM_STRING_CTOR")
 		@Override
 		public String getCharacter() {
 			return new String("a");
