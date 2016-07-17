@@ -183,10 +183,8 @@ public class Algorithm4<T> extends AlgorithmBase<RegexNode<T>, EpsilonNfa<T>> im
 			} else {
 				// No further transitions => go one node up.
 				iterators.pop();
-				if(!states.isEmpty()) {
+				if(iterators.isEmpty() == false) {
 					states.pop();
-				}
-				if(!transitions.isEmpty()) {
 					transitions.pop();
 				}
 			}
