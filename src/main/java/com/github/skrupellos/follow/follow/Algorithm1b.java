@@ -26,18 +26,7 @@ import com.github.skrupellos.follow.regex.RegexUnion;
 import com.github.skrupellos.follow.regex.RegexVisitor;
 
 
-class Attributes<T> {
-	public final RegexNode<T> tree;
-	public final boolean containsEpsilon;
-	
-	Attributes(RegexNode<T> tree, boolean containsEpsilon) {
-		this.tree = tree;
-		this.containsEpsilon = containsEpsilon;
-	}
-}
-
-
-public class Algorithm1b<T> extends AlgorithmBase<RegexNode<T>, Attributes<T>> implements RegexVisitor<T> {
+public class Algorithm1b<T> extends AlgorithmBase<RegexNode<T>, Algorithm1b.Attributes<T>> implements RegexVisitor<T> {
 	public static <T> Attributes<T> apply(RegexNode<T> root) {
 		return (new Algorithm1b<T>(root)).result();
 	}
@@ -113,5 +102,16 @@ public class Algorithm1b<T> extends AlgorithmBase<RegexNode<T>, Attributes<T>> i
 	
 	public void postExt(RegexExtNode<T> regex) {
 		define(regex, new Attributes<T>(regex.deepCopy(), false));
+	}
+	
+	
+	public static class Attributes<T> {
+		public final RegexNode<T> tree;
+		public final boolean containsEpsilon;
+		
+		Attributes(RegexNode<T> tree, boolean containsEpsilon) {
+			this.tree = tree;
+			this.containsEpsilon = containsEpsilon;
+		}
 	}
 }
