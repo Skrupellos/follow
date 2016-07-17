@@ -15,45 +15,39 @@
  * along with Follow. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.skrupellos.follow.regex;
+package com.github.skrupellos.follow.follow;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
-import com.github.skrupellos.follow.tree.TreeNode;
+import lombok.NonNull;
 
 
-public abstract class RegexNode<T> extends TreeNode<RegexNode<T>> {
-	// Nothing
-	public RegexNode() {
-		super();
+public abstract class MapHelper<KEY, VALUE> {
+	private final Map<KEY, VALUE> map = new HashMap<KEY, VALUE>();
+	
+	
+	protected void define(@NonNull KEY key, @NonNull VALUE value) {
+		VALUE ret = map.putIfAbsent(key, value);
+		if(ret != null) {
+			throw new IllegalArgumentException("Not a new regex");
+		}
 	}
 	
 	
-	// Only parent
-	public RegexNode(RegexIntNode<T> parent) {
-		super(parent);
+	protected VALUE lookup(@NonNull KEY key) {
+		VALUE value = map.get(key);
+		if(value == null) {
+			throw new IllegalArgumentException("regex does not exist");
+		}
+		
+		return value;
 	}
+
 	
-	
-	// Only children
-	public RegexNode(List<RegexNode<T>> children) {
-		super(children);
-	}
-	
-	
-	// Parent & children
-	public RegexNode(RegexIntNode<T> parent, List<RegexNode<T>> children) {
-		super(parent, children);
-	}
-	
-	
-	public abstract RegexNode<T> deepCopy();
-	
-	
-	public abstract RegexNode<T> accept(RegexVisitor<T> visitor);
-	
-	
-	protected RegexNode<T> uncheckedSelf() {
-		return this;
+	protected Collection<VALUE> getValues() {
+		return new LinkedList<>(map.values());
 	}
 }

@@ -1,10 +1,28 @@
+/* This file is part of Follow (https://github.com/Skrupellos/follow).
+ * Copyright (c) 2016 Skruppy <skruppy@onmars.eu> and kratl.
+ *
+ * Follow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Follow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Follow. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.github.skrupellos.follow.tree;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Iterator;
-import java.lang.Iterable;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import lombok.NonNull;
 
 
 public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<SELF> {
@@ -120,14 +138,10 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	}
 	
 	
-	public SELF setChildren(List<SELF> newChildren) {
+	public SELF setChildren(@NonNull List<SELF> newChildren) {
 		List<SELF> adopted   = new LinkedList<SELF>();
 		
 		// #### Checks, which don't modify the data structure.
-		// Argument must not be null.
-		if(newChildren == null) {
-			throw new IllegalArgumentException("\"children\" must not be null");
-		}
 		
 		// The invariant must hold.
 		invariant(newChildren);
@@ -135,7 +149,7 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 		for(SELF child : newChildren) {
 			// The chidren must not be null.
 			if(child == null) {
-				throw new IllegalArgumentException("\"child\" must not be null");
+				throw new NullPointerException("\"child\" must not be null");
 			}
 			
 			// Prevent duplicates.
@@ -183,11 +197,7 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	}
 	
 	
-	public SELF removeChild(SELF child) {
-		if(child == null) {
-			throw new IllegalArgumentException("\"child\" must not be null");
-		}
-		
+	public SELF removeChild(@NonNull SELF child) {
 		List<SELF> children = children();
 		if(children.remove(child) == false) {
 			throw new IllegalArgumentException("I decline this paternity suit");
@@ -198,11 +208,7 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	}
 	
 	
-	public SELF replaceChild(int pos, SELF child) {
-		if(child == null) {
-			throw new IllegalArgumentException("\"child\" must not be null");
-		}
-		
+	public SELF replaceChild(int pos, @NonNull SELF child) {
 		List<SELF> children = children();
 		SELF old = children.set(pos, child);
 		setChildren(children);
@@ -239,7 +245,7 @@ public abstract class TreeNode<SELF extends TreeNode<SELF>> implements Iterable<
 	
 	
 	public boolean shallowEquivalent(SELF other) {
-		return this.getClass() == other.getClass();
+		return other != null && this.getClass() == other.getClass();
 	}
 	
 	

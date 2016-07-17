@@ -1,18 +1,32 @@
+/* This file is part of Follow (https://github.com/Skrupellos/follow).
+ * Copyright (c) 2016 Skruppy <skruppy@onmars.eu> and kratl.
+ *
+ * Follow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Follow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Follow. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.github.skrupellos.follow.tree;
 
-import org.junit.Test;
-
-import com.github.skrupellos.follow.tree.TreeNode;
-import com.github.skrupellos.follow.tree.SimpleTree;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertArrayEquals;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.LinkedList;
-import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class TreeSpec {
 	private SimpleTree getTeta() {
@@ -50,7 +64,7 @@ public class TreeSpec {
 	}
 	
 	
-		@Test
+	@Test
 	public void constructorEmpty() {
 		SimpleTree node = new SimpleTree();
 		
@@ -97,7 +111,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorChildrenNull() {
 		new SimpleTree( (List<SimpleTree>)null );
 	}
@@ -133,7 +147,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorParentOneNullChild() {
 		new SimpleTree(null, Arrays.asList((SimpleTree)null) );
 	}
@@ -160,7 +174,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorParentOneChildOneNullChild() {
 		new SimpleTree(null, Arrays.asList(new SimpleTree(), null));
 	}
@@ -188,7 +202,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void constructorParentNullList() {
 		new SimpleTree(null, (List<SimpleTree>)null );
 	}
@@ -248,6 +262,7 @@ public class TreeSpec {
 		});
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unused" })
 	@Test
 	public void getLevelRoot() {
 		SimpleTree n1, n2, n3;
@@ -282,7 +297,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void setChildrenNull() {
 		SimpleTree child = new SimpleTree();
 		SimpleTree node = new SimpleTree();
@@ -326,7 +341,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void removeChildNull() {
 		SimpleTree node = new SimpleTree(Arrays.asList(new SimpleTree()));
 		node.removeChild(null);
@@ -373,7 +388,7 @@ public class TreeSpec {
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void replaceChildNull() {
 		SimpleTree node = new SimpleTree(null, Arrays.asList(new SimpleTree()));
 		node.replaceChild(0, null);

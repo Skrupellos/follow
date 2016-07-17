@@ -1,37 +1,37 @@
+/* This file is part of Follow (https://github.com/Skrupellos/follow).
+ * Copyright (c) 2016 Skruppy <skruppy@onmars.eu> and kratl.
+ *
+ * Follow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Follow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Follow. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package projects.project7;
 
-import com.github.skrupellos.follow.regex.RegexVisitor;
-import com.github.skrupellos.follow.regex.RegexNode;
-import com.github.skrupellos.follow.regex.RegexCatenation;
-import com.github.skrupellos.follow.regex.RegexEmptySet;
-import com.github.skrupellos.follow.regex.RegexEpsilon;
-import com.github.skrupellos.follow.regex.RegexStar;
-import com.github.skrupellos.follow.regex.RegexSymbol;
-import com.github.skrupellos.follow.regex.RegexUnion;
-import com.github.skrupellos.follow.regex.RegexExtNode;
-import com.github.skrupellos.follow.nfa.NfaNode;
-import com.github.skrupellos.follow.nfa.NfaVisitor;
-import com.github.skrupellos.follow.nfa.NfaSymbolArrow;
-import com.github.skrupellos.follow.nfa.NfaNode;
-import com.github.skrupellos.follow.nfa.NfaArrow;
-import com.github.skrupellos.follow.nfa.Nfa;
-import com.github.skrupellos.follow.MapHelper;
-import regex.RegularExpressionVisitor;
-import regex.AlternationExpression;
-import regex.Char;
-import regex.ConcatenationExpression;
-import regex.KleeneStarExpression;
-import regex.OptionalExpression;
-import regex.PlusExpression;
-import regex.RegularExpression;
 import java.util.Collection;
+import java.util.HashSet;
+
+import com.github.skrupellos.follow.nfa.NfaTransition;
+import com.github.skrupellos.follow.follow.MapHelper;
+import com.github.skrupellos.follow.nfa.NfaState;
+import com.github.skrupellos.follow.nfa.NfaSymbolTransition;
+import com.github.skrupellos.follow.nfa.NfaVisitor;
 
 
-public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements NfaVisitor<String> {
+public class ExportNfa extends MapHelper<NfaState<String>, P7State> implements NfaVisitor<String> {
 	private P7TransitionTable transitionTable = new P7TransitionTable();
 	
 	
-	public static P7TransitionTable apply(NfaNode<String> start) {
+	public static P7TransitionTable apply(NfaState<String> start) {
 		return (new ExportNfa(start)).result();
 	}
 	
@@ -41,36 +41,41 @@ public class ExportNfa extends MapHelper<NfaNode<String>, P7State> implements Nf
 	}
 	
 	
-	public ExportNfa(NfaNode<String> start) {
-		Collection<NfaNode<String>> nodes = start.reachable();
-		for(NfaNode<String> node : nodes) {
-			node.accept(this);
+	public ExportNfa(NfaState<String> start) {
+		Collection<NfaState<String>> states = start.reachable();
+		for(NfaState<String> state : states) {
+			state.accept(this);
 		}
 		
-		for(NfaNode<String> node : nodes) {
-			for(NfaArrow<String> arrow : node.tails()) {
+		for(NfaState<String> state : states) {
+			for(NfaTransition<String> arrow : state.tails()) {
 				arrow.accept(this);
 			}
 		}
 		
-		//transitionTable.start = lookup(nfa.start);
+		transitionTable.start = lookup(start);
+		transitionTable.start.setStart(true);
+		transitionTable.start.states = new HashSet<>(getValues());
 	}
 	
 	
-	public void visitArrow(NfaSymbolArrow<String> arrow) {
-		P7State tail = lookup(arrow.tail());
-		P7State head = lookup(arrow.head());
-		tail.transitions.add(arrow.symbol(), head);
+	public void visitTransition(NfaSymbolTransition<String> transition) {
+		P7State tail = lookup(transition.tail());
+		P7State head = lookup(transition.head());
+		tail.transitions.add(transition.symbol(), head);
 	}
 	
 	
-	public void visitNode(NfaNode<String> node) {
-		P7State state = new P7State();
-		define(node, state);
+	public void visitState(NfaState<String> state) {
+		P7State p7State = new P7State();
+		if(state.isFinal) {
+			p7State.setFinal(true);
+		}
+		define(state, p7State);
 	}
 	
 	
-	public void visitArrowAll(NfaArrow<String> arrow) {
-		throw new RuntimeException("Forgot how to "+arrow);
+	public void visitTransitionAll(NfaTransition<String> transition) {
+		throw new RuntimeException("Forgot how to " + transition);
 	}
 }

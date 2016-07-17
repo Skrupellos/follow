@@ -15,45 +15,44 @@
  * along with Follow. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.skrupellos.follow.regex;
+package com.github.skrupellos.follow.nfa;
 
-import java.util.List;
-
-import com.github.skrupellos.follow.tree.TreeNode;
+import com.github.skrupellos.follow.graph.GraphNode;
 
 
-public abstract class RegexNode<T> extends TreeNode<RegexNode<T>> {
-	// Nothing
-	public RegexNode() {
+public class NfaState<T> extends GraphNode<NfaState<T>, NfaTransition<T>> {
+	public boolean isFinal = false;
+	
+	
+	public NfaState() {
+		this(false);
+	}
+	
+	
+	public NfaState(boolean isFinal) {
 		super();
+		this.isFinal = isFinal;
 	}
 	
 	
-	// Only parent
-	public RegexNode(RegexIntNode<T> parent) {
-		super(parent);
+	public NfaState(Iterable<NfaTransition<T>> tails, Iterable<NfaTransition<T>> heads) {
+		this(tails, heads, false);
 	}
 	
 	
-	// Only children
-	public RegexNode(List<RegexNode<T>> children) {
-		super(children);
+	public NfaState(Iterable<NfaTransition<T>> tails, Iterable<NfaTransition<T>> heads, boolean isFinal) {
+		super(tails, heads);
+		this.isFinal = isFinal;
 	}
 	
 	
-	// Parent & children
-	public RegexNode(RegexIntNode<T> parent, List<RegexNode<T>> children) {
-		super(parent, children);
+	protected NfaState<T> uncheckedSelf() {
+		return this;
 	}
 	
 	
-	public abstract RegexNode<T> deepCopy();
-	
-	
-	public abstract RegexNode<T> accept(RegexVisitor<T> visitor);
-	
-	
-	protected RegexNode<T> uncheckedSelf() {
+	public NfaState<T> accept(NfaVisitor<T> visitor) {
+		visitor.visitState(this);
 		return this;
 	}
 }

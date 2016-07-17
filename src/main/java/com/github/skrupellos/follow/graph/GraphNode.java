@@ -1,10 +1,25 @@
+/* This file is part of Follow (https://github.com/Skrupellos/follow).
+ * Copyright (c) 2016 Skruppy <skruppy@onmars.eu> and kratl.
+ *
+ * Follow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Follow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Follow. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.github.skrupellos.follow.graph;
 
-import java.lang.Iterable;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Stack;
 import java.util.Set;
+import java.util.Stack;
 
 
 
@@ -97,6 +112,8 @@ public abstract class GraphNode<
 		// Using a stack results in a depth-first search, which should answer
 		// queries for the end state faster.
 		Stack<NODE> open = new Stack<NODE>();
+		// guaranty a safe termination condition for for-loop
+		open.push(null);
 		
 		seen.add(self);
 		

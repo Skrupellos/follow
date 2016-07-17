@@ -15,22 +15,23 @@
  * along with Follow. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.skrupellos.follow.regex;
+package com.github.skrupellos.follow.nfa;
 
-public class RegexSymbol<T> extends RegexExtNode<T> {
+import com.github.skrupellos.follow.graph.GraphArrow;
+
+public class NfaSymbolTransition<T> extends NfaTransition<T> {
 	private T symbol;
 	
 	
-	// Nothing
-	public RegexSymbol(T symbol) {
-		this(symbol, null);
+	public NfaSymbolTransition(T symbol, NfaState<T> tail, NfaState<T> head) {
+		super(tail, head);
+		setSymbol(symbol);
 	}
 	
 	
-	// Only parent
-	public RegexSymbol(T symbol, RegexIntNode<T> parent) {
-		super(parent);
-		this.symbol = symbol;
+	public NfaSymbolTransition(T symbol, NfaState<T> state) {
+		super(state);
+		setSymbol(symbol);
 	}
 	
 	
@@ -39,14 +40,9 @@ public class RegexSymbol<T> extends RegexExtNode<T> {
 	}
 	
 	
-	public RegexSymbol<T> setSymbol(T symbol) {
+	public NfaSymbolTransition<T> setSymbol(T symbol) {
 		this.symbol = symbol;
 		return this;
-	}
-	
-	
-	public boolean shallowEquivalent(RegexNode<T> other) {
-		return this.getClass() == other.getClass() && other instanceof RegexSymbol && symbol.equals(((RegexSymbol<T>)other).symbol());
 	}
 	
 	
@@ -56,14 +52,18 @@ public class RegexSymbol<T> extends RegexExtNode<T> {
 	}
 	
 	
-	public RegexNode<T> deepCopy() {
-		return new RegexSymbol<T>(symbol);
+	public NfaTransition<T> accept(NfaVisitor<T> visitor) {
+		visitor.visitTransition(this);
+		return this;
 	}
 	
 	
-	public RegexNode<T> accept(RegexVisitor<T> visitor) {
-		visitor.pre(this);
-		visitor.post(this);
-		return this;
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean equalContents(GraphArrow other) {
+		return
+			super.equalContents(other) &&
+			other instanceof NfaSymbolTransition &&
+			symbol.equals( ((NfaSymbolTransition)other).symbol );
 	}
 }

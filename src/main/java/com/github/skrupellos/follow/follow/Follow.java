@@ -15,45 +15,27 @@
  * along with Follow. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.skrupellos.follow.regex;
+package com.github.skrupellos.follow.follow;
 
-import java.util.List;
+import com.github.skrupellos.follow.nfa.NfaState;
+import com.github.skrupellos.follow.regex.RegexNode;
 
-import com.github.skrupellos.follow.tree.TreeNode;
 
 
-public abstract class RegexNode<T> extends TreeNode<RegexNode<T>> {
-	// Nothing
-	public RegexNode() {
-		super();
-	}
+
+public final class Follow<T>  {
+	private Follow() {}
 	
 	
-	// Only parent
-	public RegexNode(RegexIntNode<T> parent) {
-		super(parent);
-	}
-	
-	
-	// Only children
-	public RegexNode(List<RegexNode<T>> children) {
-		super(children);
-	}
-	
-	
-	// Parent & children
-	public RegexNode(RegexIntNode<T> parent, List<RegexNode<T>> children) {
-		super(parent, children);
-	}
-	
-	
-	public abstract RegexNode<T> deepCopy();
-	
-	
-	public abstract RegexNode<T> accept(RegexVisitor<T> visitor);
-	
-	
-	protected RegexNode<T> uncheckedSelf() {
-		return this;
+	public static <T> NfaState<T> apply(RegexNode<T> root) {
+		NfaState<T> start;
+		
+		root  = Algorithm1a.<T>apply(root);
+		root  = Algorithm1b.<T>apply(root).tree;
+		root  = Algorithm1c.<T>apply(root);
+		start = Algorithm4 .<T>apply(root).start;
+		        Algorithm20.<T>apply(start); // _Modifies_ start
+		
+		return start;
 	}
 }

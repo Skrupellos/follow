@@ -1,5 +1,24 @@
+/* This file is part of Follow (https://github.com/Skrupellos/follow).
+ * Copyright (c) 2016 Skruppy <skruppy@onmars.eu> and kratl.
+ *
+ * Follow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Follow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Follow. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.github.skrupellos.follow.graph;
 
+
+import lombok.NonNull;
 
 
 public abstract class GraphArrow<
@@ -31,7 +50,7 @@ public abstract class GraphArrow<
 	}
 	
 	
-	protected abstract NODE createNode();
+	protected abstract NODE createState();
 	
 	
 	public NODE tail() {
@@ -39,11 +58,7 @@ public abstract class GraphArrow<
 	}
 	
 	
-	public ARROW connectTailTo(NODE node) {
-		if(node == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
+	public ARROW connectTailTo(@NonNull NODE node) {
 		if(tail != null) {
 			tail.tails().remove(self);
 		}
@@ -59,11 +74,7 @@ public abstract class GraphArrow<
 	}
 	
 	
-	public ARROW connectHeadTo(NODE node) {
-		if(node == null) {
-			throw new IllegalArgumentException("null");
-		}
-		
+	public ARROW connectHeadTo(@NonNull NODE node) {
 		if(head != null) {
 			head.heads().remove(self);
 		}
@@ -88,6 +99,7 @@ public abstract class GraphArrow<
 	
 	// Here we make a huge exception and don't use ARROW. Instead we use
 	// GraphArrow, which allows us to access private members.
+	@SuppressWarnings("rawtypes")
 	public boolean equalContents(GraphArrow other) {
 		return
 			getClass().equals(other.getClass()) &&
@@ -102,6 +114,6 @@ public abstract class GraphArrow<
 	 * them in a newly created one.
 	 */
 	public void delete() {
-		loopOnNode(createNode());
+		loopOnNode(createState());
 	}
 }
